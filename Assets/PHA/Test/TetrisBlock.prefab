@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9092490617865177391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 199552176252149912}
+  - component: {fileID: 2676035052463619657}
+  - component: {fileID: 7707757232659719725}
+  m_Layer: 0
+  m_Name: TetrisBlock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &199552176252149912
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9092490617865177391}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 457.82755, y: 104.556885, z: -189.98898}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2676035052463619657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9092490617865177391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b4052683bac6143b591cde6a51a18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockType: 0
+  navigator: {fileID: 0}
+  navigatorGhostMaterial: {fileID: 2100000, guid: 674e425ee39a55145b0e6164a7ce7732, type: 2}
+  localPosition: {x: 0, y: 0, z: 0}
+  isSelect: 0
+  shapeType: 5
+  tetriminoBlock: {fileID: 7621451012858668632, guid: 31190956955733a4da7bc5ee9db486fe, type: 3}
+  fallInterval: 0.5
+--- !u!114 &7707757232659719725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9092490617865177391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ae3ccd3a9b8fe42b37273f48f473d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostMaterial: {fileID: 2100000, guid: 674e425ee39a55145b0e6164a7ce7732, type: 2}
