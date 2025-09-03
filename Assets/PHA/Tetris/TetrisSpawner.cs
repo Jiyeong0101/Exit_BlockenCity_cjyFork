@@ -1,0 +1,85 @@
+using System.Collections;
+using System.Collections.Generic;
+using TetrisGame;
+using UnityEngine;
+
+public class TetrisSpawner : MonoBehaviour
+{
+    [SerializeField]
+    private TetriminoBlock blockPrefab;
+
+    [SerializeField]
+    private TetriminoBlock nextBlock;
+    [SerializeField]
+    private TetriminoBlock currentBlock;
+
+    [SerializeField]
+    Vector3 spawnPosition;
+
+    [SerializeField]
+    Vector3 towerSpawnPosition;
+
+    private void Awake()
+    {
+        nextBlock = Instantiate(blockPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    public void SetTowerSpawnPosition(Vector3 pos)
+    {
+        towerSpawnPosition = pos;
+    }
+
+    public void SpawnBlock()
+    {
+        currentBlock = nextBlock;
+
+        TetriminoBlock newBlock = currentBlock.GetComponent<TetriminoBlock>();
+
+        if (newBlock != null)
+        {
+            // 기본 스폰 위치
+            Vector3 spawnPos = towerSpawnPosition;
+
+            // I 모양이면 한 칸 더 높게 스폰
+            if (newBlock.shapeType == BlockShapes.I) 
+            {
+                spawnPos += Vector3.up;
+            }
+
+            newBlock.transform.position = spawnPos;
+            newBlock.SetIsSelet(true);
+        }
+
+        // 스폰 위치랑 타워 위치 다르니까 현재 블럭 타워 위치로 이동시키기
+        nextBlock = Instantiate(blockPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    public TetriminoBlock GetTetriminoBlock()
+    {
+        return currentBlock;
+    }
+
+    public bool TrySwapWithNext(Vector3 targetWorldPos)
+    {
+        if (currentBlock == null || nextBlock == null) return false;
+
+        // next를 현재 위치로 옮길 수 있는지 검사 (타워 경계/충돌 포함)
+        Vector3 delta = targetWorldPos - nextBlock.transform.position;
+        if (!nextBlock.CanMove(delta)) return false;  // 못 들어오면 스왑 안 함
+
+        // 스왑
+        var oldCurrent = currentBlock;
+
+        oldCurrent.SetIsSelet(false);                  // 기존 current 비활성
+        nextBlock.transform.position = targetWorldPos; // next를 현재 위치로
+        nextBlock.SetIsSelet(true);                    // 조작 대상 지정
+        currentBlock = nextBlock;                      // 현재 블럭 교체
+
+        // 기존 current를 벤치(넥스트 자리)로
+        oldCurrent.transform.position = spawnPosition;
+        oldCurrent.SetIsSelet(false);
+        nextBlock = oldCurrent;
+
+        return true;
+    }
+}
