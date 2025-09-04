@@ -18,10 +18,14 @@ public class TetrisTower : MonoBehaviour
         towerGrid = new int[towerSize.x, towerSize.y, towerSize.z];
     }
 
-    // Update is called once per frame
-    void Update()
+    //추가
+    //삭제 시 towerGrid도 비워줘야 하므로 RemoveBlockFromTower() 메서드 추가
+    public void RemoveBlockFromTower(Vector3Int pos)
     {
-        
+        if (IsInsideTower(pos))
+        {
+            towerGrid[pos.x, pos.y, pos.z] = 0; // 칸 비우기
+        }
     }
 
     // 특정 위치를 채운 상태로 표시
