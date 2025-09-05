@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TetrisGame;
@@ -18,6 +19,10 @@ public class TetrisSpawner : MonoBehaviour
 
     [SerializeField]
     Vector3 towerSpawnPosition;
+
+    // 추가
+    // 블록 스폰 시 호출 이벤트
+    public event Action<TetriminoBlock> OnBlockSpawned;
 
     private void Awake()
     {
@@ -52,6 +57,10 @@ public class TetrisSpawner : MonoBehaviour
 
         // 스폰 위치랑 타워 위치 다르니까 현재 블럭 타워 위치로 이동시키기
         nextBlock = Instantiate(blockPrefab, spawnPosition, Quaternion.identity);
+
+        // 추가
+        // 스폰 블록 처리 이벤트 호출
+        OnBlockSpawned?.Invoke(currentBlock);
     }
 
     public TetriminoBlock GetTetriminoBlock()

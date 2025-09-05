@@ -1012,7 +1012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tetrisTowerSize: {x: 5, y: 8, z: 5}
-  fallInterval: 0.5
+  fallInterval: 1
   tower: {fileID: 1919486209}
   spawner: {fileID: 1919486210}
   controller: {fileID: 1919486211}
@@ -1074,6 +1074,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameCamera: {fileID: 926228483}
   currentBlock: {fileID: 0}
+  inputBlocker: {fileID: 0}
 --- !u!1001 &3092344639583065145
 PrefabInstance:
   m_ObjectHideFlags: 0

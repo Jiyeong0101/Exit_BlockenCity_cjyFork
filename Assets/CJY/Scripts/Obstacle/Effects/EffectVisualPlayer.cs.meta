@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1e50b53268d8f2940b71c7953ad2c062
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - dustEffect: {fileID: 947593230528816757, guid: d07323f911ec51543ad3cf04e39dc8fc, type: 3}
+  - smogEffect: {fileID: 4131447512777143331, guid: 8959ddcc46348a7469cb10a2807b899d, type: 3}
+  - rainEffect: {fileID: 947593230528816757, guid: d07323f911ec51543ad3cf04e39dc8fc, type: 3}
+  - overheatWarningUI: {instanceID: 0}
+  - overheatWarningText: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
