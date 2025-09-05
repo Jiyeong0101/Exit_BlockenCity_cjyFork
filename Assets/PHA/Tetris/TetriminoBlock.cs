@@ -169,6 +169,10 @@ public class TetriminoBlock : MonoBehaviour
                 // 타워에 등록
                 TetrisManager.Instance.tower.AddBlockToTower(towerPos);
 
+                // 추가
+                // Child에게 좌표 기억시킴
+                child.SetGridPosition(towerPos);
+
                 child.BlockLock();
             }
         }

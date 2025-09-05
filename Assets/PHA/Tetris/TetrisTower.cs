@@ -6,7 +6,6 @@ public class TetrisTower : MonoBehaviour
 {
     private int[,,] towerGrid;
     private Vector3Int towerSize;
-    // Start is called before the first frame update
 
     private void Awake()
     {

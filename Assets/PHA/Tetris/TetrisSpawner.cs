@@ -60,8 +60,7 @@ public class TetrisSpawner : MonoBehaviour
 
         // 추가
         // 스폰 블록 처리 이벤트 호출
-        if (currentBlock != null)
-            OnBlockSpawned?.Invoke(currentBlock);
+        OnBlockSpawned?.Invoke(currentBlock);
     }
 
     public TetriminoBlock GetTetriminoBlock()

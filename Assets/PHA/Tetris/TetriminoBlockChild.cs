@@ -18,6 +18,10 @@ public class TetriminoBlockChild : MonoBehaviour
     //Child가 삭제될 때 자기 좌표를 알아야 하므로 필드와 세터 메서드 추가
     private Vector3Int gridPosition;
     public Vector3Int GridPosition => gridPosition;
+    public void SetGridPosition(Vector3Int pos)
+    {
+        gridPosition = pos;
+    }
 
     // 블럭 타입 설정
     public void SetBlockType(BlockType blockType)
