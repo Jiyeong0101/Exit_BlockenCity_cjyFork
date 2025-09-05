@@ -44,6 +44,10 @@ public class TetriminoBlock : MonoBehaviour
 
     // 자식 블럭
     private TetriminoBlockChild[] tetriminoBlockChild;
+    
+    //추가
+    //방해물 시스템에서 사용하는 블록 락 이벤트
+    public static event System.Action<TetriminoBlock> OnAnyBlockLocked;
 
     void Awake()
     {
@@ -165,6 +169,10 @@ public class TetriminoBlock : MonoBehaviour
                 // 타워에 등록
                 TetrisManager.Instance.tower.AddBlockToTower(towerPos);
 
+                // 추가
+                // Child에게 좌표 기억시킴
+                child.SetGridPosition(towerPos);
+
                 child.BlockLock();
             }
         }
@@ -174,6 +182,10 @@ public class TetriminoBlock : MonoBehaviour
             Destroy(navigator.gameObject);
             navigator = null;
         }
+
+        //추가
+        //블록 락 이벤트 활성화
+        OnAnyBlockLocked?.Invoke(this);
 
         TetrisManager.Instance.CheckTower();
         TetrisManager.Instance.SpawnNextBlock();

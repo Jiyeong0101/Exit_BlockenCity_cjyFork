@@ -11,6 +11,10 @@ public class TetrisController : MonoBehaviour
 
     private InputManager input;
 
+    // 추가
+    // 입력 제어 클래스
+    public InputBlocker inputBlocker;
+
     // 입력 처리 활성화
     private void OnEnable()
     {
@@ -22,33 +26,35 @@ public class TetrisController : MonoBehaviour
             return;
         }
 
-        input.OnLeftArrow += MoveLeft;
-        input.OnRightArrow += MoveRight;
-        input.OnUpArrow += MoveForward;
-        input.OnDownArrow += MoveBack;
-        input.OnKeyF += SoftDrop;
-        input.OnSpace += HardDrop;
-        input.OnKeyA += XRotate;
-        input.OnKeyS += YRotate;
-        input.OnKeyD += ZRotate;
-        input.OnKeyC += BlockChange;
+        inputBlocker.OnLeftArrow += MoveLeft;
+        inputBlocker.OnRightArrow += MoveRight;
+        inputBlocker.OnUpArrow += MoveForward;
+        inputBlocker.OnDownArrow += MoveBack;
+
+        inputBlocker.OnKeyF += SoftDrop;
+        inputBlocker.OnSpace += HardDrop;
+
+        inputBlocker.OnKeyA += XRotate;
+        inputBlocker.OnKeyS += YRotate;
+        inputBlocker.OnKeyD += ZRotate;
+
+        inputBlocker.OnKeyC += BlockChange;
     }
 
 
     // 입력 처리 비활성화
     private void OnDisable()
     {
-        if (input == null) return;
-        input.OnLeftArrow -= MoveLeft;
-        input.OnRightArrow -= MoveRight;
-        input.OnUpArrow -= MoveForward;
-        input.OnDownArrow -= MoveBack;
-        input.OnKeyF -= SoftDrop;
-        input.OnSpace -= HardDrop;
-        input.OnKeyA -= XRotate;
-        input.OnKeyS -= YRotate;
-        input.OnKeyD -= ZRotate;
-        input.OnKeyC -= BlockChange;
+        inputBlocker.UnhookInput();
+    }
+
+    //추가
+    //바람에 따라 밀리는 블록
+    public void MoveBlockByWind(Vector3 dir)
+    {
+        if (currentBlock == null) return;
+        if (currentBlock.CanMove(dir))
+            currentBlock.Move(dir);
     }
 
     private void MoveLeft() 
