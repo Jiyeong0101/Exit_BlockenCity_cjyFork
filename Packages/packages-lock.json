@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "com.coffee.ui-particle": {
-      "version": "file:D:/저장용/유니티자료/ParticleEffectForUGUI-main",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.particlesystem": "1.0.0"
-      }
-    },
     "com.unity.2d.animation": {
       "version": "9.1.1",
       "depth": 1,
