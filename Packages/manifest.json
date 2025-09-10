@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.coffee.ui-particle": "file:D:/저장용/유니티자료/ParticleEffectForUGUI-main",
     "com.unity.2d.pixel-perfect": "5.0.3",
     "com.unity.2d.psdimporter": "8.0.5",
     "com.unity.2d.spriteshape": "9.0.5",
