@@ -63,18 +63,20 @@ public class TetrisBlockVFX : MonoBehaviour
 
     private void ApplyMetallicMap()
     {
-        if (materialInstance == null || !materialInstance.HasProperty("_MetallicGlossMap")) return;
+        if (materialInstance == null) return;
 
         Texture map = null;
         if (selectedMapIndex >= 0 && selectedMapIndex < metallicMaps.Length)
             map = metallicMaps[selectedMapIndex];
 
-        materialInstance.SetTexture("_MetallicGlossMap", map);
+        // URP Lit Shader에서 사용하는 프로퍼티
+        if (materialInstance.HasProperty("_MetallicSpecGlossMap"))
+            materialInstance.SetTexture("_MetallicSpecGlossMap", map);
 
         if (map != null)
-            materialInstance.EnableKeyword("_METALLICGLOSSMAP");
+            materialInstance.EnableKeyword("_METALLICSPECGLOSSMAP");
         else
-            materialInstance.DisableKeyword("_METALLICGLOSSMAP");
+            materialInstance.DisableKeyword("_METALLICSPECGLOSSMAP");
     }
 
     private void ApplyMetallicValue()
@@ -85,8 +87,8 @@ public class TetrisBlockVFX : MonoBehaviour
 
     private void ApplySmoothnessValue()
     {
-        if (materialInstance != null && materialInstance.HasProperty("_Glossiness"))
-            materialInstance.SetFloat("_Glossiness", Mathf.Clamp01(smoothnessValue));
+        if (materialInstance != null && materialInstance.HasProperty("_Smoothness"))
+            materialInstance.SetFloat("_Smoothness", Mathf.Clamp01(smoothnessValue));
     }
 
     // 외부에서 값 변경용
