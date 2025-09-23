@@ -41,7 +41,7 @@ public class ObstacleEffects : MonoBehaviour
         {
             Debug.Log("회전금지 효과");
             state.InputBlocker.blockRotation = true;
-            state.VisualPlayer?.VisualFreezeBlock();
+            state.VisualPlayer?.VisualFreezeBlock(block);
         }
     }
 

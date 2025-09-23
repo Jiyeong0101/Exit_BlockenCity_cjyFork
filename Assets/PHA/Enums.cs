@@ -11,10 +11,15 @@ namespace TetrisGame
         Prison,
         Hospital,
         Box,
-        House,
+        Flat,
         Religion,
         Store,
         Casino,
+        Container,
+        Laundry,
+        Office,
+        Restaurant,
+        WoodenBox,
 
         None
     }

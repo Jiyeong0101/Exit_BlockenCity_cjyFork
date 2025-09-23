@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class EffectVisualPlayer : MonoBehaviour
 {
@@ -14,12 +15,27 @@ public class EffectVisualPlayer : MonoBehaviour
     private const string OverheatPath = "Effects/OverheatUI"; //과열 UI
 
     // 1월 얼음 블록 이미지
-    public GameObject VisualFreezeBlock()
+    public GameObject VisualFreezeBlock(TetriminoBlock block)
     {
-        var prefab = Resources.Load<GameObject>(LightningPath);
-        if (prefab == null) return null;
+        if (block == null)
+        {
+            Debug.LogWarning("VisualFreezeBlock 호출 시 block이 null입니다!");
+            return null;
+        }
 
-        return Instantiate(prefab);
+        // 상위 + 자식까지 검색
+        TetrisBlockVFX vfx = block.GetComponentInChildren<TetrisBlockVFX>();
+        if (vfx != null)
+        {
+            vfx.SetTextureSlider(1f); // 얼음 블록처럼 보이게
+            Debug.Log("얼음 효과: TextureSlider = 1 적용");
+        }
+        else
+        {
+            Debug.LogWarning("TetrisBlockVFX를 찾을 수 없습니다!");
+        }
+
+        return block.gameObject;
     }
 
     // 2월 강풍 효과 (단발 효과 → 반환 X)

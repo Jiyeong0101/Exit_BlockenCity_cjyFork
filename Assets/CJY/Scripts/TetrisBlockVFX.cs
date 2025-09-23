@@ -5,19 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class TetrisBlockVFX : MonoBehaviour
 {
-    [Header("Metallic Map 리스트")]
-    [SerializeField] private Texture2D[] metallicMaps;
-
-    [Header("선택할 Metallic Map 인덱스 (-1 = 없음)")]
-    [SerializeField] private int selectedMapIndex = -1;
-
-    [Header("Metallic 값 (0=비금속, 1=완전 금속)")]
+    [Header("ShaderGraph: TextureSlider 값 (0~1)")]
     [Range(0f, 1f)]
-    [SerializeField] private float metallicValue = 0.0f;
-
-    [Header("Smoothness 값 (0=거칠음, 1=매끄러움)")]
-    [Range(0f, 1f)]
-    [SerializeField] private float smoothnessValue = 0.5f;
+    [SerializeField] private float textureSlider = 0.0f;
 
     private MeshRenderer meshRenderer;
     private Material materialInstance;
@@ -56,43 +46,19 @@ public class TetrisBlockVFX : MonoBehaviour
 
     private void ApplyAll()
     {
-        ApplyMetallicMap();
-        ApplyMetallicValue();
-        ApplySmoothnessValue();
+        ApplyTextureSlider();
     }
 
-    private void ApplyMetallicMap()
+    private void ApplyTextureSlider()
     {
-        if (materialInstance == null) return;
-
-        Texture map = null;
-        if (selectedMapIndex >= 0 && selectedMapIndex < metallicMaps.Length)
-            map = metallicMaps[selectedMapIndex];
-
-        // URP Lit Shader에서 사용하는 프로퍼티
-        if (materialInstance.HasProperty("_MetallicSpecGlossMap"))
-            materialInstance.SetTexture("_MetallicSpecGlossMap", map);
-
-        if (map != null)
-            materialInstance.EnableKeyword("_METALLICSPECGLOSSMAP");
-        else
-            materialInstance.DisableKeyword("_METALLICSPECGLOSSMAP");
-    }
-
-    private void ApplyMetallicValue()
-    {
-        if (materialInstance != null && materialInstance.HasProperty("_Metallic"))
-            materialInstance.SetFloat("_Metallic", Mathf.Clamp01(metallicValue));
-    }
-
-    private void ApplySmoothnessValue()
-    {
-        if (materialInstance != null && materialInstance.HasProperty("_Smoothness"))
-            materialInstance.SetFloat("_Smoothness", Mathf.Clamp01(smoothnessValue));
+        if (materialInstance != null && materialInstance.HasProperty("_TextureSlider"))
+            materialInstance.SetFloat("_TextureSlider", Mathf.Clamp01(textureSlider));
     }
 
     // 외부에서 값 변경용
-    public void SetMetallicMap(int index) => selectedMapIndex = index;
-    public void SetMetallicValue(float value) => metallicValue = Mathf.Clamp01(value);
-    public void SetSmoothness(float value) => smoothnessValue = Mathf.Clamp01(value);
+    public void SetTextureSlider(float value)
+    {
+        textureSlider = Mathf.Clamp01(value);
+        ApplyTextureSlider();
+    }
 }
