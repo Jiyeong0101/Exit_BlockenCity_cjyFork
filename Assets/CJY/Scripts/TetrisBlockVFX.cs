@@ -58,7 +58,11 @@ public class TetrisBlockVFX : MonoBehaviour
     // 외부에서 값 변경용
     public void SetTextureSlider(float value)
     {
-        textureSlider = Mathf.Clamp01(value);
+        if (materialInstance != null && materialInstance.HasProperty("_TextureSlider"))
+        {
+            materialInstance.SetFloat("_TextureSlider", Mathf.Clamp01(textureSlider));
+            Debug.Log($"{gameObject.name}: ApplyTextureSlider 호출, _TextureSlider = {textureSlider}");
+        }
         ApplyTextureSlider();
     }
 }

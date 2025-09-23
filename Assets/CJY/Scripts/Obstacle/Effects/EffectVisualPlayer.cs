@@ -19,20 +19,23 @@ public class EffectVisualPlayer : MonoBehaviour
     {
         if (block == null)
         {
-            Debug.LogWarning("VisualFreezeBlock 호출 시 block이 null입니다!");
+            Debug.LogWarning("VisualFreezeBlock 호출 시 block이 null!");
             return null;
         }
 
-        // 상위 + 자식까지 검색
-        TetrisBlockVFX vfx = block.GetComponentInChildren<TetrisBlockVFX>();
-        if (vfx != null)
+        // 모든 자식 VFX 찾기
+        var vfxList = block.GetComponentsInChildren<TetrisBlockVFX>();
+        if (vfxList.Length == 0)
         {
-            vfx.SetTextureSlider(1f); // 얼음 블록처럼 보이게
-            Debug.Log("얼음 효과: TextureSlider = 1 적용");
+            Debug.LogWarning($"{block.name}의 자식에 TetrisBlockVFX 없음!");
+            return block.gameObject;
         }
-        else
+
+        // 각 자식 VFX에 적용 + 디버그
+        foreach (var vfx in vfxList)
         {
-            Debug.LogWarning("TetrisBlockVFX를 찾을 수 없습니다!");
+            vfx.SetTextureSlider(1f);
+            Debug.Log($"얼음 효과 적용: {vfx.gameObject.name}, TextureSlider = 1");
         }
 
         return block.gameObject;

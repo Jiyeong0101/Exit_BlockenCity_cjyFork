@@ -909,7 +909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae67cc530b333554fa5d075ec2f015b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeChance: 0.9
+  freezeChance: 0.5
   inputDelayTime: 0.8
   windDuration: 3
   windInterval: 0.3

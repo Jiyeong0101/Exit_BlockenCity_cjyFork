@@ -34,8 +34,10 @@ public class ObstacleEffects : MonoBehaviour
     {
         Debug.Log("얼어붙은 블록(회전금지) 효과 실행");
 
-        TetriminoBlock block = state.LockedBlock; // 설치 블록 기준
+        TetriminoBlock block = state.SpawnedBlock; // 설치 블록 기준
         if (block == null) return;
+
+        state.InputBlocker.blockRotation = false;
 
         if (UnityEngine.Random.value <= freezeChance)
         {
