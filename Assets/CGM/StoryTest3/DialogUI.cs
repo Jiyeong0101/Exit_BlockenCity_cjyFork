@@ -32,39 +32,50 @@ public class DialogUI : MonoBehaviour
 
         HideAllButtons();
         dialogPanel.SetActive(false);
+
+        InputManager.Instance.OnSpace += HandleSpace;
+        InputManager.Instance.OnKey1 += HandleKey1;
+        InputManager.Instance.OnKey2 += HandleKey2;
     }
 
-    void Update()
+    private void OnDestroy()
+    {
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnSpace -= HandleSpace;
+            InputManager.Instance.OnKey1 -= HandleKey1;
+            InputManager.Instance.OnKey2 -= HandleKey2;
+        }
+    }
+
+    private void HandleSpace()
     {
         if (!dialogPanel.activeSelf) return;
 
-        // 👉 수락/거절 대기 중일 때 숫자 키 입력 처리
+        if (isTyping)
+        {
+            FinishTyping(); // 타이핑 중이면 전체 출력
+            return;
+        }
+
         if (isWaitingForChoice)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                OnAcceptClicked(); // 1번 키 = 수락
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                OnDeclineClicked(); // 2번 키 = 거절
-            }
-
-            return; // ❗ 수락/거절 대기 중엔 Space 입력 무시
+            return; // 선택지 상태에서는 스킵만 허용
         }
+        ShowNextDialog();   // 선택지가 없고, 타이핑도 끝난 상태면 다음 대사 진행
+    }
 
-        // 👉 일반 대사 진행을 위한 Space 입력 처리
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (isTyping)
-            {
-                FinishTyping(); // 타이핑 중이면 전체 출력
-            }
-            else
-            {
-                ShowNextDialog(); // 타이핑 완료 후 다음 대사
-            }
-        }
+
+    private void HandleKey1()
+    {
+        if (!dialogPanel.activeSelf) return;
+        if (isWaitingForChoice) OnAcceptClicked();
+    }
+
+    private void HandleKey2()
+    {
+        if (!dialogPanel.activeSelf) return;
+        if (isWaitingForChoice) OnDeclineClicked();
     }
 
     public void StartDialog(int branch)
