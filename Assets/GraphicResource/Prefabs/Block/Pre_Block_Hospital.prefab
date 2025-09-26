@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5380870988837226012}
   - component: {fileID: 988672400097112191}
   - component: {fileID: 7533344263004078682}
+  - component: {fileID: -3011188636616424573}
+  - component: {fileID: 3171444532252419965}
   m_Layer: 0
   m_Name: Pre_Block_Hospital
   m_TagString: Untagged
@@ -83,3 +85,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-3011188636616424573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083021782857819881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e4fecdc3455c14d9672e714d9fd35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockType: 1
+  visualRoot: {fileID: 0}
+--- !u!114 &3171444532252419965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083021782857819881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5ad7e4830205e438f6022bed202170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureSlider: 0

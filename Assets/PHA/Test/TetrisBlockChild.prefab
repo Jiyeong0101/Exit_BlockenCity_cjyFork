@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5232309535808515630}
   - component: {fileID: 8849621437029933771}
   - component: {fileID: 7621451012858668632}
+  - component: {fileID: 4722581556814248498}
   m_Layer: 0
   m_Name: TetrisBlockChild
   m_TagString: Untagged
@@ -42,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7263741321843893572}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 690106047850165013, guid: 7c78a2227dd17e441a3462fcdfa44c1a, type: 3}
 --- !u!23 &5232309535808515630
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -119,3 +120,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockType: 0
+  visualRoot: {fileID: 0}
+--- !u!114 &4722581556814248498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263741321843893572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5ad7e4830205e438f6022bed202170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureSlider: 0
