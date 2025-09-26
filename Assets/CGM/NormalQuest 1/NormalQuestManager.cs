@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TetrisGame;
 
 public class QuestManager : MonoBehaviour
 {
@@ -32,6 +33,26 @@ public class QuestManager : MonoBehaviour
         while (activeQuests.Count < 2)
         {
             AddNewQuest();
+        }
+    }
+    public void UpdateQuestProgress(BlockType destroyedType)    //todo: 이거 왜 수정해야하지?????
+    {
+        List<NormalQuest> completedQuests = new List<NormalQuest>();
+
+        foreach (var quest in activeQuests)
+        {
+            quest.AddProgress(destroyedType);
+
+            if (quest.IsCompleted)
+            {
+                completedQuests.Add(quest); // 나중에 처리
+            }
+        }
+
+        // ✅ foreach 다 돌고 난 후에 처리
+        foreach (var quest in completedQuests)
+        {
+            CompleteQuest(quest.questID);
         }
     }
 

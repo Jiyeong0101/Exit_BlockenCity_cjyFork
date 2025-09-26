@@ -47,12 +47,27 @@ public class TetrisManager : MonoBehaviour
     public void IncreaseTypeBlockCount(BlockType type)
     {
         typeBlockCount[(int)type]++;
+        QuestManager.Instance.UpdateQuestProgress(type);
     }
 
     public void DecreaseTypeBlockCount(BlockType type)
     {
         typeBlockCount[(int)type]--;
     }
+
+    // 특정 블럭 타입의 갯수 반환
+    public int GetBlockCount(BlockType type)
+    {
+        return typeBlockCount[(int)type];
+    }
+
+    // 전체 카운트 배열을 복사해서 반환
+    public int[] GetAllBlockCounts()
+    {
+        return (int[])typeBlockCount.Clone();
+    }
+
+
 
     public void SpawnNextBlock()
     {
