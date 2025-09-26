@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockType: 0
+  visualRoot: {fileID: 0}
 --- !u!114 &4722581556814248498
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,9 +9,21 @@ public class TetriminoBlockChild : MonoBehaviour
     [SerializeField]
     private BlockType blockType;    //블럭 종류
 
+    [SerializeField] private Transform visualRoot; // 메시가 달린 오브젝트(프리팹 내부)
+    private Quaternion initialWorldRotation;
+
     void Awake()
     {
         blockType = BlockType.None;
+
+        if (visualRoot == null) visualRoot = transform; // 없으면 자기 자신
+        initialWorldRotation = visualRoot.rotation;     // 스폰 시 월드 회전 저장
+    }
+
+    void LateUpdate()
+    {
+        // 스폰 시 회전으로 고정 (어떻게 돌려도 텍스처 안 뒤집힘)
+        visualRoot.rotation = initialWorldRotation;
     }
 
     //추가

@@ -9,7 +9,9 @@ public class TetriminoBlock : MonoBehaviour
     [SerializeField]
     public BlockType blockType;    //블럭 종류
 
-    private Material blockMaterial; //블럭 머티리얼
+    // 머티리얼 대신 프리팹 사용
+    //private Material blockMaterial; //블럭 머티리얼
+    private GameObject blockPrefab;
 
 
     // 테트리스 네비게이터
@@ -24,7 +26,7 @@ public class TetriminoBlock : MonoBehaviour
 
     private bool isLock; // 블럭이 설치되어 고정상태인가
 
-    
+
     public BlockShapes shapeType; //블럭 모양
 
     private Vector3[] shapeData;    //블럭 모양에 따른 벡터
@@ -44,7 +46,7 @@ public class TetriminoBlock : MonoBehaviour
 
     // 자식 블럭
     private TetriminoBlockChild[] tetriminoBlockChild;
-    
+
     //추가
     //방해물 시스템에서 사용하는 블록 락 이벤트
     public static event System.Action<TetriminoBlock> OnAnyBlockLocked;
@@ -63,12 +65,19 @@ public class TetriminoBlock : MonoBehaviour
 
         //블럭 머티리얼 설정
         blockType = GetRandomBlockType();
-        blockMaterial = BlockMaterialBinder.Materials[blockType];
+        //blockMaterial = BlockMaterialBinder.Materials[blockType];
+
+        if (!BlockPrefabBinder.Prefabs.TryGetValue(blockType, out blockPrefab) || blockPrefab == null)
+        {
+            Debug.LogError($"[TetriminoBlock] Missing prefab for type {blockType}");
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        CheckPrefabs();
+
         // 블럭 형태 생성 및 머티리얼 적용
         SpawnBlockVisual();
 
@@ -232,16 +241,36 @@ public class TetriminoBlock : MonoBehaviour
         {
             Vector3 pos = shapeData[i];
 
-            // 자식 블록 프리팹 인스턴스화
-            GameObject childObj = Instantiate(tetriminoBlock.gameObject, this.transform);
+            // 기존 머티리얼 형식
+            //// 자식 블록 프리팹 인스턴스화
+            //GameObject childObj = Instantiate(tetriminoBlock.gameObject, this.transform);
+            //childObj.transform.localPosition = pos;
+
+            //// 컴포넌트 참조 및 설정
+            //TetriminoBlockChild child = childObj.GetComponent<TetriminoBlockChild>();
+            //if (child != null)
+            //{
+            //    child.SetBlockType(blockType);
+            //    child.SetBlockMaterial(blockMaterial);
+            //    tetriminoBlockChild[i] = child;
+            //}
+
+
+            if (blockPrefab == null)
+            {
+                Debug.LogError("[TetriminoBlock] blockPrefab is null; cannot spawn visuals.");
+                continue;
+            }
+
+            GameObject childObj = Instantiate(blockPrefab, this.transform);
             childObj.transform.localPosition = pos;
 
-            // 컴포넌트 참조 및 설정
-            TetriminoBlockChild child = childObj.GetComponent<TetriminoBlockChild>();
+            // TetriminoBlockChild가 있다면 논리(타워 좌표, 락 처리 등) 연결
+            var child = childObj.GetComponent<TetriminoBlockChild>();
             if (child != null)
             {
                 child.SetBlockType(blockType);
-                child.SetBlockMaterial(blockMaterial);
+
                 tetriminoBlockChild[i] = child;
             }
         }
@@ -370,5 +399,25 @@ public class TetriminoBlock : MonoBehaviour
         {
             transform.Rotate(Vector3.forward * -90f, Space.World);
         }
+    }
+
+    private void CheckPrefabs()
+    {
+        // 바인더가 아직 초기화 안됐으면 한 번 더 시도
+        if (blockPrefab == null)
+        {
+            // 딕셔너리가 비어있다면, 씬에서 바인더를 찾아 강제 초기화
+            if (BlockPrefabBinder.Prefabs.Count == 0)
+            {
+                var binder = FindObjectOfType<BlockPrefabBinder>();
+                if (binder == null)
+                    Debug.LogError("[TetriminoBlock] BlockPrefabBinder not found in scene.");
+                // binder가 있으면 Awake()에서 이미 Prefabs를 채우도록 설계됨
+            }
+
+            // 다시 시도
+            BlockPrefabBinder.Prefabs.TryGetValue(blockType, out blockPrefab);
+        }
+
     }
 }

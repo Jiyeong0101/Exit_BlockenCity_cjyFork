@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657892, g: 0.4964128, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 80293990}
   - component: {fileID: 80293989}
   - component: {fileID: 80293988}
+  - component: {fileID: 80293994}
   m_Layer: 0
   m_Name: TetrisManager
   m_TagString: Untagged
@@ -259,6 +260,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &80293994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80293987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 391b83d198cb9b44eb90afedc4d22eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabList:
+  - type: 0
+    prefab: {fileID: 5612977224625933286, guid: 6165b1495f8c1d74e8ef9cd9ab6ec091, type: 3}
+  - type: 1
+    prefab: {fileID: 1083021782857819881, guid: 701e465fcf85942428a5216b6d130c52, type: 3}
+  - type: 2
+    prefab: {fileID: 9012208588190090523, guid: 80a5878cb55baf64cafefcf8e5075a26, type: 3}
+  - type: 3
+    prefab: {fileID: 9214020261147686933, guid: 00dac62357c6a0149b52a5924dd57985, type: 3}
+  - type: 4
+    prefab: {fileID: 8690132057689897226, guid: 4816c3716802e754caa827dab8fe4d18, type: 3}
+  - type: 5
+    prefab: {fileID: 7061540994392893258, guid: 1c160f6670c4fdc4c8b30319b316d7c2, type: 3}
+  - type: 6
+    prefab: {fileID: 825282931886254674, guid: 723c6501fe23db14d97977240f1e44c2, type: 3}
+  - type: 7
+    prefab: {fileID: 8690132057689897226, guid: 4816c3716802e754caa827dab8fe4d18, type: 3}
+  - type: 8
+    prefab: {fileID: 2109422648485284301, guid: 4a6a23a73788c534a934244a6a1ab794, type: 3}
+  - type: 9
+    prefab: {fileID: 1959325247292679829, guid: 7a03d7aaefa6bd74f8fb7df41795d70c, type: 3}
+  - type: 10
+    prefab: {fileID: 4581222365478349147, guid: 91d1fa235cc58504a9d27c7d8c90cca4, type: 3}
+  - type: 11
+    prefab: {fileID: 2885228174844220095, guid: 787f9ae3fe0dc884a902ee52936407bc, type: 3}
+  - type: 12
+    prefab: {fileID: 0}
 --- !u!1 &166372206
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,6 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e50b53268d8f2940b71c7953ad2c062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IceEffect: 0.5
 --- !u!114 &1289760688
 MonoBehaviour:
   m_ObjectHideFlags: 0

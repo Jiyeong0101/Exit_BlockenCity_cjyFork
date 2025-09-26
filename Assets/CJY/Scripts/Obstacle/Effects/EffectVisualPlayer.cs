@@ -14,6 +14,9 @@ public class EffectVisualPlayer : MonoBehaviour
 
     private const string OverheatPath = "Effects/OverheatUI"; //과열 UI
 
+    [Header("블록 얼음 이미지")]
+    [SerializeField] private float IceEffect = 0.5f;
+
     // 1월 얼음 블록 이미지
     public GameObject VisualFreezeBlock(TetriminoBlock block)
     {
@@ -34,8 +37,8 @@ public class EffectVisualPlayer : MonoBehaviour
         // 각 자식 VFX에 적용 + 디버그
         foreach (var vfx in vfxList)
         {
-            vfx.SetTextureSlider(1f);
-            Debug.Log($"얼음 효과 적용: {vfx.gameObject.name}, TextureSlider = 1");
+            vfx.SetTextureSlider(IceEffect);
+            Debug.Log($"얼음 효과 적용: {vfx.gameObject.name}, TextureSlider = 0.5");
         }
 
         return block.gameObject;
