@@ -7,7 +7,7 @@ public class NewQuestManager : MonoBehaviour
 {
     public static NewQuestManager Instance;
 
-    public Transform questUIParent;          // 퀘스트 UI를 붙일 부모 오브젝트
+    public Transform questUIParent;          // 퀘스트 UI를 붙일 부모 오브젝트.
     public GameObject questUIPrefab;         // 퀘스트를 표시할 프리팹 (NewQuestUI 스크립트 포함)
 
     private void Awake()
