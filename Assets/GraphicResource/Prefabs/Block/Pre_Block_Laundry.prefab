@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2747015905730531757}
   - component: {fileID: 6441643166649963988}
   - component: {fileID: 8205180384902166649}
+  - component: {fileID: 735197543651148484}
+  - component: {fileID: -3468790817025245985}
   m_Layer: 0
   m_Name: Pre_Block_Laundry
   m_TagString: Untagged
@@ -83,3 +85,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &735197543651148484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109422648485284301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e4fecdc3455c14d9672e714d9fd35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockType: 8
+  visualRoot: {fileID: 0}
+--- !u!114 &-3468790817025245985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109422648485284301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5ad7e4830205e438f6022bed202170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureSlider: 0

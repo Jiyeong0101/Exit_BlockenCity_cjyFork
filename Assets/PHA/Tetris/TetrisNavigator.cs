@@ -9,6 +9,8 @@ public class TetrisNavigator : MonoBehaviour
     private Transform ghostRoot;                       // 고스트 자식들을 붙일 루트
     private readonly List<Transform> ghostCubes = new();
 
+    [SerializeField, Range(0.1f, 2f)] private float ghostScale = 0.8f; // 인스펙터에서 조절 가능
+
     // 외부에서 소유자/머티리얼 넘겨 초기화
     public void Initialize(TetriminoBlock owner, Material mat = null)
     {
@@ -20,15 +22,22 @@ public class TetrisNavigator : MonoBehaviour
     // 고스트 자식들을 실제 블럭 자식 개수만큼 만든다 (큐브 프리미티브)
     private void BuildGhostChildren()
     {
-        // 초기화/정리
         if (ghostRoot != null) Destroy(ghostRoot.gameObject);
         ghostRoot = new GameObject("GhostRoot").transform;
         ghostRoot.SetParent(transform, false);
         ghostCubes.Clear();
 
-        // 실제 블럭의 자식 수만큼 고스트 큐브 생성
-        foreach (Transform src in owner.transform)
+        var children = new List<Transform>();
+        foreach (Transform child in owner.transform)
         {
+            children.Add(child);
+        }
+
+        for (int i = 0; i < children.Count - 1; i++) // 마지막은 건너뜀
+        {
+            var src = children[i];
+            Debug.Log($"[DEBUG] src.name = {src.name}, src.localScale = {src.localScale}");
+
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             var col = go.GetComponent<Collider>();
             if (col) col.enabled = false;
@@ -38,7 +47,9 @@ public class TetrisNavigator : MonoBehaviour
 
             var t = go.transform;
             t.SetParent(ghostRoot, false);
-            t.localScale = src.localScale; // 필요시 동일 스케일
+
+            t.localScale = src.localScale * ghostScale;
+            Debug.Log($"[DEBUG] ghost cube scale = {t.localScale}");
 
             ghostCubes.Add(t);
         }

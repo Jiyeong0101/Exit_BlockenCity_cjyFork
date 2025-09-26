@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 478775131901636144}
   - component: {fileID: 5161980697160419825}
   - component: {fileID: 2176876986622859213}
+  - component: {fileID: -5077196952355078619}
+  - component: {fileID: 3933946269244493523}
   m_Layer: 0
   m_Name: Pre_Block_Prison
   m_TagString: Untagged
@@ -83,3 +85,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5077196952355078619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5612977224625933286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e4fecdc3455c14d9672e714d9fd35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockType: 0
+  visualRoot: {fileID: 0}
+--- !u!114 &3933946269244493523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5612977224625933286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5ad7e4830205e438f6022bed202170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureSlider: 0

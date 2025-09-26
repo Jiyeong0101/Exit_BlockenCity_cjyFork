@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 9113439141547245788}
   - component: {fileID: 2766182053582674108}
   - component: {fileID: 5373746820088012204}
+  - component: {fileID: 1097887305651369541}
+  - component: {fileID: -5675618605148776757}
   m_Layer: 0
   m_Name: Pre_Block_Office
   m_TagString: Untagged
@@ -83,3 +85,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1097887305651369541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959325247292679829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e4fecdc3455c14d9672e714d9fd35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockType: 9
+  visualRoot: {fileID: 0}
+--- !u!114 &-5675618605148776757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959325247292679829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5ad7e4830205e438f6022bed202170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureSlider: 0

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3113046426954765735}
   - component: {fileID: 8878248826045897025}
   - component: {fileID: 1901009007619067480}
+  - component: {fileID: -4365951634649906980}
+  - component: {fileID: 6824635793315101984}
   m_Layer: 0
   m_Name: Pre_Block_Container
   m_TagString: Untagged
@@ -83,3 +85,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-4365951634649906980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8690132057689897226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e4fecdc3455c14d9672e714d9fd35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockType: 7
+  visualRoot: {fileID: 0}
+--- !u!114 &6824635793315101984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8690132057689897226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5ad7e4830205e438f6022bed202170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureSlider: 0
