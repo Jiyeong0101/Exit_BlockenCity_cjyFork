@@ -39,19 +39,17 @@ public class QuestManager : MonoBehaviour
     {
         List<NormalQuest> completedQuests = new List<NormalQuest>();
 
-        for (int i = 0; i < activeQuests.Count; i++)
+        foreach (var quest in activeQuests)
         {
-            NormalQuest quest = activeQuests[i];
             quest.AddProgress(destroyedType);
 
             if (quest.IsCompleted)
             {
-                completedQuests.Add(quest); // 나중에 완료 처리용으로 따로 저장
-                quest.IsCompleted = false;  // 중복 클리어 방지
+                completedQuests.Add(quest); // 나중에 처리
             }
         }
 
-        // foreach 다 돌고 난 후에 처리
+        // ✅ foreach 다 돌고 난 후에 처리
         foreach (var quest in completedQuests)
         {
             CompleteQuest(quest.questID);
@@ -87,9 +85,6 @@ public class QuestManager : MonoBehaviour
         questUI.SetQuest(newQuest);
 
         questUIMap[newQuest.questID] = questUIObj;
-
-        newQuest.currentCount = 0;
-        newQuest.IsCompleted = false;
     }
 
     public void CompleteQuest(int questID)
@@ -110,15 +105,10 @@ public class QuestManager : MonoBehaviour
             }
 
             DataManager.Instance.data.Gold += quest.reward;
-            //Debug.Log($"추가 골드 : {quest.reward}");
+            Debug.Log($"추가 골드 : {quest.reward}");
             Debug.Log($"현제 골드 : {DataManager.Instance.data.Gold}");
             // 새 퀘스트 생성 (방금 클리어한 퀘스트 제외)
-            StartCoroutine(AddNewQuestNextFrame(questID));
+            AddNewQuest(questID);
         }
-    }
-    private IEnumerator AddNewQuestNextFrame(int excludeQuestID)
-    {
-        yield return null; // 다음 프레임까지 대기
-        AddNewQuest(excludeQuestID);
     }
 }

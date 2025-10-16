@@ -1212,7 +1212,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1541729718}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dfc5a7935cdb3c42abd7c6c09f647e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 43edb30bcdfb6304c835af79264278a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   allQuests:
@@ -1608,7 +1608,6 @@ GameObject:
   - component: {fileID: 1711592835}
   - component: {fileID: 1711592834}
   - component: {fileID: 1711592833}
-  - component: {fileID: 1711592836}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1690,50 +1689,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1711592836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711592832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
-  m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
 --- !u!1 &1780497888
 GameObject:
   m_ObjectHideFlags: 0
@@ -2220,7 +2175,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1711592835}
   - {fileID: 1703513760}
-  - {fileID: 555404843}
   - {fileID: 1541729720}
+  - {fileID: 555404843}
   - {fileID: 531124193}
   - {fileID: 1862598789}
