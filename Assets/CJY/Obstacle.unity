@@ -175,7 +175,7 @@ MonoBehaviour:
   blockPrefab: {fileID: 2676035052463619657, guid: b8f66b47c1f7fd3479587ce60eb5bf16, type: 3}
   nextBlock: {fileID: 0}
   currentBlock: {fileID: 0}
-  spawnPosition: {x: 5, y: 2, z: 5}
+  spawnPosition: {x: 6, y: 2, z: 0}
   towerSpawnPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &80293990
 MonoBehaviour:
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d139008936d2c6045ae3879ea487c69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tetrisTowerSize: {x: 4, y: 8, z: 4}
+  tetrisTowerSize: {x: 5, y: 10, z: 5}
   fallInterval: 1
   tower: {fileID: 80293990}
   spawner: {fileID: 80293989}
@@ -254,7 +254,7 @@ Transform:
   m_GameObject: {fileID: 80293987}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.5, z: 0}
+  m_LocalPosition: {x: -2, y: -4, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -604,13 +604,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461865831}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19996412, y: -0.3736123, z: 0.08282785, w: 0.90198}
-  m_LocalPosition: {x: 8.67, y: 6.01, z: -5.72}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 25, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &461865835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -917,7 +917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &931026912
 BoxCollider:
   m_ObjectHideFlags: 0
