@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostMaterial: {fileID: 2100000, guid: ab490e4be203981488fee2e4169f954f, type: 2}
-  ghostScale: 1
+  ghostScale: 0.8
 --- !u!23 &5913628608618432880
 MeshRenderer:
   m_ObjectHideFlags: 0

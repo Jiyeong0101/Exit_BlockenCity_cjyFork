@@ -43,7 +43,7 @@ public class TetrisManager : MonoBehaviour
     }
 
 
-    //Å¸ÀÔº° ºí·° °¹¼ö Ä«¿îÆ®
+    //íƒ€ì…ë³„ ë¸”ëŸ­ ê°¯ìˆ˜ ì¹´ìš´íŠ¸
     public void IncreaseTypeBlockCount(BlockType type)
     {
         typeBlockCount[(int)type]++;
@@ -60,13 +60,13 @@ public class TetrisManager : MonoBehaviour
 
     }
 
-    // Æ¯Á¤ ºí·° Å¸ÀÔÀÇ °¹¼ö ¹İÈ¯
+    // íŠ¹ì • ë¸”ëŸ­ íƒ€ì…ì˜ ê°¯ìˆ˜ ë°˜í™˜
     public int GetBlockCount(BlockType type)
     {
         return typeBlockCount[(int)type];
     }
 
-    // ÀüÃ¼ Ä«¿îÆ® ¹è¿­À» º¹»çÇØ¼­ ¹İÈ¯
+    // ì „ì²´ ì¹´ìš´íŠ¸ ë°°ì—´ì„ ë³µì‚¬í•´ì„œ ë°˜í™˜
     public int[] GetAllBlockCounts()
     {
         return (int[])typeBlockCount.Clone();
@@ -82,13 +82,13 @@ public class TetrisManager : MonoBehaviour
 
     public void CheckTower()
     {
-        tower.CheckAndDeleteFullLines();       //Å¸¿ö °Ë»ç
+        tower.CheckAndDeleteFullLines();       //íƒ€ì›Œ ê²€ì‚¬
     }
 
     public void GameOver()
     {
         Debug.Log("[Tetris] GAME OVER");
-        // TODO: °ÔÀÓ¿À¹ö UI, ÀÔ·Â Â÷´Ü, Àç½ÃÀÛ Ã³¸® µî
+        // TODO: ê²Œì„ì˜¤ë²„ UI, ì…ë ¥ ì°¨ë‹¨, ì¬ì‹œì‘ ì²˜ë¦¬ ë“±
     }
 
 }
