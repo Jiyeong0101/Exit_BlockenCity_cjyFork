@@ -15,5 +15,8 @@ MonoBehaviour:
   questID: 3
   questName: "3\uBC88 \uD018\uC2A4\uD2B8 \uC774\uB984"
   description: "3\uBC88 \uD018\uC2A4\uD2B8 \uB0B4\uC6A9"
-  progress: 0
-  reward: 3
+  targetBlockType: 1
+  targetCount: 500
+  currentCount: 7
+  reward: 0
+  IsCompleted: 0
