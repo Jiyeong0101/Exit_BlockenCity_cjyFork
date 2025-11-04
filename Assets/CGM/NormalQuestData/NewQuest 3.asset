@@ -15,5 +15,8 @@ MonoBehaviour:
   questID: 4
   questName: "4\uBC88 \uD018\uC2A4\uD2B8 \uC774\uB984"
   description: "4\uBC88 \uD018\uC2A4\uD2B8 \uB0B4\uC6A9"
-  progress: 0
-  reward: 4
+  targetBlockType: 1
+  targetCount: 500
+  currentCount: 0
+  reward: 0
+  IsCompleted: 0
