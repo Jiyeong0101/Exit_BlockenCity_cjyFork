@@ -22,6 +22,9 @@ public class SimpleCinematicCamera : MonoBehaviour
     [Tooltip("목표와의 거리 차이가 이 값보다 작으면 이동 중지 (흔들림 방지)")]
     public float stopThreshold = 0.001f;
 
+    [Header("연결된 컨트롤러")]
+    public TetrisController tetrisController;
+
     private bool atPointA = true;
 
     void Start()
@@ -36,7 +39,13 @@ public class SimpleCinematicCamera : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
+        {
             atPointA = !atPointA;
+
+            if (tetrisController != null)
+                tetrisController.SetReverseInput(!atPointA);
+        }
+            
 
         Transform targetPoint = atPointA ? pointA : pointB;
         if (targetPoint == null)
