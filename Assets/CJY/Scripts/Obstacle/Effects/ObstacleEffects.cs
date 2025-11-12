@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ObstacleEffects : MonoBehaviour
 {
@@ -192,39 +193,169 @@ public class ObstacleEffects : MonoBehaviour
     }
 
     // 10월 : 블록 파괴 확률 (건기)
-    public void BreakBlockOnPlace(ObstacleGameState state)
+    //public void BreakBlockOnPlace(ObstacleGameState state)
+    //{
+    //    Debug.Log("건기 (블록파괴) 효과 실행");
+
+    //    var block = state.LockedBlock;  // ← 설치된 블록 참조
+    //    if (block == null) return;
+
+    //    var children = block.GetComponentsInChildren<TetriminoBlockChild>();
+    //    if (children.Length == 0) return;
+
+    //    bool anyDeleted = false; // 칸이 하나라도 삭제됐는지 체크
+
+    //    foreach (var child in children)
+    //    {
+    //        if (child != null && UnityEngine.Random.value <= BreakBlockChance) // 50% 확률
+    //        {
+    //            child.DeletBlock();
+    //            anyDeleted = true;
+    //        }
+    //    }
+
+    //    // 칸이 하나라도 삭제된 경우에만 이펙트 실행
+    //    if (anyDeleted)
+    //    {
+    //        state.VisualPlayer.PlayBlockCrumbleEffect(block.transform.position);
+    //    }
+
+    //    // 혹시 블록이 다 부서졌으면 껍데기도 삭제
+    //    block.CleanupIfEmpty();
+    //}
+
+   // ?? using System.Linq; 꼭 추가해줘야 함 (Max() 등)
+
+
+public void BreakBlockOnPlace(ObstacleGameState state)
+{
+    Debug.Log("건기 (블록파괴 + 위 블록 낙하 시각화 + 타워 갱신)");
+
+    var block = state.LockedBlock;
+    if (block == null) return;
+
+    var children = block.GetComponentsInChildren<TetriminoBlockChild>();
+    if (children.Length == 0) return;
+
+    var tower = TetrisManager.Instance.tower; // ? 타입: TetrisTower
+    if (tower == null) return;
+
+    bool anyDeleted = false;
+    List<TetriminoBlockChild> deletedList = new();
+
+    // 1?? 삭제 대상 선정
+    foreach (var child in children)
     {
-        Debug.Log("건기 (블록파괴) 효과 실행");
-
-        var block = state.LockedBlock;  // ← 설치된 블록 참조
-        if (block == null) return;
-
-        var children = block.GetComponentsInChildren<TetriminoBlockChild>();
-        if (children.Length == 0) return;
-
-        bool anyDeleted = false; // 칸이 하나라도 삭제됐는지 체크
-
-        foreach (var child in children)
+        if (child != null && UnityEngine.Random.value <= BreakBlockChance)
         {
-            if (child != null && UnityEngine.Random.value <= BreakBlockChance) // 50% 확률
-            {
-                child.DeletBlock();
-                anyDeleted = true;
-            }
+            deletedList.Add(child);
+            anyDeleted = true;
         }
-
-        // 칸이 하나라도 삭제된 경우에만 이펙트 실행
-        if (anyDeleted)
-        {
-            state.VisualPlayer.PlayBlockCrumbleEffect(block.transform.position);
-        }
-
-        // 혹시 블록이 다 부서졌으면 껍데기도 삭제
-        block.CleanupIfEmpty();
     }
 
-    // 11월 : 정보 UI 스모그 효과 (스모그)
-    public void ApplySmogOverlay(ObstacleGameState state)
+    if (!anyDeleted)
+        return;
+
+    // 2?? 삭제된 칸 (x,z,y) 기록
+    var deletedColumns = new Dictionary<Vector2Int, float>();
+    foreach (var dead in deletedList)
+    {
+        Vector3 pos = dead.transform.position;
+        Vector2Int key = new Vector2Int(
+            Mathf.RoundToInt(pos.x * 10f),
+            Mathf.RoundToInt(pos.z * 10f)
+        );
+        if (!deletedColumns.ContainsKey(key) || pos.y > deletedColumns[key])
+            deletedColumns[key] = pos.y;
+    }
+
+    // 3?? 같은 컬럼 내 위쪽 블록 낙하
+    foreach (var kv in deletedColumns)
+    {
+        Vector2Int key = kv.Key;
+        float deletedY = kv.Value;
+
+        var upperBlocks = children
+            .Where(c =>
+            {
+                if (c == null || deletedList.Contains(c)) return false;
+                Vector3 wp = c.transform.position;
+                Vector2Int ck = new Vector2Int(
+                    Mathf.RoundToInt(wp.x * 10f),
+                    Mathf.RoundToInt(wp.z * 10f)
+                );
+                return ck == key && wp.y > deletedY;
+            })
+            .OrderBy(c => c.transform.position.y)
+            .ToList();
+
+        foreach (var up in upperBlocks)
+        {
+            Vector3 from = up.transform.position;
+            Vector3 target = new Vector3(from.x, deletedY, from.z);
+
+            Debug.DrawLine(from, target, Color.cyan, 2f);
+            Debug.Log($"[건기 낙하] {up.name} ↓ (y {from.y:F2} → {target.y:F2})");
+
+            // ? 타워 갱신: 기존 위치 제거 → 새 위치 추가
+            tower.RemoveBlockFromTower(up.GridPosition);
+            state.StartManagedCoroutine?.Invoke(SmoothDropAndSync(up, target, tower));
+
+            // 다음 블록 기준 업데이트
+            deletedY += 1f;
+        }
+    }
+
+    // 4?? 삭제 처리
+    foreach (var dead in deletedList)
+    {
+        if (dead == null) continue;
+        tower.RemoveBlockFromTower(dead.GridPosition);
+        dead.DeletBlock();
+    }
+
+    // 5?? 효과
+    state.VisualPlayer.PlayBlockCrumbleEffect(block.transform.position);
+    block.CleanupIfEmpty();
+}
+
+// ?? 낙하 + 타워 갱신 코루틴 (TetrisTower 사용)
+private IEnumerator SmoothDropAndSync(TetriminoBlockChild child, Vector3 targetWorldPos, TetrisTower tower)
+{
+    if (child == null) yield break;
+
+    Vector3 start = child.transform.position;
+    float duration = 0.3f;
+    float elapsed = 0f;
+
+    while (elapsed < duration)
+    {
+        elapsed += Time.deltaTime;
+        float tLerp = Mathf.Clamp01(elapsed / duration);
+        child.transform.position = Vector3.Lerp(start, targetWorldPos, tLerp);
+        yield return null;
+    }
+
+    // ?? 최종 위치 보정
+    child.transform.position = targetWorldPos;
+
+    // ?? 직접 GridPosition 계산 (TetriminoBlock의 WorldToTowerOffset 참고)
+    Vector3 towerOrigin = tower.transform.position;
+    Vector3Int newGrid = new Vector3Int(
+        Mathf.FloorToInt(targetWorldPos.x - towerOrigin.x + 0.0001f),
+        Mathf.FloorToInt(targetWorldPos.y - towerOrigin.y + 0.0001f),
+        Mathf.FloorToInt(targetWorldPos.z - towerOrigin.z + 0.0001f)
+    );
+
+    child.SetGridPosition(newGrid);
+    tower.AddBlockToTower(newGrid);
+
+    Debug.Log($"[건기 갱신] {child.name} 새 위치 {newGrid}");
+}
+
+
+// 11월 : 정보 UI 스모그 효과 (스모그)
+public void ApplySmogOverlay(ObstacleGameState state)
     {
         Debug.Log("스모그 (테두리 시야방해) 효과 실행");
 
