@@ -998,7 +998,7 @@ MonoBehaviour:
   lightningIntervalRange: {x: 2, y: 5}
   lightningStopTime: 1
   rainDropSpeedMultiplier: 0.5
-  BreakBlockChance: 0.2
+  BreakBlockChance: 0.5
 --- !u!1 &1503345347
 GameObject:
   m_ObjectHideFlags: 0

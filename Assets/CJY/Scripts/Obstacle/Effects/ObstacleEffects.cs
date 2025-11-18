@@ -192,44 +192,10 @@ public class ObstacleEffects : MonoBehaviour
         if (obj != null) state.RegisterObject?.Invoke(obj);
     }
 
-    // 10월 : 블록 파괴 확률 (건기)
-    //public void BreakBlockOnPlace(ObstacleGameState state)
-    //{
-    //    Debug.Log("건기 (블록파괴) 효과 실행");
-
-    //    var block = state.LockedBlock;  // ← 설치된 블록 참조
-    //    if (block == null) return;
-
-    //    var children = block.GetComponentsInChildren<TetriminoBlockChild>();
-    //    if (children.Length == 0) return;
-
-    //    bool anyDeleted = false; // 칸이 하나라도 삭제됐는지 체크
-
-    //    foreach (var child in children)
-    //    {
-    //        if (child != null && UnityEngine.Random.value <= BreakBlockChance) // 50% 확률
-    //        {
-    //            child.DeletBlock();
-    //            anyDeleted = true;
-    //        }
-    //    }
-
-    //    // 칸이 하나라도 삭제된 경우에만 이펙트 실행
-    //    if (anyDeleted)
-    //    {
-    //        state.VisualPlayer.PlayBlockCrumbleEffect(block.transform.position);
-    //    }
-
-    //    // 혹시 블록이 다 부서졌으면 껍데기도 삭제
-    //    block.CleanupIfEmpty();
-    //}
-
-   // ?? using System.Linq; 꼭 추가해줘야 함 (Max() 등)
-
-
+// 10월 : 블록 파괴 확률 (건기)
 public void BreakBlockOnPlace(ObstacleGameState state)
 {
-    Debug.Log("건기 (블록파괴 + 위 블록 낙하 시각화 + 타워 갱신)");
+    Debug.Log("건기 (y축 압축 낙하)");
 
     var block = state.LockedBlock;
     if (block == null) return;
@@ -237,95 +203,97 @@ public void BreakBlockOnPlace(ObstacleGameState state)
     var children = block.GetComponentsInChildren<TetriminoBlockChild>();
     if (children.Length == 0) return;
 
-    var tower = TetrisManager.Instance.tower; // ? 타입: TetrisTower
+    var tower = TetrisManager.Instance.tower;
     if (tower == null) return;
 
-    bool anyDeleted = false;
-    List<TetriminoBlockChild> deletedList = new();
+    List<TetriminoBlockChild> deleted = new();
+    List<TetriminoBlockChild> survivors = new();
 
-    // 1?? 삭제 대상 선정
-    foreach (var child in children)
+    // 1) 삭제할 블록 선택
+    foreach (var c in children)
     {
-        if (child != null && UnityEngine.Random.value <= BreakBlockChance)
-        {
-            deletedList.Add(child);
-            anyDeleted = true;
-        }
+        if (c != null && UnityEngine.Random.value <= BreakBlockChance)
+            deleted.Add(c);
+        else
+            survivors.Add(c);
     }
 
-    if (!anyDeleted)
-        return;
+    if (deleted.Count == 0) return;
 
-    // 2?? 삭제된 칸 (x,z,y) 기록
-    var deletedColumns = new Dictionary<Vector2Int, float>();
-    foreach (var dead in deletedList)
+    // 2) 컬럼(x,z)별 삭제된 y좌표 수집
+    Dictionary<Vector2Int, List<float>> deletedMap = new();
+
+    foreach (var d in deleted)
     {
-        Vector3 pos = dead.transform.position;
+        Vector3 wp = d.transform.position;
         Vector2Int key = new Vector2Int(
-            Mathf.RoundToInt(pos.x * 10f),
-            Mathf.RoundToInt(pos.z * 10f)
+            Mathf.RoundToInt(wp.x * 10f),
+            Mathf.RoundToInt(wp.z * 10f)
         );
-        if (!deletedColumns.ContainsKey(key) || pos.y > deletedColumns[key])
-            deletedColumns[key] = pos.y;
+        if (!deletedMap.ContainsKey(key))
+            deletedMap[key] = new List<float>();
+        deletedMap[key].Add(wp.y);
     }
 
-    // 3?? 같은 컬럼 내 위쪽 블록 낙하
-    foreach (var kv in deletedColumns)
+    // 3) 컬럼별로 압축
+    foreach (var kv in deletedMap)
     {
         Vector2Int key = kv.Key;
-        float deletedY = kv.Value;
+        var deletedYs = kv.Value;
 
-        var upperBlocks = children
-            .Where(c =>
-            {
-                if (c == null || deletedList.Contains(c)) return false;
-                Vector3 wp = c.transform.position;
-                Vector2Int ck = new Vector2Int(
-                    Mathf.RoundToInt(wp.x * 10f),
-                    Mathf.RoundToInt(wp.z * 10f)
-                );
-                return ck == key && wp.y > deletedY;
-            })
-            .OrderBy(c => c.transform.position.y)
-            .ToList();
-
-        foreach (var up in upperBlocks)
+        // 해당 컬럼에서 살아남은 블록 찾기
+        var column = survivors.Where(c =>
         {
-            Vector3 from = up.transform.position;
-            Vector3 target = new Vector3(from.x, deletedY, from.z);
+            Vector3 wp = c.transform.position;
+            Vector2Int k = new Vector2Int(
+                Mathf.RoundToInt(wp.x * 10f),
+                Mathf.RoundToInt(wp.z * 10f)
+            );
+            return k == key;
+        }).OrderBy(c => c.transform.position.y).ToList();
 
-            Debug.DrawLine(from, target, Color.cyan, 2f);
-            Debug.Log($"[건기 낙하] {up.name} ↓ (y {from.y:F2} → {target.y:F2})");
+        foreach (var c in column)
+        {
+            Vector3 wp = c.transform.position;
 
-            // ? 타워 갱신: 기존 위치 제거 → 새 위치 추가
-            tower.RemoveBlockFromTower(up.GridPosition);
-            state.StartManagedCoroutine?.Invoke(SmoothDropAndSync(up, target, tower));
+            // 삭제된 y중 c보다 아래에 있는 칸 수
+            int fallCount = deletedYs.Count(dy => dy < wp.y);
 
-            // 다음 블록 기준 업데이트
-            deletedY += 1f;
+            if (fallCount <= 0) continue;
+
+            float targetY = wp.y - fallCount;
+            Vector3 target = new Vector3(wp.x, targetY, wp.z);
+
+            // 타워에서 기존 위치 제거
+            tower.RemoveBlockFromTower(c.GridPosition);
+
+            Debug.DrawLine(wp, target, Color.green, 2f);
+            Debug.Log($"[압축] {c.name} {wp.y:F1} -> {targetY:F1} (낙하 {fallCount}칸)");
+
+            state.StartManagedCoroutine?.Invoke(SmoothDropAndSync(c, target, tower));
         }
     }
 
-    // 4?? 삭제 처리
-    foreach (var dead in deletedList)
+    // 4) 실제 삭제 수행
+    foreach (var d in deleted)
     {
-        if (dead == null) continue;
-        tower.RemoveBlockFromTower(dead.GridPosition);
-        dead.DeletBlock();
+        tower.RemoveBlockFromTower(d.GridPosition);
+        d.DeletBlock();
     }
 
-    // 5?? 효과
+    // 5) 이펙트
     state.VisualPlayer.PlayBlockCrumbleEffect(block.transform.position);
     block.CleanupIfEmpty();
 }
 
-// ?? 낙하 + 타워 갱신 코루틴 (TetrisTower 사용)
+
+// 시각적 낙하 + 타워정보 갱신
 private IEnumerator SmoothDropAndSync(TetriminoBlockChild child, Vector3 targetWorldPos, TetrisTower tower)
 {
     if (child == null) yield break;
 
     Vector3 start = child.transform.position;
-    float duration = 0.3f;
+    float duration = 0.25f;
     float elapsed = 0f;
 
     while (elapsed < duration)
@@ -336,21 +304,17 @@ private IEnumerator SmoothDropAndSync(TetriminoBlockChild child, Vector3 targetW
         yield return null;
     }
 
-    // ?? 최종 위치 보정
     child.transform.position = targetWorldPos;
 
-    // ?? 직접 GridPosition 계산 (TetriminoBlock의 WorldToTowerOffset 참고)
     Vector3 towerOrigin = tower.transform.position;
     Vector3Int newGrid = new Vector3Int(
-        Mathf.FloorToInt(targetWorldPos.x - towerOrigin.x + 0.0001f),
-        Mathf.FloorToInt(targetWorldPos.y - towerOrigin.y + 0.0001f),
-        Mathf.FloorToInt(targetWorldPos.z - towerOrigin.z + 0.0001f)
+        Mathf.FloorToInt(targetWorldPos.x - towerOrigin.x + 0.01f),
+        Mathf.FloorToInt(targetWorldPos.y - towerOrigin.y + 0.01f),
+        Mathf.FloorToInt(targetWorldPos.z - towerOrigin.z + 0.01f)
     );
 
     child.SetGridPosition(newGrid);
     tower.AddBlockToTower(newGrid);
-
-    Debug.Log($"[건기 갱신] {child.name} 새 위치 {newGrid}");
 }
 
 
