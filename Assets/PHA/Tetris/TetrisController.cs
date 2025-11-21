@@ -5,11 +5,15 @@ using UnityEngine;
 public class TetrisController : MonoBehaviour
 {
     // 현재 시점 카메라
-    public Camera gameCamera;
+    public GameObject gameCamera;
+
     // 현재 조작중인 블럭
     public TetriminoBlock currentBlock;
 
     private InputManager input;
+
+    [Header("카메라 입력 반전")]
+    public bool reverseInput = false;
 
     // 추가
     // 입력 제어 클래스
@@ -151,13 +155,21 @@ public class TetrisController : MonoBehaviour
 
         // 입력 방향을 카메라 기준으로 변환
         Vector3 moveDir = inputDir.x * right + inputDir.z * forward;
-                
+
+        if (reverseInput)
+            moveDir *= -1f;
+
         return moveDir;
     }
 
     public void SetCurrentBlock(TetriminoBlock block)
     {
         currentBlock = block;
+    }
+
+    public void SetReverseInput(bool isReversed)
+    {
+        reverseInput = isReversed;
     }
 
 }

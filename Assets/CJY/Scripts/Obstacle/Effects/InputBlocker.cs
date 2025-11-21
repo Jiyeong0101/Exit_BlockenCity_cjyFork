@@ -103,11 +103,6 @@ public class InputBlocker : MonoBehaviour
             if (!isInputBlocked && !blockRotation)
                 EnqueueInput(() => OnKeyA?.Invoke());
         };
-        keySHandler = () =>
-        {
-            if (!isInputBlocked && !blockRotation)
-                EnqueueInput(() => OnKeyS?.Invoke());
-        };
         keyFHandler = () =>
         {
             if (!isInputBlocked && !blockRotation)

@@ -6,13 +6,37 @@ using static Unity.Collections.AllocatorManager;
 
 public class EffectVisualPlayer : MonoBehaviour
 {
-    private const string StrongWindPath = "Effects/StrongWindEffect"; //강풍 이펙트
-    private const string DustPath = "Effects/DustEffect"; //황사 이펙트
-    private const string LightningPath = "Effects/LightningEffect"; //강풍 이펙트
-    private const string RainPath = "Effects/RainEffect"; //비 이펙트
-    private const string SmogPath = "Effects/SmogEffect"; //안개 이펙트
+    //[Header("==== 이펙트 프리팹 설정 ====")]
+    //[Tooltip("강풍 이펙트 (없을 경우 Resources/Effects/StrongWindEffect에서 로드)")]
+    //[SerializeField] private GameObject strongWindPrefab;
 
-    private const string OverheatPath = "Effects/OverheatUI"; //과열 UI
+    //[Tooltip("황사 이펙트 (없을 경우 Resources/Effects/DustEffect에서 로드)")]
+    //[SerializeField] private GameObject dustPrefab;
+
+    //[Tooltip("번개 이펙트 (없을 경우 Resources/Effects/LightningEffect에서 로드)")]
+    //[SerializeField] private GameObject lightningPrefab;
+
+    //[Tooltip("비 이펙트 (없을 경우 Resources/Effects/RainEffect에서 로드)")]
+    //[SerializeField] private GameObject rainPrefab;
+
+    //[Tooltip("스모그 이펙트 (없을 경우 Resources/Effects/SmogEffect에서 로드)")]
+    //[SerializeField] private GameObject smogPrefab;
+
+    //[Header("==== UI 프리팹 ====")]
+    //[Tooltip("과열 경고 UI (없을 경우 Resources/Effects/OverheatUI에서 로드)")]
+    //[SerializeField] private GameObject overheatUIPrefab;
+
+    //[Header("==== 블록 비주얼 설정 ====")]
+    //[Tooltip("얼음 블록 효과 강도 (0~1)")]
+    //[SerializeField, Range(0f, 1f)] private float iceEffect = 0.5f;
+
+    // 기본 리소스 경로 (백업용)
+    private const string StrongWindPath = "Effects/StrongWindEffect";
+    private const string DustPath = "Effects/DustEffect";
+    private const string LightningPath = "Effects/LightningEffect";
+    private const string RainPath = "Effects/RainEffect";
+    private const string SmogPath = "Effects/SmogEffect";
+    private const string OverheatPath = "Effects/OverheatUI";
 
     [Header("블록 얼음 이미지")]
     [SerializeField] private float IceEffect = 0.5f;
@@ -47,7 +71,9 @@ public class EffectVisualPlayer : MonoBehaviour
     // 2월 강풍 효과 (단발 효과 → 반환 X)
     public GameObject PlayStrongWindEffect()
     {
+        //var prefab = strongWindPrefab ?? Resources.Load<GameObject>(StrongWindPath);
         var prefab = Resources.Load<GameObject>(StrongWindPath);
+
         if (prefab == null) return null;
 
         return Instantiate(prefab);
@@ -63,6 +89,7 @@ public class EffectVisualPlayer : MonoBehaviour
     // 4,5월 황사 효과 (반복 → IEnumerator 반환)
     public GameObject DustStormEffect()
     {
+        //var prefab = dustPrefab ?? Resources.Load<GameObject>(DustPath);
         var prefab = Resources.Load<GameObject>(DustPath);
         if (prefab == null) return null;
 
@@ -72,6 +99,7 @@ public class EffectVisualPlayer : MonoBehaviour
     // 6월 번개 이펙트 (단발 효과)
     public GameObject PlayLightningEffect()
     {
+        //var prefab = lightningPrefab ?? Resources.Load<GameObject>(LightningPath);
         var prefab = Resources.Load<GameObject>(LightningPath);
         if (prefab == null) return null;
 
@@ -81,6 +109,7 @@ public class EffectVisualPlayer : MonoBehaviour
     // 7월 비 내리는 효과
     public GameObject PlayRainEffect()
     {
+        //var prefab = rainPrefab ?? Resources.Load<GameObject>(RainPath);
         var prefab = Resources.Load<GameObject>(RainPath);
         if (prefab == null) return null;
 
@@ -121,6 +150,7 @@ public class EffectVisualPlayer : MonoBehaviour
     // 11월 스모그 효과
     public GameObject PlaySmogEffect()
     {
+        //var prefab = smogPrefab ?? Resources.Load<GameObject>(SmogPath);
         var prefab = Resources.Load<GameObject>(SmogPath);
         if (prefab == null) return null;
 
