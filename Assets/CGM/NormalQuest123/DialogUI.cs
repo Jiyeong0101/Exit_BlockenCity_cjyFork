@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//스페셜퀘스트로 활용중
 public class DialogUI : MonoBehaviour
 {
     [Header("UI Components")]
@@ -23,7 +24,7 @@ public class DialogUI : MonoBehaviour
     private bool isWaitingForChoice = false;
 
     [Header("Quest Data")]
-    public List<NewQuestData> allQuestData; // Branch 번호 기반 인덱스 접근
+    public List<SpecialQuestData> allQuestData; // Branch 번호 기반 인덱스 접근
 
     void Start()
     {
@@ -33,7 +34,7 @@ public class DialogUI : MonoBehaviour
         HideAllButtons();
         dialogPanel.SetActive(false);
 
-        InputManager.Instance.OnSpace += HandleSpace;
+        InputManager.Instance.OnKeyV += HandleKeyV;
         InputManager.Instance.OnKey1 += HandleKey1;
         InputManager.Instance.OnKey2 += HandleKey2;
     }
@@ -42,13 +43,13 @@ public class DialogUI : MonoBehaviour
     {
         if (InputManager.Instance != null)
         {
-            InputManager.Instance.OnSpace -= HandleSpace;
+            InputManager.Instance.OnKeyV -= HandleKeyV;
             InputManager.Instance.OnKey1 -= HandleKey1;
             InputManager.Instance.OnKey2 -= HandleKey2;
         }
     }
 
-    private void HandleSpace()
+    private void HandleKeyV()
     {
         if (!dialogPanel.activeSelf) return;
 
@@ -172,10 +173,10 @@ public class DialogUI : MonoBehaviour
 
         if (currentLine.acceptBranch != -1)
         {
-            NewQuestData matchedQuest = allQuestData.Find(q => q.branchID == currentLine.acceptBranch);
+            SpecialQuestData matchedQuest = allQuestData.Find(q => q.branchID == currentLine.acceptBranch);
             if (matchedQuest != null)
             {
-                NewQuestManager.Instance.AddQuest(matchedQuest);
+                SpecialQuestManager.Instance.AddQuest(matchedQuest);
             }
             Debug.Log("수락 선택됨2");
             DialogManager.Instance.LoadDialogByBranch(currentLine.acceptBranch);

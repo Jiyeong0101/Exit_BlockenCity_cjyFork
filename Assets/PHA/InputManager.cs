@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour
     public event Action OnKeyD;
     public event Action OnKeyF;
     public event Action OnKeyC;
+    public event Action OnKeyV;
 
     public event Action OnKey1;
     public event Action OnKey2;
@@ -59,6 +60,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D)) OnKeyD?.Invoke();
         if (Input.GetKeyDown(KeyCode.F)) OnKeyF?.Invoke();
         if (Input.GetKeyDown(KeyCode.C)) OnKeyC?.Invoke();
+        if (Input.GetKeyDown(KeyCode.V)) OnKeyV?.Invoke();
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) OnKey1?.Invoke();
         if (Input.GetKeyDown(KeyCode.Alpha2)) OnKey2?.Invoke();
