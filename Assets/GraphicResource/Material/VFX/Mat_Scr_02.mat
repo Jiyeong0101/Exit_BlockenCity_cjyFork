@@ -55,13 +55,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _Direction: -1
-    - _FadeRadialPower: 1.25
-    - _FadeRadialScale: 2
+    - _FadeRadialPower: 2.5
+    - _FadeRadialScale: 2.2
     - _ISNOISED: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Width: 50
     m_Colors:
     - _Color: {r: 0.24056602, g: 0.34597266, b: 1, a: 1}
-    - _FadePivot: {r: 0.85, g: 1, b: 0, a: 0}
+    - _FadePivot: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

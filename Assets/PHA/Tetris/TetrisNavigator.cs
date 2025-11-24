@@ -36,7 +36,7 @@ public class TetrisNavigator : MonoBehaviour
         for (int i = 0; i < children.Count - 1; i++) // 마지막은 건너뜀
         {
             var src = children[i];
-            Debug.Log($"[DEBUG] src.name = {src.name}, src.localScale = {src.localScale}");
+            //Debug.Log($"[DEBUG] src.name = {src.name}, src.localScale = {src.localScale}");
 
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             var col = go.GetComponent<Collider>();
