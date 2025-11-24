@@ -196,12 +196,21 @@ public class TetriminoBlock : MonoBehaviour
         //블록 락 이벤트 활성화
         OnAnyBlockLocked?.Invoke(this);
 
+        //높이부분 추가
+        int currentHeight = TetrisManager.Instance.tower.GetCurrentHeight();
+        SpecialQuestManager.Instance.OnHeightChanged(currentHeight);
+
+        SpecialQuestManager.Instance.OnBlockDropped(); // 추가요
+
         TetrisManager.Instance.CheckTower();
         TetrisManager.Instance.SpawnNextBlock();
     }
 
     public void DeletBlock()
     {
+        TetrisManager.Instance.DecreaseTypeBlockCount(blockType); //추가요
+        SpecialQuestManager.Instance.OnBlockDestroyed(blockType); //추가요
+
         foreach (var child in tetriminoBlockChild)
         {
             child?.DeletBlock();

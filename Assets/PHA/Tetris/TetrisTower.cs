@@ -115,6 +115,7 @@ public class TetrisTower : MonoBehaviour
                 y--; // 한 줄이 내려왔으니 같은 y를 다시 검사
             }
         }
+        SpecialQuestManager.Instance.OnHeightChanged(GetCurrentHeight());
     }
 
     // 스폰 위치 반환
@@ -127,5 +128,23 @@ public class TetrisTower : MonoBehaviour
         Vector3 spawnPos = transform.position + new Vector3(spawnX, spawnY, spawnZ);
         Debug.Log("[TetrisTower] Spawn Position: " + spawnPos);
         return spawnPos;
+    }
+    public int GetCurrentHeight() // 높이 반환 추가
+    {
+        int maxY = 0;
+
+        for (int y = 0; y < towerSize.y; y++)
+        {
+            for (int x = 0; x < towerSize.x; x++)
+            {
+                for (int z = 0; z < towerSize.z; z++)
+                {
+                    if (towerGrid[x, y, z] != 0 && y > maxY)
+                        maxY = y;
+                }
+            }
+        }
+
+        return maxY;
     }
 }
