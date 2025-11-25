@@ -11,7 +11,7 @@ public class TetrisManager : MonoBehaviour
 
     public Vector3Int tetrisTowerSize = new Vector3Int(4, 8, 4);
 
-    public float fallInterval = 0.5f;
+    public float fallInterval;
 
     public TetrisTower tower;
 

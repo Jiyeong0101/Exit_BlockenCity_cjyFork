@@ -389,7 +389,7 @@ Transform:
   m_GameObject: {fileID: 166372206}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 0.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -958,9 +958,9 @@ MonoBehaviour:
   tetrisspawner: {fileID: 80293989}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 8
+    type: 0
     weight: 100
-  obstacleSystemEnabled: 1
+  obstacleSystemEnabled: 0
 --- !u!4 &1289760689
 Transform:
   m_ObjectHideFlags: 0
@@ -997,7 +997,7 @@ MonoBehaviour:
   dustLifetimeRange: {x: 1, y: 2}
   lightningIntervalRange: {x: 2, y: 5}
   lightningStopTime: 1
-  rainDropSpeedMultiplier: 0.5
+  rainDropSpeedMultiplier: 2
   BreakBlockChance: 0.05
 --- !u!1 &1503345347
 GameObject:

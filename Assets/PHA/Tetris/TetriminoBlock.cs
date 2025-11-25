@@ -100,6 +100,7 @@ public class TetriminoBlock : MonoBehaviour
     {
         if (!isSelect) return;
 
+        fallInterval = TetrisManager.Instance.fallInterval;
 
         if (blockType == BlockType.None)
         {
