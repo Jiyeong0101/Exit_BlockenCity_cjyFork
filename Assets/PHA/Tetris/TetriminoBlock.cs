@@ -197,10 +197,10 @@ public class TetriminoBlock : MonoBehaviour
         OnAnyBlockLocked?.Invoke(this);
 
         //높이부분 추가
-        int currentHeight = TetrisManager.Instance.tower.GetCurrentHeight();
-        SpecialQuestManager.Instance.OnHeightChanged(currentHeight);
+        //int currentHeight = TetrisManager.Instance.tower.GetCurrentHeight();
+        //SpecialQuestManager.Instance.OnHeightChanged(currentHeight);
 
-        SpecialQuestManager.Instance.OnBlockDropped(); // 추가요
+        //SpecialQuestManager.Instance.OnBlockDropped(); // 추가요
 
         TetrisManager.Instance.CheckTower();
         TetrisManager.Instance.SpawnNextBlock();
