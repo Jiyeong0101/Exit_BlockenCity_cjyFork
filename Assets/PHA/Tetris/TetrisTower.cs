@@ -115,7 +115,7 @@ public class TetrisTower : MonoBehaviour
                 y--; // 한 줄이 내려왔으니 같은 y를 다시 검사
             }
         }
-        SpecialQuestManager.Instance.OnHeightChanged(GetCurrentHeight());
+        //SpecialQuestManager.Instance.OnHeightChanged(GetCurrentHeight());
     }
 
     // 스폰 위치 반환
