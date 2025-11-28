@@ -76,7 +76,7 @@ Material:
     - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
     - _BlendMode: 0
-    - _Blur: 1.25
+    - _Blur: 1.4
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
@@ -89,11 +89,11 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _IsRainy: 0
+    - _IsRainy: 1
     - _OpaqueCullMode: 2
     - _QueueControl: 1
     - _QueueOffset: 0
-    - _Rain_Amount: 0.2
+    - _Rain_Amount: 0.25
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
@@ -125,7 +125,7 @@ Material:
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
     - _ZWrite: 0
-    - _Zoom: -1
+    - _Zoom: -1.22
     m_Colors:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
