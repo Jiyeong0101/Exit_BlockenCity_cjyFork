@@ -35,6 +35,12 @@ public class SoundManager : MonoBehaviour
         ApplyAllVolumes();
     }
 
+    private void Start()
+    {
+        // Snapshot 반영 후에 Mixer 값을 덮어쓰기!
+        ApplyAllVolumes();
+    }
+
     // 볼륨 설정 함수들
     public void SetMasterVolume(float value)   // value: 0~1 (슬라이더 값)
     {
