@@ -32,6 +32,8 @@ public class InputManager : MonoBehaviour
     public event Action OnMouse1Button;
     public event Action OnMouse2Button;
 
+    private HashSet<string> restrictedInputs = new HashSet<string>();
+    public bool IsInputRestricted => restrictedInputs.Count > 0;
 
     private void Awake()
     {
@@ -45,29 +47,75 @@ public class InputManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetRestrictedInputs(IEnumerable<string> inputs)
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) OnLeftArrow?.Invoke();
-        if (Input.GetKeyDown(KeyCode.RightArrow)) OnRightArrow?.Invoke();
-        if (Input.GetKeyDown(KeyCode.DownArrow)) OnUpArrow?.Invoke();
-        if (Input.GetKeyDown(KeyCode.UpArrow)) OnDownArrow?.Invoke();
+        restrictedInputs.Clear();
 
-        if (Input.GetKeyDown(KeyCode.Space)) OnSpace?.Invoke();
+        foreach (var input in inputs)
+        {
+            restrictedInputs.Add(input.Trim());
+        }
+    }
 
-        if (Input.GetKeyDown(KeyCode.S)) OnKeyS?.Invoke();
-        if (Input.GetKeyDown(KeyCode.A)) OnKeyA?.Invoke();
-        if (Input.GetKeyDown(KeyCode.D)) OnKeyD?.Invoke();
-        if (Input.GetKeyDown(KeyCode.F)) OnKeyF?.Invoke();
-        if (Input.GetKeyDown(KeyCode.C)) OnKeyC?.Invoke();
-        if (Input.GetKeyDown(KeyCode.V)) OnKeyV?.Invoke();
+    public void ClearRestrictedInputs()
+    {
+        restrictedInputs.Clear();
+    }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) OnKey1?.Invoke();
-        if (Input.GetKeyDown(KeyCode.Alpha2)) OnKey2?.Invoke();
+    private bool IsRestricted(string inputName)
+    {
+        return restrictedInputs.Contains(inputName);
+    }
 
-        if (Input.GetKeyDown(KeyCode.Tab)) OnTab?.Invoke();
+    // Update is called once per frame
+    void Update()   //꺅 더러워졌어~
+    {
+    if (Input.GetKeyDown(KeyCode.LeftArrow) && !IsRestricted("LeftArrow"))
+        OnLeftArrow?.Invoke();
 
-        if (Input.GetMouseButtonDown(0)) OnMouse1Button?.Invoke();
-        if (Input.GetMouseButtonDown(1)) OnMouse2Button?.Invoke();
+    if (Input.GetKeyDown(KeyCode.RightArrow) && !IsRestricted("RightArrow"))
+        OnRightArrow?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.UpArrow) && !IsRestricted("UpArrow"))
+        OnDownArrow?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.DownArrow) && !IsRestricted("DownArrow"))  //여기 테트리스때문에 위아레 바꿔둔거지??
+        OnUpArrow?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.Space) && !IsRestricted("Space"))
+        OnSpace?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.S) && !IsRestricted("S"))
+        OnKeyS?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.A) && !IsRestricted("A"))
+        OnKeyA?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.D) && !IsRestricted("D"))
+        OnKeyD?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.F) && !IsRestricted("F"))
+        OnKeyF?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.C) && !IsRestricted("C"))
+        OnKeyC?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.V) && !IsRestricted("V"))
+        OnKeyV?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.Alpha1) && !IsRestricted("1"))
+        OnKey1?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.Alpha2) && !IsRestricted("2"))
+        OnKey2?.Invoke();
+
+    if (Input.GetKeyDown(KeyCode.Tab) && !IsRestricted("Tab"))
+        OnTab?.Invoke();
+
+    if (Input.GetMouseButtonDown(0) && !IsRestricted("Mouse1"))
+        OnMouse1Button?.Invoke();
+
+    if (Input.GetMouseButtonDown(1) && !IsRestricted("Mouse2"))
+        OnMouse2Button?.Invoke();
     }
 }
