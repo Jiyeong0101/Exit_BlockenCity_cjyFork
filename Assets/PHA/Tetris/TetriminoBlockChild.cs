@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class TetriminoBlockChild : MonoBehaviour
 {
+    public BlockType BlockType;
+
+    private bool isDestroyed = false;
+
     [SerializeField]
     private BlockType blockType;    //블럭 종류
 
@@ -58,18 +62,26 @@ public class TetriminoBlockChild : MonoBehaviour
         //타입에 따른 스테이더스 영향
     }
 
-    public void DeletBlock()
+    public void DeletBlock() // 살짝 수정
     {
+        if (isDestroyed) return;   // 중복 호출 방지
+        isDestroyed = true;
         // 우호도나 스테이더스 영향
 
-        TetrisManager.Instance.DecreaseTypeBlockCount(blockType);
-
-        // 추가
-        // 타워에서도 제거
-        var tower = TetrisManager.Instance.tower;
-        if (tower != null)
+        if (SpecialQuestManager.Instance != null)
         {
-            tower.RemoveBlockFromTower(GridPosition);
+            SpecialQuestManager.Instance.OnBlockDestroyed(blockType);
+        }
+
+        if (TetrisManager.Instance != null)
+        {
+            TetrisManager.Instance.DecreaseTypeBlockCount(blockType);
+
+            var tower = TetrisManager.Instance.tower;
+            if (tower != null)
+            {
+                tower.RemoveBlockFromTower(GridPosition);
+            }
         }
 
         Destroy(gameObject);

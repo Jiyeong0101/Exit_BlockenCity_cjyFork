@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TetrisGame;
 
 public class TetrisTower : MonoBehaviour
 {
@@ -25,15 +26,26 @@ public class TetrisTower : MonoBehaviour
         {
             towerGrid[pos.x, pos.y, pos.z] = 0; // 칸 비우기
         }
+
+        // 높이 변경 이벤트
+        SpecialQuestManager.Instance?.OnHeightChanged(GetCurrentHeight());
     }
 
     // 특정 위치를 채운 상태로 표시
-    public void AddBlockToTower(Vector3Int blockPos)
+    public void AddBlockToTower(Vector3Int blockPos, BlockType type) //GM수정
     {
+        if (!IsInsideTower(blockPos)) return;
+
         if (IsInsideTower(blockPos))
         {
             towerGrid[blockPos.x, blockPos.y, blockPos.z] = 1;
         }
+
+        // 블럭 설치 이벤트
+        SpecialQuestManager.Instance?.OnBlockPlaced(blockPos, type);
+
+        // 높이 변경 이벤트
+        SpecialQuestManager.Instance?.OnHeightChanged(GetCurrentHeight());
     }
 
     // 타워 안에 존재하는가
@@ -105,6 +117,8 @@ public class TetrisTower : MonoBehaviour
     // 전체 타워 검사 (블럭 락 될때마다 매니저에서 얘 호출되게)
     public void CheckAndDeleteFullLines()
     {
+        bool heightChanged = false;
+
         Debug.Log("check Delete Full Line");
 
         for (int y = 0; y < towerSize.y; y++)
@@ -113,9 +127,14 @@ public class TetrisTower : MonoBehaviour
             {
                 DeleteLine(y);
                 y--; // 한 줄이 내려왔으니 같은 y를 다시 검사
+                heightChanged = true;
             }
         }
-        //SpecialQuestManager.Instance.OnHeightChanged(GetCurrentHeight());
+
+        if (heightChanged)
+        {
+            SpecialQuestManager.Instance?.OnHeightChanged(GetCurrentHeight());
+        }
     }
 
     // 스폰 위치 반환
