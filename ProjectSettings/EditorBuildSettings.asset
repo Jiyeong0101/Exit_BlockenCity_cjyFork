@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CJY/Obstacle.unity
     guid: 02bbf912c850d9c499f55f895945ae6f
+  - enabled: 1
+    path: Assets/CJY/Title.unity
+    guid: af29bfa71a4c0ce438b27dc1602114af
   m_configObjects: {}

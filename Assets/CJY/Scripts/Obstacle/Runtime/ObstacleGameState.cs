@@ -17,8 +17,6 @@ public class ObstacleGameState
     public TetriminoBlock SpawnedBlock { get; set; }  // 스폰 시점 블록
     public TetriminoBlock LockedBlock { get; set; }   // 설치 시점 블록
 
-    public float CurrentDropSpeed { get; set; }
-
     public System.Action<Coroutine> RegisterCoroutine;
     public System.Action<GameObject> RegisterObject;
     public Func<IEnumerator, Coroutine> StartManagedCoroutine;
@@ -32,7 +30,6 @@ public class ObstacleGameState
         VisualPlayer = visualPlayer;
         InputBlocker = inputBlocker;
         TetrisController = tetrisController;
-        CurrentDropSpeed = 1f;
     }
 
     public void UpdateSelectedObstacle(ObstacleType type)
