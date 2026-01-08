@@ -180,7 +180,7 @@ public class ObstacleEffects : MonoBehaviour
         Debug.Log("장마 (낙하속도저하) 효과 실행");
         if (state == null) return;
 
-        state.CurrentDropSpeed = rainDropSpeedMultiplier;
+        TetrisManager.Instance.fallInterval *= rainDropSpeedMultiplier;
     }
 
     // 8월 : 다음 블록 UI 비활성화 (폭염)
