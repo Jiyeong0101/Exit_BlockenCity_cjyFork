@@ -100,8 +100,6 @@ public class TetriminoBlock : MonoBehaviour
     {
         if (!isSelect) return;
 
-        fallInterval = TetrisManager.Instance.fallInterval;
-
         if (blockType == BlockType.None)
         {
             //None老 版快 肋给等 喉钒 贸府 夸噶
