@@ -176,7 +176,7 @@ public class TetriminoBlock : MonoBehaviour
                 Vector3Int towerPos = WorldToTowerOffset(child.transform.position);
 
                 // 타워에 등록
-                TetrisManager.Instance.tower.AddBlockToTower(towerPos);
+                TetrisManager.Instance.tower.AddBlockToTower(towerPos, blockType);
 
                 // 추가
                 // Child에게 좌표 기억시킴
@@ -204,12 +204,18 @@ public class TetriminoBlock : MonoBehaviour
 
         TetrisManager.Instance.CheckTower();
         TetrisManager.Instance.SpawnNextBlock();
+
+        if (SpecialQuestUI.CurrentUI != null)
+            SpecialQuestUI.CurrentUI.OnBlockDropped();
+        else
+            Debug.LogWarning("SpecialQuestUI.CurrentUI is null");
+
+        //SpecialQuestManager.Instance.OnBlockDropped();
     }
 
     public void DeletBlock()
     {
         TetrisManager.Instance.DecreaseTypeBlockCount(blockType); //추가요
-        SpecialQuestManager.Instance.OnBlockDestroyed(blockType); //추가요
 
         foreach (var child in tetriminoBlockChild)
         {
