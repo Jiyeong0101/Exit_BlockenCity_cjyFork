@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5af939c6f7241745ad6b5c9168d9c6e, type: 3}
-  m_Name: SpecialQuestData2
+  m_Name: SpecialQuestData3
   m_EditorClassIdentifier: 
-  branchID: 1001
-  questName: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 2\uBC88"
-  description: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 2\uBC88\uC785\uB2C8\uB2F9\n\uD2B9\uC815
-    \uBE14\uB7ED \uD30C\uAD34 \uAE08\uC9C0 \uD018\uC2A4\uD2B8\n\uC2DC\uAC04 = \uB4DC\uB78D\uBC88"
-  questType: 1
-  blockType: 2
-  targetCount: 1
-  targetHeight: 0
+  branchID: 21
+  questName: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 3\uBC88"
+  description: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 3\uBC88\uC785\uB2C8\uB2F9\n\uB192\uC774
+    \uC81C\uD55C \uD018\uC2A4\uD2B8\n\uC2DC\uAC04 = \uC2DC\uAC04\uCD08"
+  questType: 2
+  blockType: 12
+  targetCount: 0
+  targetHeight: 6
   keepDuration: 0
   restrictedInput: 
   darknessLevel: 0
   timeType: 1
-  timeValue: 2
+  timeValue: 5
   reward: 0
   IsCompleted: 1

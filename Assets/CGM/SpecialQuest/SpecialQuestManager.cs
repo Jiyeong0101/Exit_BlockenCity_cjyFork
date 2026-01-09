@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TetrisGame;
 using UnityEngine;
@@ -7,16 +7,17 @@ public class SpecialQuestManager : MonoBehaviour
 {
     public static SpecialQuestManager Instance;
 
-    public Transform questUIParent;          // Äù½ºÆ® UI¸¦ ºÙÀÏ ºÎ¸ğ ¿ÀºêÁ§Æ®.
-    public GameObject questUIPrefab;         // Äù½ºÆ®¸¦ Ç¥½ÃÇÒ ÇÁ¸®ÆÕ (NewQuestUI ½ºÅ©¸³Æ® Æ÷ÇÔ)
+    public Transform questUIParent;          // í€˜ìŠ¤íŠ¸ UIë¥¼ ë¶™ì¼ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸.
+    public GameObject questUIPrefab;         // í€˜ìŠ¤íŠ¸ë¥¼ í‘œì‹œí•  í”„ë¦¬íŒ¹ (NewQuestUI ìŠ¤í¬ë¦½íŠ¸ í¬í•¨)
 
     private SpecialQuestData currentQuest;
 
-    // ÇöÀç ÁøÇà »óÈ²
+    // í˜„ì¬ ì§„í–‰ ìƒí™©
     private int breakCount = 0;     // BlockBreak, BlockNoBreak
     private int noBreakCount = 0;   // BlockNoBreak
 
-    private float keepHeightTimer = 0f; // KeepHeight¿ë ³»ºÎ Å¸ÀÌ¸Ó
+    private float keepHeightTimer = 0f; // KeepHeightìš© ë‚´ë¶€ íƒ€ì´ë¨¸
+    private int heightKeepBaseHeight;
 
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class SpecialQuestManager : MonoBehaviour
 
     public void AddQuest(SpecialQuestData quest)
     {
-        // UI »ı¼º
+        // UI ìƒì„±
         GameObject questUIObj = Instantiate(questUIPrefab, questUIParent);
         SpecialQuestUI questUI = questUIObj.GetComponent<SpecialQuestUI>();
         questUI.SetQuest(quest);
@@ -34,7 +35,7 @@ public class SpecialQuestManager : MonoBehaviour
 
         StartQuest(quest);
 
-        Debug.Log($"Äù½ºÆ® »ı¼ºµÊ ¹× ½ÃÀÛµÊ: {quest.questName}");
+        Debug.Log($"í€˜ìŠ¤íŠ¸ ìƒì„±ë¨ ë° ì‹œì‘ë¨: {quest.questName}");
     }
 
 
@@ -49,129 +50,188 @@ public class SpecialQuestManager : MonoBehaviour
         noBreakCount = 0;
         keepHeightTimer = quest.keepDuration;
 
-        Debug.Log($"[SpecialQuest] Äù½ºÆ® ½ÃÀÛ: {quest.questName}");
+        if (quest.questType == SpecialQuestType.HeightKeep)
+        {
+            heightKeepBaseHeight = TetrisManager.Instance.tower.GetCurrentHeight();
+            Debug.Log($"[HeightKeep] ê¸°ì¤€ ë†’ì´ ì„¤ì •: {heightKeepBaseHeight + 1}");
+        }
+
+        if (quest.questType == SpecialQuestType.InputRestriction)
+        {
+            var inputs = quest.restrictedInput.Split(',');
+            InputManager.Instance.SetRestrictedInputs(inputs);
+
+            Debug.Log($"[InputRestriction] ì œí•œ ì…ë ¥: {quest.restrictedInput}");
+        }
+        Debug.Log($"[SpecialQuest] í€˜ìŠ¤íŠ¸ ì‹œì‘: {quest.questName}");
     }
 
     private void CompleteQuest()
     {
+        if (currentQuest.IsCompleted) return;
+
+        if (currentQuest == null) return;
+
         currentQuest.IsCompleted = true;
 
-        Debug.Log($"[SpecialQuest] ¿Ï·á: {currentQuest.questName}");
+        if (currentQuest.questType == SpecialQuestType.InputRestriction)
+        {
+            InputManager.Instance.ClearRestrictedInputs();
+            Debug.Log("[InputRestriction] ì…ë ¥ ì œí•œ í•´ì œ");
+        }
+        Debug.Log($"[SpecialQuest] ì™„ë£Œ: {currentQuest.questName}");
 
-        // TODO: UI °»½Å
-        // TODO: º¸»ó Áö±Ş
+        if (SpecialQuestUI.CurrentUI != null)
+        {
+            SpecialQuestUI.CurrentUI.ShowCompleted();
+        }
+
+        // TODO: UI ê°±ì‹ 
+        // TODO: ë³´ìƒ ì§€ê¸‰
     }
 
     private void FailQuest()
     {
-        currentQuest.IsCompleted = false;
+        if (currentQuest == null) return;
+        if (currentQuest.IsCompleted) return;
 
-        Debug.Log($"[SpecialQuest] ½ÇÆĞ: {currentQuest.questName}");
+        currentQuest.IsCompleted = true;
 
-        // TODO: UI °»½Å
+        Debug.Log($"[SpecialQuest] ì‹¤íŒ¨: {currentQuest.questName}");
+
+        if (SpecialQuestUI.CurrentUI != null)
+        {
+            Destroy(SpecialQuestUI.CurrentUI.gameObject);
+            SpecialQuestUI.CurrentUI = null;
+        }
+
+        // TODO: UI ê°±ì‹ 
     }
 
-    //TODO°¢ Á¶°Çº°·Î ±¸¼ºÇØ¾ßÇÔ ¾ÆÁ÷»èÁ¦´Â¾øÀ½
+    //TODOê° ì¡°ê±´ë³„ë¡œ êµ¬ì„±í•´ì•¼í•¨ ì•„ì§ì‚­ì œëŠ”ì—†ìŒ
     public void OnTimeExpired(SpecialQuestData quest)
     {
         if (currentQuest == null || quest != currentQuest)
             return;
 
-        Debug.Log("[SpecialQuest] ½Ã°£ ¼ÒÁø. Á¶°Ç °Ë»ç Áß...");
+        if (currentQuest.IsCompleted)
+            return;
 
-        // ½Ã°£ Á¾·á ¡æ Å¸ÀÔº° Á¶°Ç °Ë»ç
+        Debug.Log("[SpecialQuest] ì‹œê°„ ì¢…ë£Œ");
+
         switch (quest.questType)
         {
-            case SpecialQuestType.BlockBreak:
-                if (breakCount >= quest.targetCount)
-                    CompleteQuest();
-                else
-                    FailQuest();
+            case SpecialQuestType.HeightKeep:
+                // â— ì¤‘ê°„ì— ì‹¤íŒ¨ ì•ˆ í–ˆìœ¼ë©´ ì„±ê³µ
+                CompleteQuest();
                 break;
 
-            case SpecialQuestType.BlockNoBreak:
-                if (noBreakCount <= quest.targetCount)
-                    CompleteQuest();
-                else
-                    FailQuest();
+            case SpecialQuestType.InputRestriction:
+                CompleteQuest();
                 break;
 
-            case SpecialQuestType.KeepHeight:
-                if (keepHeightTimer <= 0)
-                    CompleteQuest();
-                else
-                    FailQuest();
-                break;
-
-            case SpecialQuestType.ReachHeight:
-                // ½Ã°£ Á¾·á ½ÃÁ¡¿¡ ³ôÀÌ°¡ ¸ñÇ¥ µµ´ŞÇß´ÂÁö Ã¼Å©ÇÏ´Â ¹æ½Ä
-                FailQuest();
-                break;
-
+            // ë‚˜ë¨¸ì§€ëŠ” ê¸°ì¡´ ë¡œì§ ìœ ì§€
             default:
                 FailQuest();
                 break;
         }
     }
 
-    // ºí·° ÆÄ±« ÀÌº¥Æ®
-    public void OnBlockDestroyed(BlockType type)
+
+    // ë¸”ëŸ­ íŒŒê´´ ì´ë²¤íŠ¸
+    public void OnBlockDestroyed(BlockType destroyedType)
     {
         if (currentQuest == null) return;
 
-        if (currentQuest.questType == SpecialQuestType.BlockBreak)
+        // BlockBreak í€˜ìŠ¤íŠ¸ë§Œ ì²˜ë¦¬
+        if (currentQuest.questType != SpecialQuestType.BlockBreak)
+            return;
+
+        // ì§€ì •ëœ ë¸”ëŸ­ì´ ì•„ë‹ˆë©´ ë¬´ì‹œ
+        if (destroyedType != currentQuest.blockType)
+            return;
+
+        breakCount++;
+
+        // UI ê°±ì‹ 
+        if (SpecialQuestUI.CurrentUI != null)
         {
-            breakCount++;
-            if (breakCount >= currentQuest.targetCount &&
-                !currentQuest.HasTimeLimit())
-            {
-                CompleteQuest();
-            }
+            SpecialQuestUI.CurrentUI.UpdateBlockBreak(
+                breakCount,
+                currentQuest.targetCount
+            );
         }
 
-        if (currentQuest.questType == SpecialQuestType.BlockNoBreak)
+        // ì¦‰ì‹œ ì™„ë£Œ ì¡°ê±´
+        if (breakCount >= currentQuest.targetCount)
         {
-            noBreakCount++;
-            if (noBreakCount > currentQuest.targetCount)
-            {
-                FailQuest();
-            }
+            CompleteQuest();
         }
     }
 
-    // ºí·° µå¶ø ÀÌº¥Æ®
+
+    // ë¸”ëŸ­ ë“œë ì´ë²¤íŠ¸
     public void OnBlockDropped()
     {
-        if (currentQuest == null) return;
+        return;
     }
 
-    // ÇöÀç ³ôÀÌ º¯°æ ÀÌº¥Æ®
+    // í˜„ì¬ ë†’ì´ ë³€ê²½ ì´ë²¤íŠ¸
     public void OnHeightChanged(int currentHeight)
     {
-        if (currentQuest == null) return;
+        if (currentQuest == null || currentQuest.IsCompleted)
+            return;
 
-        // KeepHeight: Æ¯Á¤ ½Ã°£ µ¿¾È ³ôÀÌ¸¦ À¯ÁöÇØ¾ß ÇÔ
-        if (currentQuest.questType == SpecialQuestType.KeepHeight)
+        SpecialQuestUI.CurrentUI?.UpdateHeightProgress(currentHeight, currentQuest.targetHeight);
+
+        switch (currentQuest.questType)
         {
-            if (currentHeight == currentQuest.targetHeight)
-            {
-                keepHeightTimer -= Time.deltaTime;
-                if (keepHeightTimer <= 0 && !currentQuest.HasTimeLimit())
+            case SpecialQuestType.HeightKeep:
+                // â— ê¸°ì¤€ ë†’ì´ì™€ ë‹¤ë¥´ë©´ ì¦‰ì‹œ ì‹¤íŒ¨
+                if (currentHeight != heightKeepBaseHeight)
+                {
+                    Debug.Log(
+                        $"[HeightKeep] ë†’ì´ ë³€ê²½ ê°ì§€! ê¸°ì¤€:{heightKeepBaseHeight + 1}, í˜„ì¬:{currentHeight + 1}"
+                    );
+                    FailQuest();
+                }
+                break;
+
+            case SpecialQuestType.HeightLimit:
+                if (currentHeight + 1 > currentQuest.targetHeight)
+                    FailQuest();
+                break;
+
+            case SpecialQuestType.HeightAchievement:
+                if (currentHeight + 1 >= currentQuest.targetHeight)
                     CompleteQuest();
-            }
-            else
-            {
-                keepHeightTimer = currentQuest.keepDuration;
-            }
+                break;
         }
 
-        // ¸ñÇ¥ µµ´Ş ½Ã Áï½Ã ¼º°ø
-        if (currentQuest.questType == SpecialQuestType.ReachHeight)
-        {
-            if (currentHeight >= currentQuest.targetHeight)
-            {
-                CompleteQuest();
-            }
-        }
     }
+
+
+    public void OnBlockPlaced(Vector3Int pos, BlockType type)
+    {
+        if (currentQuest == null) return;
+        if (currentQuest.questType != SpecialQuestType.HeightSpecialBlock)
+            return;
+
+        int currentHeight = TetrisManager.Instance.tower.GetCurrentHeight();
+
+        bool installed =
+            pos.y + 1 == currentQuest.targetHeight &&
+            type == currentQuest.blockType;
+
+        SpecialQuestUI.CurrentUI?.UpdateHeightSpecialBlock(
+            currentHeight,
+            currentQuest.targetHeight,
+            currentQuest.blockType,
+            installed
+        );
+
+        if (installed)
+            CompleteQuest();
+    }
+
 }

@@ -152,7 +152,7 @@ public class ObstacleEffects : MonoBehaviour
             var obj = visualPlayer?.PlayLightningEffect();
             if (obj != null)
                 Destroy(obj, lightningStopTime); // 번개 지속 시간 후 삭제
-            
+
 
             yield return new WaitForSeconds(lightningStopTime); // 인스턴스 필드 접근
 
@@ -192,134 +192,134 @@ public class ObstacleEffects : MonoBehaviour
         if (obj != null) state.RegisterObject?.Invoke(obj);
     }
 
-// 10월 : 블록 파괴 확률 (건기)
-public void BreakBlockOnPlace(ObstacleGameState state)
-{
-    Debug.Log("건기 (y축 압축 낙하)");
-
-    var block = state.LockedBlock;
-    if (block == null) return;
-
-    var children = block.GetComponentsInChildren<TetriminoBlockChild>();
-    if (children.Length == 0) return;
-
-    var tower = TetrisManager.Instance.tower;
-    if (tower == null) return;
-
-    List<TetriminoBlockChild> deleted = new();
-    List<TetriminoBlockChild> survivors = new();
-
-    // 1) 삭제할 블록 선택
-    foreach (var c in children)
+    // 10월 : 블록 파괴 확률 (건기)
+    public void BreakBlockOnPlace(ObstacleGameState state)
     {
-        if (c != null && UnityEngine.Random.value <= BreakBlockChance)
-            deleted.Add(c);
-        else
-            survivors.Add(c);
-    }
+        Debug.Log("건기 (y축 압축 낙하)");
 
-    if (deleted.Count == 0) return;
+        var block = state.LockedBlock;
+        if (block == null) return;
 
-    // 2) 컬럼(x,z)별 삭제된 y좌표 수집
-    Dictionary<Vector2Int, List<float>> deletedMap = new();
+        var children = block.GetComponentsInChildren<TetriminoBlockChild>();
+        if (children.Length == 0) return;
 
-    foreach (var d in deleted)
-    {
-        Vector3 wp = d.transform.position;
-        Vector2Int key = new Vector2Int(
-            Mathf.RoundToInt(wp.x * 10f),
-            Mathf.RoundToInt(wp.z * 10f)
-        );
-        if (!deletedMap.ContainsKey(key))
-            deletedMap[key] = new List<float>();
-        deletedMap[key].Add(wp.y);
-    }
+        var tower = TetrisManager.Instance.tower;
+        if (tower == null) return;
 
-    // 3) 컬럼별로 압축
-    foreach (var kv in deletedMap)
-    {
-        Vector2Int key = kv.Key;
-        var deletedYs = kv.Value;
+        List<TetriminoBlockChild> deleted = new();
+        List<TetriminoBlockChild> survivors = new();
 
-        // 해당 컬럼에서 살아남은 블록 찾기
-        var column = survivors.Where(c =>
+        // 1) 삭제할 블록 선택
+        foreach (var c in children)
         {
-            Vector3 wp = c.transform.position;
-            Vector2Int k = new Vector2Int(
+            if (c != null && UnityEngine.Random.value <= BreakBlockChance)
+                deleted.Add(c);
+            else
+                survivors.Add(c);
+        }
+
+        if (deleted.Count == 0) return;
+
+        // 2) 컬럼(x,z)별 삭제된 y좌표 수집
+        Dictionary<Vector2Int, List<float>> deletedMap = new();
+
+        foreach (var d in deleted)
+        {
+            Vector3 wp = d.transform.position;
+            Vector2Int key = new Vector2Int(
                 Mathf.RoundToInt(wp.x * 10f),
                 Mathf.RoundToInt(wp.z * 10f)
             );
-            return k == key;
-        }).OrderBy(c => c.transform.position.y).ToList();
-
-        foreach (var c in column)
-        {
-            Vector3 wp = c.transform.position;
-
-            // 삭제된 y중 c보다 아래에 있는 칸 수
-            int fallCount = deletedYs.Count(dy => dy < wp.y);
-
-            if (fallCount <= 0) continue;
-
-            float targetY = wp.y - fallCount;
-            Vector3 target = new Vector3(wp.x, targetY, wp.z);
-
-            // 타워에서 기존 위치 제거
-            tower.RemoveBlockFromTower(c.GridPosition);
-
-            Debug.DrawLine(wp, target, Color.green, 2f);
-            Debug.Log($"[압축] {c.name} {wp.y:F1} -> {targetY:F1} (낙하 {fallCount}칸)");
-
-            state.StartManagedCoroutine?.Invoke(SmoothDropAndSync(c, target, tower));
+            if (!deletedMap.ContainsKey(key))
+                deletedMap[key] = new List<float>();
+            deletedMap[key].Add(wp.y);
         }
+
+        // 3) 컬럼별로 압축
+        foreach (var kv in deletedMap)
+        {
+            Vector2Int key = kv.Key;
+            var deletedYs = kv.Value;
+
+            // 해당 컬럼에서 살아남은 블록 찾기
+            var column = survivors.Where(c =>
+            {
+                Vector3 wp = c.transform.position;
+                Vector2Int k = new Vector2Int(
+                    Mathf.RoundToInt(wp.x * 10f),
+                    Mathf.RoundToInt(wp.z * 10f)
+                );
+                return k == key;
+            }).OrderBy(c => c.transform.position.y).ToList();
+
+            foreach (var c in column)
+            {
+                Vector3 wp = c.transform.position;
+
+                // 삭제된 y중 c보다 아래에 있는 칸 수
+                int fallCount = deletedYs.Count(dy => dy < wp.y);
+
+                if (fallCount <= 0) continue;
+
+                float targetY = wp.y - fallCount;
+                Vector3 target = new Vector3(wp.x, targetY, wp.z);
+
+                // 타워에서 기존 위치 제거
+                tower.RemoveBlockFromTower(c.GridPosition);
+
+                Debug.DrawLine(wp, target, Color.green, 2f);
+                Debug.Log($"[압축] {c.name} {wp.y:F1} -> {targetY:F1} (낙하 {fallCount}칸)");
+
+                state.StartManagedCoroutine?.Invoke(SmoothDropAndSync(c, target, tower));
+            }
+        }
+
+        // 4) 실제 삭제 수행
+        foreach (var d in deleted)
+        {
+            tower.RemoveBlockFromTower(d.GridPosition);
+            d.DeletBlock();
+        }
+
+        // 5) 이펙트
+        state.VisualPlayer.PlayBlockCrumbleEffect(block.transform.position);
+        block.CleanupIfEmpty();
     }
 
-    // 4) 실제 삭제 수행
-    foreach (var d in deleted)
+
+    // 시각적 낙하 + 타워정보 갱신
+    private IEnumerator SmoothDropAndSync(TetriminoBlockChild child, Vector3 targetWorldPos, TetrisTower tower)
     {
-        tower.RemoveBlockFromTower(d.GridPosition);
-        d.DeletBlock();
+        if (child == null) yield break;
+
+        Vector3 start = child.transform.position;
+        float duration = 0.25f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float tLerp = Mathf.Clamp01(elapsed / duration);
+            child.transform.position = Vector3.Lerp(start, targetWorldPos, tLerp);
+            yield return null;
+        }
+
+        child.transform.position = targetWorldPos;
+
+        Vector3 towerOrigin = tower.transform.position;
+        Vector3Int newGrid = new Vector3Int(
+            Mathf.FloorToInt(targetWorldPos.x - towerOrigin.x + 0.01f),
+            Mathf.FloorToInt(targetWorldPos.y - towerOrigin.y + 0.01f),
+            Mathf.FloorToInt(targetWorldPos.z - towerOrigin.z + 0.01f)
+        );
+
+        child.SetGridPosition(newGrid);
+        tower.AddBlockToTower(newGrid, child.BlockType); // 여기 퀘스트받아오는거때문에 수정했는데 문제생기면 수정
     }
 
-    // 5) 이펙트
-    state.VisualPlayer.PlayBlockCrumbleEffect(block.transform.position);
-    block.CleanupIfEmpty();
-}
 
-
-// 시각적 낙하 + 타워정보 갱신
-private IEnumerator SmoothDropAndSync(TetriminoBlockChild child, Vector3 targetWorldPos, TetrisTower tower)
-{
-    if (child == null) yield break;
-
-    Vector3 start = child.transform.position;
-    float duration = 0.25f;
-    float elapsed = 0f;
-
-    while (elapsed < duration)
-    {
-        elapsed += Time.deltaTime;
-        float tLerp = Mathf.Clamp01(elapsed / duration);
-        child.transform.position = Vector3.Lerp(start, targetWorldPos, tLerp);
-        yield return null;
-    }
-
-    child.transform.position = targetWorldPos;
-
-    Vector3 towerOrigin = tower.transform.position;
-    Vector3Int newGrid = new Vector3Int(
-        Mathf.FloorToInt(targetWorldPos.x - towerOrigin.x + 0.01f),
-        Mathf.FloorToInt(targetWorldPos.y - towerOrigin.y + 0.01f),
-        Mathf.FloorToInt(targetWorldPos.z - towerOrigin.z + 0.01f)
-    );
-
-    child.SetGridPosition(newGrid);
-    tower.AddBlockToTower(newGrid);
-}
-
-
-// 11월 : 정보 UI 스모그 효과 (스모그)
-public void ApplySmogOverlay(ObstacleGameState state)
+    // 11월 : 정보 UI 스모그 효과 (스모그)
+    public void ApplySmogOverlay(ObstacleGameState state)
     {
         Debug.Log("스모그 (테두리 시야방해) 효과 실행");
 

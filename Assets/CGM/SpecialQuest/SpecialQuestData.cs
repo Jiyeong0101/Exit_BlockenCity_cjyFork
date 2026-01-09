@@ -7,10 +7,17 @@ public enum SpecialQuestType
 {
     BlockBreak,     // 블럭 파괴
     BlockNoBreak,   // 블럭 파괴 금지
-    KeepHeight,     // 특정 높이 유지
-    ReachHeight,    // 특정 높이 달성
+
+    HeightLimit,    //높이 제한
+    HeightAchievement, //높이 달성 
+    HeightKeep, //높이 유지 
+    HeightSpecialBlock, //특정 높이블럭설치
+
     InputRestriction, // 입력 제한
+
     ViewObstruction,  // 시야 방해
+
+
     // 이후 다른 타입도 자유롭게 추가 가능
 }
 public enum TimeType
@@ -39,7 +46,7 @@ public class SpecialQuestData : ScriptableObject
     public string restrictedInput; // InputRestriction
     public float darknessLevel;    // ViewObstruction
 
-
+    [Header("시간 조건")]
     public TimeType timeType;          // 시간 타입
     public int timeValue;              // 시간 값 (n번 드랍 또는 n초)
 
