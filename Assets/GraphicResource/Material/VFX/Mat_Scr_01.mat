@@ -43,7 +43,7 @@ Material:
     m_Floats:
     - _Direction: -1
     - _FadeRadialPower: 1.5
-    - _FadeRadialScale: 1.75
+    - _FadeRadialScale: 1.8
     - _ISNOISED: 0
     - _QueueControl: 0
     - _QueueOffset: 0
