@@ -98,7 +98,7 @@ Material:
     - _QueueControl: 1
     - _QueueOffset: 0
     - _RainAmount: 0.2
-    - _RainSpeed: 1
+    - _RainSpeed: 0.8
     - _Rain_Amount: 0.25
     - _RayTracing: 0
     - _ReceivesSSR: 1
