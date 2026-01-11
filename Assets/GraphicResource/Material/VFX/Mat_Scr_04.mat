@@ -11,14 +11,17 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 4acefa0581821614883cb9877764d4d7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -41,15 +44,30 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _CastShadows: 1
+    - _Cull: 0
     - _Direction: -1
+    - _DstBlend: 10
+    - _FadeInTime: 1
+    - _FadeOutTime: 3
     - _FadeRadialPower: 1.2
     - _FadeRadialScale: 1.25
+    - _ISLOOPING: 0
     - _ISNOISED: 0
+    - _Opacity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _SrcBlend: 5
+    - _Surface: 1
     - _Width: 10
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 0.6037736, g: 0.3510512, b: 0.16803133, a: 1}
+    - _Color: {r: 0.49056602, g: 0.29443967, b: 0.1504094, a: 1}
     - _FadePivot: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &8199186872088692900

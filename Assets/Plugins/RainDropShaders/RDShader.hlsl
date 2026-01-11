@@ -106,13 +106,7 @@ float2 Drops(float2 uv, float t, float l0, float l1, float l2)
     return float2(c, max(m1.y * l0, m2.y * l1));
 }
 
-void frag4_float(
-    float4 _uvParams,
-    float4 _params,
-    float _TimeParam,
-    out float2 _Out,
-    out float _Lod
-)
+void frag4_float(float4 _uvParams, float4 _params, float _TimeParam, out float2 _Out, out float _Lod)
 {
     float2 uvP = _uvParams.xy;
     float2 size = _uvParams.zw;
