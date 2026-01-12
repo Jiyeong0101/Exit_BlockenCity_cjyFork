@@ -51,6 +51,9 @@ public class TetriminoBlock : MonoBehaviour
     //방해물 시스템에서 사용하는 블록 락 이벤트
     public static event System.Action<TetriminoBlock> OnAnyBlockLocked;
 
+    public bool IsLocked => isLock;
+
+
     void Awake()
     {
         isSelect = false;
@@ -346,16 +349,22 @@ public class TetriminoBlock : MonoBehaviour
         {
             if (child == null) continue;
 
-            Vector3Int towerPos = WorldToTowerOffset(child.transform.position);
+            // WorldToTowerOffset 대신, 락 때 저장해둔 GridPosition을 기준으로 판정
+            Vector3Int pos = child.GridPosition;
 
-            if (towerPos.y == clearedY)
+            if (pos.y == clearedY)
             {
-                child.DeletBlock(); // 해당 라인의 블록이면 삭제
+                // 삭제는 child가 towerGrid도 비우는 구조(DeletBlock 안에서 RemoveBlockFromTower)
+                child.DeletBlock();  // :contentReference[oaicite:3]{index=3}
             }
-            else if (towerPos.y > clearedY)
+            else if (pos.y > clearedY)
             {
-                // 그 위에 있으면 한 칸 아래로
+                // 1) 비주얼 이동
                 child.transform.position += Vector3.down;
+
+                // 2) 논리 좌표도 같이 이동
+                child.ShiftDownOneCell();   // 이미 구현돼 있으면 사용 :contentReference[oaicite:4]{index=4}
+                                            // 또는 child.SetGridPosition(pos + Vector3Int.down);
             }
         }
     }

@@ -65,7 +65,7 @@ public class TetrisTower : MonoBehaviour
     //해당 줄이 다 채워졌는지 검사
     public bool IsLineFull(int y)
     {
-        if (y > towerSize.y) return false;
+        if (y < 0 || y >= towerSize.y) return false;
 
         for (int x = 0; x < towerSize.x; x++)
         {
@@ -81,9 +81,9 @@ public class TetrisTower : MonoBehaviour
     // 해당 라인 삭제
     public void DeleteLine(int y)
     {
-        if (y > towerSize.y) return;
+        if (y < 0 || y >= towerSize.y) return;
 
-        Debug.Log("Delete Line");
+        Debug.Log("DeleteDelete Line");
 
         // y층부터 위까지 한 층씩 아래로 이동
         for (int currY = y; currY < towerSize.y - 1; currY++)
@@ -109,9 +109,12 @@ public class TetrisTower : MonoBehaviour
         var blocks = FindObjectsOfType<TetriminoBlock>();
         foreach (var b in blocks)
         {
+            if (!b.IsLocked) continue;
             b.ApplyLineClear(y);
             b.CleanupIfEmpty();
         }
+
+        RebuildGridFromLockedChildren();
     }
 
     // 전체 타워 검사 (블럭 락 될때마다 매니저에서 얘 호출되게)
@@ -166,4 +169,23 @@ public class TetrisTower : MonoBehaviour
 
         return maxY;
     }
+
+    private void RebuildGridFromLockedChildren()
+    {
+        var childs = FindObjectsOfType<TetriminoBlockChild>();
+        foreach (var c in childs)
+        {
+            if (c == null) continue;
+            if (c.PendingDestroy) continue;
+
+            var parent = c.GetComponentInParent<TetriminoBlock>();
+            if (parent == null || !parent.IsLocked) continue;
+
+            Vector3Int p = c.GridPosition;
+            if (!IsInsideTower(p)) continue;
+
+            towerGrid[p.x, p.y, p.z] = 1;
+        }
+    }
+
 }
