@@ -16,6 +16,8 @@ public class TetriminoBlockChild : MonoBehaviour
     [SerializeField] private Transform visualRoot; // 메시가 달린 오브젝트(프리팹 내부)
     private Quaternion initialWorldRotation;
 
+    public bool PendingDestroy { get; private set; }
+
     void Awake()
     {
         blockType = BlockType.None;
@@ -84,6 +86,14 @@ public class TetriminoBlockChild : MonoBehaviour
             }
         }
 
+        PendingDestroy = true;
+        gameObject.SetActive(false);
         Destroy(gameObject);
     }
+
+    public void ShiftDownOneCell()
+    {
+        gridPosition += Vector3Int.down;
+    }
 }
+
