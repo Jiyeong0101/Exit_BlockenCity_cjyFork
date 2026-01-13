@@ -61,7 +61,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
-    - _StartTime: 8.086969
+    - _StartTime: 0
     - _Surface: 1
     - _Width: 10
     - _ZTest: 4
