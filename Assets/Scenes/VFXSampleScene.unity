@@ -702,7 +702,7 @@ PrefabInstance:
     - target: {fileID: 3027141086077581636, guid: 300674bd063a0374ab413b48b516546c, type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 1883818495}
+      objectReference: {fileID: 2657969658729979626}
     - target: {fileID: 3287035846266391114, guid: 300674bd063a0374ab413b48b516546c, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -946,13 +946,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9114443294951168263, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+--- !u!20 &2657969658729979626 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8893553885754551717, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+  m_PrefabInstance: {fileID: 2657969658729979625}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3446378523894933259
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1070,6 +1075,22 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1883818495}
+    - target: {fileID: 7397968897620674236, guid: 8eee7abefaaf1e6499d200acfddc45de, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7397968897620674236, guid: 8eee7abefaaf1e6499d200acfddc45de, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7397968897620674236, guid: 8eee7abefaaf1e6499d200acfddc45de, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7397968897620674236, guid: 8eee7abefaaf1e6499d200acfddc45de, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8520927385350773043, guid: 8eee7abefaaf1e6499d200acfddc45de, type: 3}
       propertyPath: m_Pivot.x
       value: 0
