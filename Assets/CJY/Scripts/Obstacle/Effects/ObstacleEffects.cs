@@ -18,7 +18,7 @@ public class ObstacleEffects : MonoBehaviour
 
     [Header("황사 (시야 차단)")]
     [SerializeField] private Vector2 dustSpawnIntervalRange = new Vector2(0.5f, 3f);
-    [SerializeField] private Vector2 dustLifetimeRange = new Vector2(1f, 2f);
+    //[SerializeField] private Vector2 dustLifetimeRange = new Vector2(1f, 2f);
 
     [Header("낙뢰 (조작 일시 정지)")]
     [SerializeField] private Vector2 lightningIntervalRange = new Vector2(2f, 5f);
@@ -29,6 +29,16 @@ public class ObstacleEffects : MonoBehaviour
 
     [Header("건기 (블록 파괴 확률)")]
     [SerializeField] private float BreakBlockChance = 0.5f;
+
+    //번개 중복 방지
+    private Coroutine lightningCoroutine;
+
+    //황사 중복 방지
+    private Coroutine dustStormCoroutine;
+
+    //강풍 중복 방지
+    private Coroutine randomWindCoroutine;
+
 
     // 1월 : 회전 금지 (얼어붙은 블록)
     public void TryFreezeBlock(ObstacleGameState state)
@@ -76,7 +86,7 @@ public class ObstacleEffects : MonoBehaviour
         if (obj != null)
         {
             state.RegisterObject?.Invoke(obj);
-            Destroy(obj, windDuration);
+            //Destroy(obj, windDuration);
         }
 
         // 바람 지속 시간 동안 블록 이동
@@ -89,8 +99,6 @@ public class ObstacleEffects : MonoBehaviour
 
         Debug.Log("[Wind] 바람 종료");
     }
-
-
 
     // 3월 : 입력 지연 (잔설)
     public void InputDelay(ObstacleGameState state)
@@ -111,10 +119,16 @@ public class ObstacleEffects : MonoBehaviour
     {
         Debug.Log("황사 (시야 차단) 효과 실행");
 
+        // 이미 황사 코루틴이 돌고 있으면 중복 실행 금지
+        if (dustStormCoroutine != null)
+            return;
+
         var blocker = state.InputBlocker;
         if (blocker == null) return;
 
-        blocker.StartCoroutine(DustStormLoop(state.VisualPlayer));
+        dustStormCoroutine = blocker.StartCoroutine(
+            DustStormLoop(state.VisualPlayer)
+        );
     }
 
     private IEnumerator DustStormLoop(EffectVisualPlayer visualPlayer)
@@ -124,8 +138,8 @@ public class ObstacleEffects : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(dustSpawnIntervalRange.x, dustSpawnIntervalRange.y));
 
             var instance = visualPlayer?.DustStormEffect();
-            if (instance != null)
-                Destroy(instance, Random.Range(dustLifetimeRange.x, dustLifetimeRange.y));
+            //if (instance != null)
+            //    Destroy(instance, Random.Range(dustLifetimeRange.x, dustLifetimeRange.y));
         }
     }
 
@@ -134,10 +148,16 @@ public class ObstacleEffects : MonoBehaviour
     {
         Debug.Log("낙뢰 (조작 일시 정시) 효과 실행");
 
+        // 이미 낙뢰 코루틴이 돌고 있으면 또 시작하지 않음
+        if (lightningCoroutine != null)
+            return;
+
         var blocker = state.InputBlocker;
         if (blocker == null) return;
 
-        state.StartManagedCoroutine?.Invoke(LightningStormLoop(blocker, state.VisualPlayer));
+        lightningCoroutine = state.StartManagedCoroutine?.Invoke(
+            LightningStormLoop(blocker, state.VisualPlayer)
+        );
     }
 
     private IEnumerator LightningStormLoop(InputBlocker blocker, EffectVisualPlayer visualPlayer)
@@ -151,8 +171,9 @@ public class ObstacleEffects : MonoBehaviour
 
             var obj = visualPlayer?.PlayLightningEffect();
             if (obj != null)
-                Destroy(obj, lightningStopTime); // 번개 지속 시간 후 삭제
-
+            {
+                //Destroy(obj, lightningStopTime); // 번개 지속 시간 후 삭제
+            }
 
             yield return new WaitForSeconds(lightningStopTime); // 인스턴스 필드 접근
 
