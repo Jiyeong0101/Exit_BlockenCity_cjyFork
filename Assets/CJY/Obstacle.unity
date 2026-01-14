@@ -243,11 +243,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae67cc530b333554fa5d075ec2f015b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeChance: 0.5
+  freezeChance: 0.8
   inputDelayTime: 0.8
   windDuration: 5
   windInterval: 0.3
-  windWaitIntervalRange: {x: 15, y: 20}
+  windWaitIntervalRange: {x: 2, y: 5}
   dustSpawnIntervalRange: {x: 2, y: 5}
   lightningIntervalRange: {x: 2, y: 5}
   lightningStopTime: 1
@@ -293,7 +293,7 @@ MonoBehaviour:
   tetrisspawner: {fileID: 411465152}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 4
+    type: 5
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &78634946
