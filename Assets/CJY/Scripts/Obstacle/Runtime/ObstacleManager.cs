@@ -27,13 +27,13 @@ public class ObstacleManager : MonoBehaviour
     void Start()
     {
         Initialize();
-        EvaluateCurrentObstacle();
 
-        // 블록 스포너 이벤트 구독
+        EvaluateCurrentObstacle(); // OnStart 트리거
+
         tetrisspawner.OnBlockSpawned += HandleBlockSpawned;
-        // 블록 고정 이벤트 구독
         TetriminoBlock.OnAnyBlockLocked += HandleBlockLocked;
     }
+
 
     private void OnDestroy()
     {
@@ -72,7 +72,6 @@ public class ObstacleManager : MonoBehaviour
 
     private void HandleBlockSpawned(TetriminoBlock block)
     {
-        Debug.Log($"[HandleBlockSpawned] 호출, block={block}");
         if (!obstacleSystemEnabled || block == null) return;
 
         var activeObstacle = GetActiveObstacleEntry();
@@ -97,14 +96,14 @@ public class ObstacleManager : MonoBehaviour
 
         foreach (var obstacle in obstacles)
         {
-            if (obstacle.AreConditionsMet(state))
-                obstacle.ExecuteSpawnEffects(state);
+            obstacle.Execute(ObstacleTriggerType.OnSpawn, state);
         }
     }
 
+
     private void HandleBlockLocked(TetriminoBlock block)
     {
-        if (!obstacleSystemEnabled) return;
+        if (!obstacleSystemEnabled || block == null) return;
 
         var activeObstacle = GetActiveObstacleEntry();
         if (activeObstacle == null) return;
@@ -128,8 +127,7 @@ public class ObstacleManager : MonoBehaviour
 
         foreach (var obstacle in obstacles)
         {
-            if (obstacle.AreConditionsMet(state))
-                obstacle.ExecuteLockEffects(state);
+            obstacle.Execute(ObstacleTriggerType.OnLock, state);
         }
     }
 
@@ -158,11 +156,10 @@ public class ObstacleManager : MonoBehaviour
 
         foreach (var obstacle in obstacles)
         {
-            if (obstacle.AreConditionsMet(state))
-                obstacle.ExecuteEffects(state);
+            obstacle.Execute(ObstacleTriggerType.OnStart, state);
         }
 
-        Debug.Log($"[ObstacleManager] {activeObstacle.type} 방해물 평가 실행");
+        Debug.Log($"[ObstacleManager] {activeObstacle.type} OnStart 실행");
     }
 
     private void StopAllObstacleEffects()

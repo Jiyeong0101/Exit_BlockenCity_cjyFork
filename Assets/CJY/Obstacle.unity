@@ -243,13 +243,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae67cc530b333554fa5d075ec2f015b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeChance: 0.5
+  freezeChance: 0.8
   inputDelayTime: 0.8
-  windDuration: 3
+  windDuration: 5
   windInterval: 0.3
   windWaitIntervalRange: {x: 2, y: 5}
-  dustSpawnIntervalRange: {x: 0.5, y: 3}
-  dustLifetimeRange: {x: 1, y: 2}
+  dustSpawnIntervalRange: {x: 2, y: 5}
   lightningIntervalRange: {x: 2, y: 5}
   lightningStopTime: 1
   rainDropSpeedMultiplier: 2
@@ -266,6 +265,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e50b53268d8f2940b71c7953ad2c062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  strongWindPrefab: {fileID: 3653554711104946894, guid: d12a4933b11d0344480d5aab3d3f4c87, type: 3}
+  dustPrefab: {fileID: 8776086197396985429, guid: 431f47fcafbb14a4fa95653b608c689d, type: 3}
+  lightningPrefab: {fileID: 2903568877267518328, guid: 7229f12b4beb885448cffd8c6030d88e, type: 3}
+  rainPrefab: {fileID: 9114443294951168263, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+  smogPrefab: {fileID: 6492334026871894552, guid: f35cb9adac0a2b04e8e4f25b0ff931db, type: 3}
+  snowfallPrefab: {fileID: 9048698040502420976, guid: 8eee7abefaaf1e6499d200acfddc45de, type: 3}
+  overheatUIPrefab: {fileID: 0}
+  iceEffect: 0.5
   IceEffect: 0.5
 --- !u!114 &78634945
 MonoBehaviour:
@@ -286,7 +293,7 @@ MonoBehaviour:
   tetrisspawner: {fileID: 411465152}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 0
+    type: 5
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &78634946
@@ -679,7 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tetrisTowerSize: {x: 4, y: 8, z: 4}
-  fallInterval: 1
+  fallInterval: 1.5
   tower: {fileID: 411465153}
   spawner: {fileID: 411465152}
   controller: {fileID: 411465151}
@@ -1150,6 +1157,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 22.5, y: 45, z: 0}
+--- !u!1001 &1098423031
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184635139577092641, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114443294951168263, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_Name
+      value: RainRenderObj
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114443294951168263, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
 --- !u!1 &1389561417
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1510,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1773279548
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1773279549}
+  m_Layer: 0
+  m_Name: VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1773279549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773279548}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1939846942 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8893553885754551717, guid: 2d4a9f5450fbd3a41b7c1684023cb69d, type: 3}
+  m_PrefabInstance: {fileID: 1098423031}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2035315156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1637,7 +1741,7 @@ PrefabInstance:
     - target: {fileID: 3027141086077581636, guid: 300674bd063a0374ab413b48b516546c, type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 461865833}
+      objectReference: {fileID: 1939846942}
     - target: {fileID: 3287035846266391114, guid: 300674bd063a0374ab413b48b516546c, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1884,3 +1988,5 @@ SceneRoots:
   - {fileID: 78634946}
   - {fileID: 411465156}
   - {fileID: 1672152914}
+  - {fileID: 1098423031}
+  - {fileID: 1773279549}

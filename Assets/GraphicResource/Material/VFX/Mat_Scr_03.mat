@@ -62,6 +62,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
+    - _StartTime: 0
     - _Surface: 1
     - _Width: 50
     - _ZTest: 4
@@ -69,7 +70,7 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _Color: {r: 0.41037738, g: 0.47551006, b: 1, a: 1}
-    - _FadePivot: {r: 0.5, g: 1, b: 0, a: 0}
+    - _FadePivot: {r: 0.6, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &8199186872088692900
 MonoBehaviour:

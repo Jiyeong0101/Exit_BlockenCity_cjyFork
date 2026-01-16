@@ -18,7 +18,7 @@ public class ObstacleEffects : MonoBehaviour
 
     [Header("황사 (시야 차단)")]
     [SerializeField] private Vector2 dustSpawnIntervalRange = new Vector2(0.5f, 3f);
-    [SerializeField] private Vector2 dustLifetimeRange = new Vector2(1f, 2f);
+    //[SerializeField] private Vector2 dustLifetimeRange = new Vector2(1f, 2f);
 
     [Header("낙뢰 (조작 일시 정지)")]
     [SerializeField] private Vector2 lightningIntervalRange = new Vector2(2f, 5f);
@@ -29,6 +29,21 @@ public class ObstacleEffects : MonoBehaviour
 
     [Header("건기 (블록 파괴 확률)")]
     [SerializeField] private float BreakBlockChance = 0.5f;
+
+    //번개 중복 방지
+    private Coroutine lightningCoroutine;
+
+    //황사 중복 방지
+    private Coroutine dustStormCoroutine;
+
+    // 월 1회 생성형 이펙트 캐싱
+    private GameObject snowfallInstance;
+    private GameObject rainInstance;
+    private GameObject smogInstance;
+
+    // 강풍 중복 방지 + 상태 관리
+    private Coroutine randomWindCoroutine;
+
 
     // 1월 : 회전 금지 (얼어붙은 블록)
     public void TryFreezeBlock(ObstacleGameState state)
@@ -52,45 +67,49 @@ public class ObstacleEffects : MonoBehaviour
     // 2월 : 블록 밀림 (강풍)
     public void PushBlockRandomly(ObstacleGameState state)
     {
-        Debug.Log("강풍 (블록 밀림) 효과 실행");
-        if (state == null || state.SpawnedBlock == null)  // ← SpawnedBlock 사용
-        {
-            //Debug.LogWarning("[ObstacleEffects] PushBlockRandomly 호출 시 state 또는 SpawnedBlock이 null입니다.");
+        // 이미 강풍이 돌고 있으면 시작하지 않음
+        if (randomWindCoroutine != null)
             return;
-        }
 
-        // 코루틴 한 번만 시작하면 WindPushLoop가 반복 관리
-        state.StartManagedCoroutine?.Invoke(WindPushLoop(state));
+        if (state == null || state.SpawnedBlock == null)
+            return;
+
+        randomWindCoroutine = state.StartManagedCoroutine?.Invoke(
+            WindPushLoop(state)
+        );
     }
+
 
     private IEnumerator WindPushLoop(ObstacleGameState state)
     {
-        if (state.SpawnedBlock == null) yield break;  // ← SpawnedBlock 사용
-
-        // 바람 방향 설정
-        Vector3 dir = UnityEngine.Random.value > 0.5f ? Vector3.left : Vector3.right;
-        Debug.Log($"[Wind] 바람 시작! 방향={dir}, 지속={windDuration}s");
-
-        float timer = 0f;
-        var obj = state.VisualPlayer?.PlayStrongWindEffect();
-        if (obj != null)
+        while (state.SpawnedBlock != null)
         {
-            state.RegisterObject?.Invoke(obj);
-            Destroy(obj, windDuration);
+            yield return new WaitForSeconds(
+                Random.Range(windWaitIntervalRange.x, windWaitIntervalRange.y)
+            );
+
+            if (state.SpawnedBlock == null)
+                break;
+
+            Vector3 dir = Random.value > 0.5f ? Vector3.left : Vector3.right;
+
+            float timer = 0f;
+
+            var obj = state.VisualPlayer?.PlayStrongWindEffect();
+            if (obj != null)
+                state.RegisterObject?.Invoke(obj);
+
+            while (timer < windDuration && state.SpawnedBlock != null)
+            {
+                state.TetrisController?.MoveBlockByWind(dir);
+                yield return new WaitForSeconds(windInterval);
+                timer += windInterval;
+            }
         }
 
-        // 바람 지속 시간 동안 블록 이동
-        while (timer < windDuration && state.SpawnedBlock != null)  // ← SpawnedBlock 사용
-        {
-            state.TetrisController?.MoveBlockByWind(dir);
-            yield return new WaitForSeconds(windInterval);
-            timer += windInterval;
-        }
-
-        Debug.Log("[Wind] 바람 종료");
+        //여기서 반드시 초기화
+        randomWindCoroutine = null;
     }
-
-
 
     // 3월 : 입력 지연 (잔설)
     public void InputDelay(ObstacleGameState state)
@@ -102,8 +121,15 @@ public class ObstacleEffects : MonoBehaviour
 
         blocker.SetInputProcessDelay(inputDelayTime);
 
-        var obj = state.VisualPlayer?.SnowfallEffect();
-        if (obj != null) state.RegisterObject?.Invoke(obj);
+        //var obj = state.VisualPlayer?.SnowfallEffect();
+        //if (obj != null) state.RegisterObject?.Invoke(obj);
+        if (snowfallInstance == null)
+        {
+            snowfallInstance = state.VisualPlayer?.SnowfallEffect();
+            if (snowfallInstance != null)
+                state.RegisterObject?.Invoke(snowfallInstance);
+        }
+
     }
 
     // 4~5월 : 시야 차단 (황사)
@@ -111,10 +137,16 @@ public class ObstacleEffects : MonoBehaviour
     {
         Debug.Log("황사 (시야 차단) 효과 실행");
 
+        // 이미 황사 코루틴이 돌고 있으면 중복 실행 금지
+        if (dustStormCoroutine != null)
+            return;
+
         var blocker = state.InputBlocker;
         if (blocker == null) return;
 
-        blocker.StartCoroutine(DustStormLoop(state.VisualPlayer));
+        dustStormCoroutine = blocker.StartCoroutine(
+            DustStormLoop(state.VisualPlayer)
+        );
     }
 
     private IEnumerator DustStormLoop(EffectVisualPlayer visualPlayer)
@@ -124,8 +156,8 @@ public class ObstacleEffects : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(dustSpawnIntervalRange.x, dustSpawnIntervalRange.y));
 
             var instance = visualPlayer?.DustStormEffect();
-            if (instance != null)
-                Destroy(instance, Random.Range(dustLifetimeRange.x, dustLifetimeRange.y));
+            //if (instance != null)
+            //    Destroy(instance, Random.Range(dustLifetimeRange.x, dustLifetimeRange.y));
         }
     }
 
@@ -134,10 +166,16 @@ public class ObstacleEffects : MonoBehaviour
     {
         Debug.Log("낙뢰 (조작 일시 정시) 효과 실행");
 
+        // 이미 낙뢰 코루틴이 돌고 있으면 또 시작하지 않음
+        if (lightningCoroutine != null)
+            return;
+
         var blocker = state.InputBlocker;
         if (blocker == null) return;
 
-        state.StartManagedCoroutine?.Invoke(LightningStormLoop(blocker, state.VisualPlayer));
+        lightningCoroutine = state.StartManagedCoroutine?.Invoke(
+            LightningStormLoop(blocker, state.VisualPlayer)
+        );
     }
 
     private IEnumerator LightningStormLoop(InputBlocker blocker, EffectVisualPlayer visualPlayer)
@@ -151,8 +189,9 @@ public class ObstacleEffects : MonoBehaviour
 
             var obj = visualPlayer?.PlayLightningEffect();
             if (obj != null)
-                Destroy(obj, lightningStopTime); // 번개 지속 시간 후 삭제
-
+            {
+                //Destroy(obj, lightningStopTime); // 번개 지속 시간 후 삭제
+            }
 
             yield return new WaitForSeconds(lightningStopTime); // 인스턴스 필드 접근
 
@@ -170,8 +209,16 @@ public class ObstacleEffects : MonoBehaviour
 
         blocker.blockHardDrop = true;
 
-        var obj = state.VisualPlayer?.PlayRainEffect();
-        if (obj != null) state.RegisterObject?.Invoke(obj);
+        //var obj = state.VisualPlayer?.PlayRainEffect();
+        //if (obj != null) state.RegisterObject?.Invoke(obj);
+        if (rainInstance == null)
+        {
+            rainInstance = state.VisualPlayer?.PlayRainEffect();
+            if (rainInstance != null)
+                state.RegisterObject?.Invoke(rainInstance);
+        }
+
+
     }
 
     // 7월 : 낙하속도 저하 (장마)
@@ -323,7 +370,12 @@ public class ObstacleEffects : MonoBehaviour
     {
         Debug.Log("스모그 (테두리 시야방해) 효과 실행");
 
-        var obj = state.VisualPlayer?.PlaySmogEffect();
-        if (obj != null) state.RegisterObject?.Invoke(obj);
+        if (smogInstance == null)
+        {
+            smogInstance = state.VisualPlayer?.PlaySmogEffect();
+            if (smogInstance != null)
+                state.RegisterObject?.Invoke(smogInstance);
+        }
+
     }
 }
