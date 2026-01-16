@@ -26,6 +26,12 @@ public enum TimeType
     BlockDropCount, // 블럭이 몇 번 떨어졌는지 기준
     Seconds         // 일정 시간(초) 기준
 }
+public enum QuestTimeRole
+{
+    None,           // 시간 없음
+    Survival,       // 버티면 성공
+    TimeLimit       // 제한 시간 (초과 시 실패)
+}
 
 [CreateAssetMenu(fileName = "NewSpecialQuest", menuName = "Quest/SpecialQuest")]
 public class SpecialQuestData : ScriptableObject
@@ -41,13 +47,14 @@ public class SpecialQuestData : ScriptableObject
     public BlockType blockType;
     public int targetCount;        // BlockBreak, BlockNoBreak
     public int targetHeight;       // ReachHeight, KeepHeight
-    public int keepDuration;       // KeepHeight
+    //public int keepDuration;       // KeepHeight
 
     public string restrictedInput; // InputRestriction
     public float darknessLevel;    // ViewObstruction
 
     [Header("시간 조건")]
     public TimeType timeType;          // 시간 타입
+    public QuestTimeRole timeRole;     // 시간 룰 (0.없음 / 1.서바이벌 / 2.)
     public int timeValue;              // 시간 값 (n번 드랍 또는 n초)
 
     [Header("보상")]

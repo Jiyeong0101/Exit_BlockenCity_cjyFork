@@ -6,6 +6,9 @@ using TetrisGame;
 
 public class SpecialQuestUI : MonoBehaviour
 {
+    private ContentSizeFitter sizeFitter;
+    private CanvasGroup canvasGroup;
+
     public static SpecialQuestUI CurrentUI;
 
     [Header("공통UI")]
@@ -14,7 +17,6 @@ public class SpecialQuestUI : MonoBehaviour
     public int rewardText;
     public Text progressText;
     public Slider time;
-    private int dropCountRemaining;   // BlockDropCount 남은 횟수
 
     [Header("퀘스트별UI")]
     [Header("블럭파괴")]
@@ -50,10 +52,6 @@ public class SpecialQuestUI : MonoBehaviour
     public GameObject ViewObstructionPanel;
     public Text ViewObstructionProgress;
 
-
-    private float currentTime;
-    private bool timerRunning = false;
-
     private int questID;
 
     private SpecialQuestData quest;
@@ -72,18 +70,14 @@ public class SpecialQuestUI : MonoBehaviour
         if (quest.timeType == TimeType.Seconds)
         {
             time.maxValue = quest.timeValue;
-            currentTime = quest.timeValue;
-            time.value = currentTime;
-            timerRunning = true;
+            time.value = quest.timeValue;
         }
         else if (quest.timeType == TimeType.BlockDropCount)
         {
-            dropCountRemaining = quest.timeValue;
             time.maxValue = quest.timeValue;
-            time.value = dropCountRemaining;
-            timerRunning = false; // 초 감소 안 함!
+            time.value = quest.timeValue;
+
         }
-        timerRunning = quest.HasTimeLimit();
 
         // 모든 패널 OFF
         blockBreakPanel.SetActive(false);
@@ -142,49 +136,42 @@ public class SpecialQuestUI : MonoBehaviour
                 ViewObstructionProgress.text = $"{quest.targetHeight} 시야 방해";
                 break;
         }
+        RefreshLayoutAndShow();
     }
-
-    private void Update()
+    private void Awake()
     {
-        if (!timerRunning) return;
+        sizeFitter = GetComponent<ContentSizeFitter>();
+        canvasGroup = GetComponent<CanvasGroup>();
 
-        // Seconds 전용
-        if (quest.timeType == TimeType.Seconds)
-        {
-            if (currentTime > 0)
-            {
-                currentTime -= Time.deltaTime;
-                time.value = currentTime;
-            }
-            else
-            {
-                timerRunning = false;
-                time.value = 0;
-                SpecialQuestManager.Instance.OnTimeExpired(quest);
-            }
-        }
+        if (canvasGroup == null)
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
+        // 처음엔 안 보이게
+        canvasGroup.alpha = 0f;
     }
+
+    public void RefreshLayoutAndShow()
+    {
+        StartCoroutine(RefreshAndShowCoroutine());
+    }
+    private IEnumerator RefreshAndShowCoroutine()
+    {
+        yield return null; // 패널 On/Off 반영
+
+        // 레이아웃 강제 재계산
+        sizeFitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
+        sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
+
+        // 이제 보여주기
+        canvasGroup.alpha = 1f;
+    }
+
     public void UpdateTimer(float value)
     {
         if (time == null) return;
         time.value = value;
-    }
-    public void OnBlockDropped()
-    {
-        if (quest == null) return;
-
-        if (quest.timeType != TimeType.BlockDropCount) return;
-
-        dropCountRemaining--;
-        if (dropCountRemaining < 0)
-            dropCountRemaining = 0;
-
-        time.value = dropCountRemaining;
-
-        if (dropCountRemaining == 0)
-        {
-            SpecialQuestManager.Instance.OnTimeExpired(quest);
-        }
     }
 
     public void UpdateBlockBreak(int current, int target)
@@ -224,8 +211,6 @@ public class SpecialQuestUI : MonoBehaviour
     {
         if (progressText != null)
             progressText.text = "퀘스트 완료!";
-
-        timerRunning = false;
 
         // 필요하면 일정 시간 후 UI 제거
         StartCoroutine(AutoClose());
