@@ -724,7 +724,7 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1001 &1366690068
+--- !u!1001 &1070593422
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1320,6 +1320,6 @@ SceneRoots:
   - {fileID: 1415607809}
   - {fileID: 2068058038}
   - {fileID: 2860682927311799795}
-  - {fileID: 1366690068}
   - {fileID: 92347939}
   - {fileID: 427210295}
+  - {fileID: 1070593422}
