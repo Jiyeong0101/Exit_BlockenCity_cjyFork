@@ -202,17 +202,9 @@ public class TetriminoBlock : MonoBehaviour
         //int currentHeight = TetrisManager.Instance.tower.GetCurrentHeight();
         //SpecialQuestManager.Instance.OnHeightChanged(currentHeight);
 
-        //SpecialQuestManager.Instance.OnBlockDropped(); // Ãß°¡¿ä
-
+        SpecialQuestManager.Instance.OnBlockDropped();
         TetrisManager.Instance.CheckTower();
         TetrisManager.Instance.SpawnNextBlock();
-
-        if (SpecialQuestUI.CurrentUI != null)
-            SpecialQuestUI.CurrentUI.OnBlockDropped();
-        else
-            Debug.LogWarning("SpecialQuestUI.CurrentUI is null");
-
-        //SpecialQuestManager.Instance.OnBlockDropped();
     }
 
     public void DeletBlock()

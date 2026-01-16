@@ -20,10 +20,10 @@ MonoBehaviour:
   blockType: 0
   targetCount: 2
   targetHeight: 0
-  keepDuration: 0
   restrictedInput: 
   darknessLevel: 0
-  timeType: 2
-  timeValue: 9000
+  timeType: 1
+  timeRole: 1
+  timeValue: 5
   reward: 10
   IsCompleted: 0

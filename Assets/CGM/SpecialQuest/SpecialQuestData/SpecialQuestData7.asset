@@ -25,6 +25,6 @@ MonoBehaviour:
   restrictedInput: Space
   darknessLevel: 0
   timeType: 2
-  timeValue: 10
+  timeValue: 5
   reward: 0
   IsCompleted: 0
