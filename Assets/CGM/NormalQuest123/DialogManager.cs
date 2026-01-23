@@ -39,23 +39,25 @@ public class DialogManager : MonoBehaviour
             string[] values = line.Split(',');
 
             int branch = int.Parse(values[0]);
-            string name = values[1];
-            string dialog = values[2];
+            int backGround = int.Parse(values[1]);
+            string ocp = values[2];
+            string name = values[3];
+            string dialog = values[4];
 
             int questionType = 0; // 기본값 0
-            if (values.Length > 3 && !string.IsNullOrEmpty(values[3]))
-                int.TryParse(values[3], out questionType);
+            if (values.Length > 5 && !string.IsNullOrEmpty(values[5]))
+                int.TryParse(values[5], out questionType);
 
             int acceptBranch = -1;
             int declineBranch = -1;
 
-            if (values.Length > 4 && !string.IsNullOrEmpty(values[4]))
-                int.TryParse(values[4], out acceptBranch);
+            if (values.Length > 6 && !string.IsNullOrEmpty(values[6]))
+                int.TryParse(values[6], out acceptBranch);
 
-            if (values.Length > 5 && !string.IsNullOrEmpty(values[5]))
-                int.TryParse(values[5], out declineBranch);
+            if (values.Length > 7 && !string.IsNullOrEmpty(values[7]))
+                int.TryParse(values[7], out declineBranch);
 
-            allDialogs.Add(new DialogLine(branch, name, dialog, questionType, acceptBranch, declineBranch));
+            allDialogs.Add(new DialogLine(branch, backGround, ocp, name, dialog, questionType, acceptBranch, declineBranch));
         }
     }
 
