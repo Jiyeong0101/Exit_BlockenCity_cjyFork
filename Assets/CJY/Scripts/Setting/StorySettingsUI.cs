@@ -4,28 +4,63 @@ using UnityEngine;
 
 public class StorySettingsUI : MonoBehaviour
 {
+    [Header("Text Size State Images")]
+    public GameObject textSmallSelected;
+    public GameObject textMediumSelected;
+    public GameObject textLargeSelected;
+
+    [Header("Advance Mode State Images")]
+    public GameObject autoAdvanceSelected;
+    public GameObject manualAdvanceSelected;
+
+    public void ApplyCurrentSettings()
+    {
+        var manager = StorySettingsManager.Instance;
+        if (manager == null) return;
+
+        if (textSmallSelected)
+            textSmallSelected.SetActive(manager.textSize == StoryTextSize.Small);
+
+        if (textMediumSelected)
+            textMediumSelected.SetActive(manager.textSize == StoryTextSize.Medium);
+
+        if (textLargeSelected)
+            textLargeSelected.SetActive(manager.textSize == StoryTextSize.Large);
+
+        if (autoAdvanceSelected)
+            autoAdvanceSelected.SetActive(manager.advanceMode == StoryAdvanceMode.Auto);
+
+        if (manualAdvanceSelected)
+            manualAdvanceSelected.SetActive(manager.advanceMode == StoryAdvanceMode.Manual);
+    }
+
     public void SetTextSmall()
     {
         StorySettingsManager.Instance.SetTextSize(StoryTextSize.Small);
+        ApplyCurrentSettings();
     }
 
     public void SetTextMedium()
     {
         StorySettingsManager.Instance.SetTextSize(StoryTextSize.Medium);
+        ApplyCurrentSettings();
     }
 
     public void SetTextLarge()
     {
         StorySettingsManager.Instance.SetTextSize(StoryTextSize.Large);
+        ApplyCurrentSettings();
     }
 
     public void SetAutoAdvance()
     {
         StorySettingsManager.Instance.SetAdvanceMode(StoryAdvanceMode.Auto);
+        ApplyCurrentSettings();
     }
 
     public void SetManualAdvance()
     {
         StorySettingsManager.Instance.SetAdvanceMode(StoryAdvanceMode.Manual);
+        ApplyCurrentSettings();
     }
 }

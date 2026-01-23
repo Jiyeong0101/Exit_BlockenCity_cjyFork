@@ -7,6 +7,9 @@ public class SettingsUI : MonoBehaviour
     [Header("Settings Panel")]
     public GameObject settingsPanel;
 
+    [Header("Story Settings UI")]
+    public StorySettingsUI storySettingsUI;
+
     private bool isOpen = false;
 
     private void Start()
@@ -44,6 +47,8 @@ public class SettingsUI : MonoBehaviour
     private void OnOpen()
     {
         // 설정 열릴 때 필요한 처리
+        if (storySettingsUI != null)
+            storySettingsUI.ApplyCurrentSettings();
     }
 
     private void OnClose()
