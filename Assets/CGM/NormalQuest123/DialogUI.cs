@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 //스페셜퀘스트로 활용중
 public class DialogUI : MonoBehaviour
 {
+    [Header("Background")]
+    public Image backgroundImage;
+    public List<BackgroundEntry> backgroundList;
+
     [Header("UI Components")]
-    public Text nameText;
-    public Text dialogText;
+    public TMP_Text ocp;
+    public TMP_Text nameText;
+    public TMP_Text dialogText;
     public GameObject dialogPanel;
 
     public Button acceptButton;
@@ -25,6 +31,12 @@ public class DialogUI : MonoBehaviour
 
     [Header("Quest Data")]
     public List<SpecialQuestData> allQuestData; // Branch 번호 기반 인덱스 접근
+
+    public static DialogUI Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -81,16 +93,19 @@ public class DialogUI : MonoBehaviour
 
     public void StartDialog(int branch)
     {
+        Debug.Log($"[DialogUI] StartDialog 호출됨 / branch = {branch}");
+        Debug.Log($"DialogManager.Instance = {DialogManager.Instance}");
+
         DialogManager.Instance.LoadDialogByBranch(branch);
         isWaitingForChoice = false;
-        HideAllButtons();
+       //HideAllButtons();
         dialogPanel.SetActive(true);
         ShowNextDialog();
     }
 
     public void ShowNextDialog()
     {
-        HideAllButtons();
+        //HideAllButtons();
 
         if (!DialogManager.Instance.HasMoreDialog())
         {
@@ -102,22 +117,44 @@ public class DialogUI : MonoBehaviour
 
         currentLine = DialogManager.Instance.GetNextDialog();
 
+        // ===== name & ocp =====
         nameText.text = currentLine.name;
+
+        if (!string.IsNullOrEmpty(currentLine.ocp))
+        {
+            ocp.gameObject.SetActive(true);
+            ocp.text = currentLine.ocp;
+        }
+        else
+        {
+            ocp.gameObject.SetActive(false);
+        }
+
+        // ===== background =====
+        UpdateBackground(currentLine.backGround);
 
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
         typingCoroutine = StartCoroutine(TypeDialog(currentLine.dialog));
 
-        if (currentLine.questionType == 1)  // 수락/거절 선택 대기
+        isWaitingForChoice = currentLine.questionType == 1;
+    }
+    private void UpdateBackground(int bgID)
+    {
+        BackgroundEntry entry = backgroundList.Find(b => b.id == bgID);
+
+        if (entry != null && entry.image != null)
         {
-            isWaitingForChoice = true;
+            backgroundImage.sprite = entry.image;
+            backgroundImage.gameObject.SetActive(true);
         }
         else
         {
-            isWaitingForChoice = false;
+            Debug.LogWarning($"Background ID {bgID}에 해당하는 이미지가 없습니다.");
         }
     }
+
 
     private IEnumerator TypeDialog(string dialog)
     {

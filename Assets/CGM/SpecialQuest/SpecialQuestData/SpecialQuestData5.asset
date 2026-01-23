@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5af939c6f7241745ad6b5c9168d9c6e, type: 3}
   m_Name: SpecialQuestData5
   m_EditorClassIdentifier: 
+  background: {fileID: 0}
   branchID: 41
   questName: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 5\uBC88"
   description: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 5\uBC88\uC785\uB2C8\uB2F9\n\uB192\uC774
@@ -20,10 +21,10 @@ MonoBehaviour:
   blockType: 12
   targetCount: 0
   targetHeight: 0
-  keepDuration: 0
   restrictedInput: 
   darknessLevel: 0
   timeType: 1
+  timeRole: 0
   timeValue: 10
   reward: 0
   IsCompleted: 1
