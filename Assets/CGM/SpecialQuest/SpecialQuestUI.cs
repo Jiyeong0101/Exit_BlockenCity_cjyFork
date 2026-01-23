@@ -17,6 +17,8 @@ public class SpecialQuestUI : MonoBehaviour
     public int rewardText;
     public Text progressText;
     public Slider time;
+    [Header("배경")]
+    public Image backgroundImage;
 
     [Header("퀘스트별UI")]
     [Header("블럭파괴")]
@@ -55,6 +57,7 @@ public class SpecialQuestUI : MonoBehaviour
     private int questID;
 
     private SpecialQuestData quest;
+    [SerializeField] private Sprite defaultBackground;
 
     // UI에 퀘스트 데이터 바인딩
     public void SetQuest(SpecialQuestData quest)
@@ -65,6 +68,13 @@ public class SpecialQuestUI : MonoBehaviour
         questNameText.text = quest.questName;
         descriptionText.text = quest.description;
         rewardText = quest.reward;
+
+        if (backgroundImage != null)
+        {
+            backgroundImage.sprite =
+                quest.background != null ? quest.background : defaultBackground;
+            backgroundImage.enabled = true;
+        }
 
         //시간
         if (quest.timeType == TimeType.Seconds)

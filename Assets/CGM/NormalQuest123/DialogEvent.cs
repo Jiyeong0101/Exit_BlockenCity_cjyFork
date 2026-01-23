@@ -6,37 +6,38 @@ public class DialogEvent : MonoBehaviour
 {
     public DialogUI dialogUI;
 
-    public void Evnet10()
+    public void Event10()
     {
-        dialogUI.StartDialog(10); // branch 2 시작
+        DialogUI.Instance.StartDialog(10);
     }
-    public void Evnet1000()
+    public void Event1000()
     {
-        dialogUI.StartDialog(1000); // branch 2 시작
-    }
-    public void Evnet20()
-    {
-        dialogUI.StartDialog(20); // branch 2 시작
+        DialogUI.Instance.StartDialog(1000);
     }
 
-    public void Evnet30()
+    public void Event20()
     {
-        dialogUI.StartDialog(30); // branch 2 시작
+        DialogUI.Instance.StartDialog(20);
     }
 
-    public void Evnet40()
+    public void Event30()
     {
-        dialogUI.StartDialog(40); // branch 2 시작
+        DialogUI.Instance.StartDialog(30);
     }
 
-    public void Evnet50()
+    public void Event40()
     {
-        dialogUI.StartDialog(50); // branch 2 시작
+        DialogUI.Instance.StartDialog(40);
     }
 
-    public void Evnet60()
+    public void Event50()
     {
-        dialogUI.StartDialog(60); // branch 2 시작
+        DialogUI.Instance.StartDialog(50);
+    }
+
+    public void Event60()
+    {
+        DialogUI.Instance.StartDialog(60);
     }
 
     public void accept()
