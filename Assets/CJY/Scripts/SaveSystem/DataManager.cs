@@ -35,6 +35,9 @@ public class Datamanager : MonoBehaviour
             string json = System.IO.File.ReadAllText(path);
             saveData = JsonUtility.FromJson<SaveData>(json);
             Debug.Log("불러오기 완료");
+
+            Debug.Log("저장 파일 경로: " + Application.persistentDataPath);
+
         }
     }
 
