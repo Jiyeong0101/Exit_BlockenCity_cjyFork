@@ -304,7 +304,7 @@ MonoBehaviour:
   tetrisspawner: {fileID: 411465152}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 2
+    type: 9
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &78634946
@@ -450,11 +450,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 425659903959466483, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 425659903959466483, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 740466218366087753, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -490,7 +490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 893264067601489707, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1115876200054381352, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_IsActive
@@ -498,11 +498,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1302720933426247943, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1302720933426247943, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2111690120855510143, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_IsActive
@@ -510,11 +510,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2753885661401887998, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2753885661401887998, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3386569744912928644, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_text
@@ -522,11 +522,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4488952353201662481, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4488952353201662481, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5423202849612582472, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_text
@@ -586,11 +586,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8912921534456574455, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8912921534456574455, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8935768564900909804, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
       propertyPath: m_LocalRotation.w
