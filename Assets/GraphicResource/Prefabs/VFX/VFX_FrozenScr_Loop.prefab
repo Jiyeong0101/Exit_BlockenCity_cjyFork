@@ -5036,6 +5036,8 @@ GameObject:
   - component: {fileID: 5672818947718524644}
   - component: {fileID: 1781511215189316519}
   - component: {fileID: 7617161060180573564}
+  - component: {fileID: -4771391698321170305}
+  - component: {fileID: -3590335933725495805}
   m_Layer: 5
   m_Name: VFX_FrozenScr_Loop
   m_TagString: Untagged
@@ -5128,3 +5130,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &-4771391698321170305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9048698040502420976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3590335933725495805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9048698040502420976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f98a1de90644f4e839eaa08d3967a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
