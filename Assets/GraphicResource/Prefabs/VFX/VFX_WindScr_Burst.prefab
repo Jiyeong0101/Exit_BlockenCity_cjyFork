@@ -4998,6 +4998,8 @@ GameObject:
   - component: {fileID: 7490126884376114037}
   - component: {fileID: 5680366617397099030}
   - component: {fileID: 4810642241342949975}
+  - component: {fileID: 7671699761866045700}
+  - component: {fileID: -4541728102149949715}
   m_Layer: 5
   m_Name: VFX_WindScr_Burst
   m_TagString: Untagged
@@ -5089,3 +5091,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7671699761866045700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3653554711104946894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4541728102149949715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3653554711104946894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f98a1de90644f4e839eaa08d3967a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

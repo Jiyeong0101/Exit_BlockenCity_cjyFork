@@ -14717,6 +14717,8 @@ GameObject:
   - component: {fileID: 3275558735755429973}
   - component: {fileID: 4863205465255492608}
   - component: {fileID: 4017415954331643851}
+  - component: {fileID: 5685107731487435145}
+  - component: {fileID: 1060400403672675275}
   m_Layer: 5
   m_Name: VFX_DustScr_Burst
   m_TagString: Untagged
@@ -14808,3 +14810,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5685107731487435145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8776086197396985429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1060400403672675275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8776086197396985429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f98a1de90644f4e839eaa08d3967a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

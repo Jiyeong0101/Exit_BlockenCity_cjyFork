@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OptionsUI : MonoBehaviour
+public class SoundSettingUI : MonoBehaviour
 {
     [Header("Volume Sliders")]
     public Slider masterSlider;

@@ -4930,6 +4930,8 @@ GameObject:
   - component: {fileID: 6622552896847794194}
   - component: {fileID: 200566726715763722}
   - component: {fileID: 617662321306003931}
+  - component: {fileID: 5422466301273826537}
+  - component: {fileID: 8147318164033481667}
   m_Layer: 5
   m_Name: VFX_SmogScr_Loop
   m_TagString: Untagged
@@ -5021,3 +5023,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5422466301273826537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6492334026871894552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8147318164033481667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6492334026871894552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f98a1de90644f4e839eaa08d3967a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
