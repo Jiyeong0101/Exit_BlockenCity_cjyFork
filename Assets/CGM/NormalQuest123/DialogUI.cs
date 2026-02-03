@@ -11,6 +11,9 @@ public class DialogUI : MonoBehaviour
     public Image backgroundImage;
     public List<BackgroundEntry> backgroundList;
 
+    [Header("Button Colors By Background")]
+    public List<ButtonColorEntry> buttonColorList;
+
     [Header("UI Components")]
     public TMP_Text ocp;
     public TMP_Text nameText;
@@ -19,6 +22,9 @@ public class DialogUI : MonoBehaviour
 
     public Button acceptButton;
     public Button declineButton;
+
+    private Image acceptButtonImage;
+    private Image declineButtonImage;
 
     [Header("Typing Settings")]
     public float typingSpeed = 0.05f;
@@ -36,6 +42,9 @@ public class DialogUI : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        acceptButtonImage = acceptButton.GetComponent<Image>();
+        declineButtonImage = declineButton.GetComponent<Image>();
     }
 
     void Start()
@@ -142,16 +151,31 @@ public class DialogUI : MonoBehaviour
     }
     private void UpdateBackground(int bgID)
     {
-        BackgroundEntry entry = backgroundList.Find(b => b.id == bgID);
+        BackgroundEntry bgEntry = backgroundList.Find(b => b.id == bgID);
 
-        if (entry != null && entry.image != null)
+        if (bgEntry != null && bgEntry.image != null)
         {
-            backgroundImage.sprite = entry.image;
+            backgroundImage.sprite = bgEntry.image;
             backgroundImage.gameObject.SetActive(true);
         }
         else
         {
             Debug.LogWarning($"Background ID {bgID}에 해당하는 이미지가 없습니다.");
+        }
+
+        ButtonColorEntry colorEntry = buttonColorList.Find(c => c.backgroundID == bgID);
+
+        if (colorEntry != null)
+        {
+            if (acceptButtonImage != null)
+                acceptButtonImage.color = colorEntry.acceptButtonColor;
+
+            if (declineButtonImage != null)
+                declineButtonImage.color = colorEntry.declineButtonColor;
+        }
+        else
+        {
+            Debug.Log($"Background ID {bgID}에 대한 버튼 색 설정이 없습니다.");
         }
     }
 

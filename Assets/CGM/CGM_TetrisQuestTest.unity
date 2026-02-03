@@ -2442,6 +2442,22 @@ MonoBehaviour:
     image: {fileID: -106068735, guid: ca977634fb7a70e4b9398756b1858801, type: 3}
   - id: 5
     image: {fileID: 118719601, guid: ca977634fb7a70e4b9398756b1858801, type: 3}
+  buttonColorList:
+  - backgroundID: 1
+    acceptButtonColor: {r: 0.05887327, g: 0.05887327, b: 0.254717, a: 1}
+    declineButtonColor: {r: 0.05887327, g: 0.05887327, b: 0.254717, a: 1}
+  - backgroundID: 2
+    acceptButtonColor: {r: 0.2641509, g: 0, b: 0.1803073, a: 1}
+    declineButtonColor: {r: 0.2641509, g: 0, b: 0.1803073, a: 1}
+  - backgroundID: 3
+    acceptButtonColor: {r: 0.1294118, g: 0.172549, b: 0.1921569, a: 1}
+    declineButtonColor: {r: 0.1294118, g: 0.172549, b: 0.1921569, a: 1}
+  - backgroundID: 4
+    acceptButtonColor: {r: 0.2627451, g: 0.1296149, b: 0, a: 1}
+    declineButtonColor: {r: 0.2627451, g: 0.1296149, b: 0, a: 1}
+  - backgroundID: 5
+    acceptButtonColor: {r: 0.2627451, g: 0.052411, b: 0, a: 1}
+    declineButtonColor: {r: 0.2627451, g: 0.052411, b: 0, a: 1}
   ocp: {fileID: 5700797175409966273}
   nameText: {fileID: 8970570142650092623}
   dialogText: {fileID: 6522348287351728479}
