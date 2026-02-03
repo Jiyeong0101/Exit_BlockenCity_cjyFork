@@ -197,6 +197,27 @@ TextureImporter:
       name: Wiki_BG_03_4
       rect:
         serializedVersion: 2
+        x: 562
+        y: 1
+        width: 561
+        height: 666
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 682b961738514cf4188b6993a42ad25e
+      internalID: 1051980930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wiki_BG_03_5
+      rect:
+        serializedVersion: 2
         x: 1125
         y: 1
         width: 560
@@ -208,8 +229,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 682b961738514cf4188b6993a42ad25e
-      internalID: 1051980930
+      spriteID: 01c743824b8bf1d49806c29a57b0aed8
+      internalID: -315497204
       vertices: []
       indices: 
       edges: []
@@ -230,6 +251,7 @@ TextureImporter:
       Wiki_BG_03_2: -517578394
       Wiki_BG_03_3: 1411521097
       Wiki_BG_03_4: 1051980930
+      Wiki_BG_03_5: -315497204
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
