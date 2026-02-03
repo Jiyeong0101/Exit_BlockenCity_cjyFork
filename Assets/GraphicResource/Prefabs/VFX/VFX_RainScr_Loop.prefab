@@ -101,7 +101,6 @@ GameObject:
   - component: {fileID: 2059616229603088234}
   - component: {fileID: 2687442448588972021}
   - component: {fileID: -5875260065206219786}
-  - component: {fileID: -8431949038673981744}
   m_Layer: 5
   m_Name: VFX_RainScr_Loop
   m_TagString: Untagged
@@ -204,18 +203,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-8431949038673981744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3457699706911739068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f98a1de90644f4e839eaa08d3967a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5846240052372875543
