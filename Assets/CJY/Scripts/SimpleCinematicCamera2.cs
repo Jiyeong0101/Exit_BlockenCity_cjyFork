@@ -4,59 +4,57 @@ using UnityEngine;
 
 public class SimpleCinematicCamera2 : MonoBehaviour
 {
-    [Header("카메라 이동 포인트 (원형 구조)")]
-    public Transform[] cameraPoints; // 4개
+    public TetrisController tetrisController;
 
-    [Header("이동 속도")]
+    public Transform[] cameraPoints; // Front, Right, Back, Left
     public float moveSpeed = 2f;
     public float rotateSpeed = 2f;
 
-    [Header("이동 옵션")]
-    public bool smoothMove = true;
-    public float stopThreshold = 0.001f;
-
-    [Header("연결 컨트롤러")]
-    public TetrisController tetrisController;
-
-    private int currentIndex = 0;
+    public CameraDir currentDir = CameraDir.Front;
 
     void Start()
     {
-        if (cameraPoints.Length == 0) return;
-
-        transform.position = cameraPoints[currentIndex].position;
-        transform.rotation = cameraPoints[currentIndex].rotation;
+        ApplyImmediate();
+        NotifyDirChanged();
     }
 
     void Update()
     {
         HandleInput();
+        MoveCamera();
+    }
 
-        Transform target = cameraPoints[currentIndex];
-        if (target == null) return;
+    void HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+            RotateLeft();
 
-        // 위치
-        if (smoothMove)
-        {
-            transform.position = Vector3.Lerp(
-                transform.position,
-                target.position,
-                Time.deltaTime * moveSpeed
-            );
-        }
-        else
-        {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                target.position,
-                moveSpeed * Time.deltaTime
-            );
-        }
+        if (Input.GetKeyDown(KeyCode.E))
+            RotateRight();
+    }
 
-        if (Vector3.Distance(transform.position, target.position) < stopThreshold)
-            transform.position = target.position;
+    void RotateLeft()
+    {
+        currentDir = (CameraDir)(((int)currentDir + 3) % 4);
+        tetrisController.SetCameraDir(currentDir);
+    }
 
-        // 회전 (끊김 없음)
+    void RotateRight()
+    {
+        currentDir = (CameraDir)(((int)currentDir + 1) % 4);
+        tetrisController.SetCameraDir(currentDir);
+    }
+
+    void MoveCamera()
+    {
+        Transform target = cameraPoints[(int)currentDir];
+
+        transform.position = Vector3.Lerp(
+            transform.position,
+            target.position,
+            Time.deltaTime * moveSpeed
+        );
+
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
             target.rotation,
@@ -64,40 +62,18 @@ public class SimpleCinematicCamera2 : MonoBehaviour
         );
     }
 
-    private void HandleInput()
+    void ApplyImmediate()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            RotateLeft();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            RotateRight();
-        }
+        Transform target = cameraPoints[(int)currentDir];
+        transform.position = target.position;
+        transform.rotation = target.rotation;
     }
 
-    private void RotateLeft()
+    void NotifyDirChanged()
     {
-        currentIndex = (currentIndex - 1 + cameraPoints.Length) % cameraPoints.Length;
-
-        UpdateTetrisInput();
+        if (tetrisController != null)
+            tetrisController.SetCameraDir(currentDir);
     }
 
-    private void RotateRight()
-    {
-        currentIndex = (currentIndex + 1) % cameraPoints.Length;
-
-        UpdateTetrisInput();
-    }
-
-    private void UpdateTetrisInput()
-    {
-        if (tetrisController == null) return;
-
-        // 카메라가 좌측 절반이면 입력 반전
-        bool reverse = currentIndex < cameraPoints.Length / 2;
-        tetrisController.SetReverseInput(reverse);
-    }
 }
 

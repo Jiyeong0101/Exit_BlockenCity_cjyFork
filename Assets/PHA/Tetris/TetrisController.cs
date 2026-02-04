@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum MoveInput
+{
+    Left,
+    Right,
+    Forward,
+    Back
+}
+
 public class TetrisController : MonoBehaviour
 {
     // 현재 시점 카메라
@@ -18,6 +26,10 @@ public class TetrisController : MonoBehaviour
     // 추가
     // 입력 제어 클래스
     public InputBlocker inputBlocker;
+
+    // 추가 카메라
+    // 현재 카메라 논리 방향
+    private CameraDir currentCameraDir = CameraDir.Front;
 
     // 입력 처리 활성화
     private void OnEnable()
@@ -61,30 +73,34 @@ public class TetrisController : MonoBehaviour
             currentBlock.Move(dir);
     }
 
-    private void MoveLeft() 
-    {
-        if (currentBlock == null) return;
-        Vector3 dir = GetCameraRelativeDirection(Vector3.left);
-        if (currentBlock.CanMove(dir)) currentBlock.Move(dir);
-    }
-    private void MoveRight()
-    {
-        if (currentBlock == null) return;
-        Vector3 dir = GetCameraRelativeDirection(Vector3.right);
-        if (currentBlock.CanMove(dir)) currentBlock.Move(dir);
-    }
-    private void MoveForward()
-    {
-        if (currentBlock == null) return;
-        Vector3 dir = GetCameraRelativeDirection(Vector3.back);
-        if (currentBlock.CanMove(dir)) currentBlock.Move(dir);
-    }
-    private void MoveBack()
-    {
-        if (currentBlock == null) return;
-        Vector3 dir = GetCameraRelativeDirection(Vector3.forward);
-        if (currentBlock.CanMove(dir)) currentBlock.Move(dir);
-    }
+    //private void MoveLeft()
+    //{
+    //    if (currentBlock == null) return;
+    //    Vector3 dir = GetMoveDir(Vector3.left);
+    //    if (currentBlock.CanMove(dir)) currentBlock.Move(dir);
+    //}
+    //private void MoveRight()
+    //{
+    //    if (currentBlock == null) return;
+    //    Vector3 dir = GetMoveDir(Vector3.right);
+    //    if (currentBlock.CanMove(dir)) currentBlock.Move(dir);
+    //}
+    //private void MoveForward()
+    //{
+    //    if (currentBlock == null) return;
+    //    Vector3 dir = GetMoveDir(Vector3.back);
+    //    if (currentBlock.CanMove(dir)) currentBlock.Move(dir);
+    //}
+    //private void MoveBack()
+    //{
+    //    if (currentBlock == null) return;
+    //    Vector3 dir = GetMoveDir(Vector3.forward);
+    //    if (currentBlock.CanMove(dir)) currentBlock.Move(dir);
+    //}
+    private void MoveLeft() => Move(MoveInput.Left);
+    private void MoveRight() => Move(MoveInput.Right);
+    private void MoveForward() => Move(MoveInput.Back);
+    private void MoveBack() => Move(MoveInput.Forward);
 
     private void SoftDrop() 
     {
@@ -142,25 +158,74 @@ public class TetrisController : MonoBehaviour
         }
     }
 
-    private Vector3 GetCameraRelativeDirection(Vector3 inputDir)
+    //private Vector3 GetCameraRelativeDirection(Vector3 inputDir)
+    //{
+    //    Vector3 forward = gameCamera.transform.forward;
+    //    Vector3 right = gameCamera.transform.right;
+
+    //    forward.y = 0;
+    //    right.y = 0;
+
+    //    forward.Normalize();
+    //    right.Normalize();
+
+    //    // 입력 방향을 카메라 기준으로 변환
+    //    Vector3 moveDir = inputDir.x * right + inputDir.z * forward;
+
+    //    if (reverseInput)
+    //        moveDir *= -1f;
+
+    //    return moveDir;
+    //}
+
+    private Vector3 GetWorldDir(MoveInput input)
     {
-        Vector3 forward = gameCamera.transform.forward;
-        Vector3 right = gameCamera.transform.right;
+        switch (currentCameraDir)
+        {
+            case CameraDir.Front:
+                return input switch
+                {
+                    MoveInput.Left => Vector3.left,
+                    MoveInput.Right => Vector3.right,
+                    MoveInput.Forward => Vector3.forward,
+                    MoveInput.Back => Vector3.back,
+                    _ => Vector3.zero
+                };
 
-        forward.y = 0;
-        right.y = 0;
+            case CameraDir.Left:
+                return input switch
+                {
+                    MoveInput.Left => Vector3.forward,
+                    MoveInput.Right => Vector3.back,
+                    MoveInput.Forward => Vector3.right,
+                    MoveInput.Back => Vector3.left,
+                    _ => Vector3.zero
+                };
 
-        forward.Normalize();
-        right.Normalize();
+            case CameraDir.Back:
+                return input switch
+                {
+                    MoveInput.Left => Vector3.right,
+                    MoveInput.Right => Vector3.left,
+                    MoveInput.Forward => Vector3.back,
+                    MoveInput.Back => Vector3.forward,
+                    _ => Vector3.zero
+                };
 
-        // 입력 방향을 카메라 기준으로 변환
-        Vector3 moveDir = inputDir.x * right + inputDir.z * forward;
+            case CameraDir.Right:
+                return input switch
+                {
+                    MoveInput.Left => Vector3.back,
+                    MoveInput.Right => Vector3.forward,
+                    MoveInput.Forward => Vector3.left,
+                    MoveInput.Back => Vector3.right,
+                    _ => Vector3.zero
+                };
+        }
 
-        if (reverseInput)
-            moveDir *= -1f;
-
-        return moveDir;
+        return Vector3.zero;
     }
+
 
     public void SetCurrentBlock(TetriminoBlock block)
     {
@@ -171,5 +236,21 @@ public class TetrisController : MonoBehaviour
     {
         reverseInput = isReversed;
     }
+
+    // 카메라 관련 추가
+    public void SetCameraDir(CameraDir dir)
+    {
+        currentCameraDir = dir;
+    }
+
+    private void Move(MoveInput input)
+    {
+        if (currentBlock == null) return;
+
+        Vector3 dir = GetWorldDir(input);
+        if (currentBlock.CanMove(dir))
+            currentBlock.Move(dir);
+    }
+
 
 }
