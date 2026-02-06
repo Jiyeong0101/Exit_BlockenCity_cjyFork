@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
+
 public class Datamanager : MonoBehaviour
 {
     static GameObject container;
@@ -30,23 +32,52 @@ public class Datamanager : MonoBehaviour
     {
         string path = Application.persistentDataPath + "/" + GameDataFileName;
 
-        if (System.IO.File.Exists(path))
+        if (!File.Exists(path))
+            return;
+
+        try
         {
-            string json = System.IO.File.ReadAllText(path);
+            string wrapperJson = File.ReadAllText(path);
+            SaveFileWrapper wrapper = JsonUtility.FromJson<SaveFileWrapper>(wrapperJson);
+
+            string hashCheck = SaveCrypto.ComputeHash(wrapper.data);
+            if (hashCheck != wrapper.hash)
+            {
+                Debug.LogWarning("저장 데이터가 변조되었습니다.");
+                return;
+            }
+
+            string json = SaveCrypto.Decrypt(wrapper.data);
             saveData = JsonUtility.FromJson<SaveData>(json);
-            Debug.Log("불러오기 완료");
 
-            Debug.Log("저장 파일 경로: " + Application.persistentDataPath);
-
+            Debug.Log("암호화 로드 완료");
+            Debug.Log(path);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("저장 데이터 로드 실패: " + e.Message);
         }
     }
+
 
     public void SaveGameData()
     {
         string json = JsonUtility.ToJson(saveData, true);
+
+        byte[] encrypted = SaveCrypto.Encrypt(json);
+        string hash = SaveCrypto.ComputeHash(encrypted);
+
+        SaveFileWrapper wrapper = new SaveFileWrapper
+        {
+            data = encrypted,
+            hash = hash
+        };
+
+        string wrapperJson = JsonUtility.ToJson(wrapper, true);
         string path = Application.persistentDataPath + "/" + GameDataFileName;
 
-        System.IO.File.WriteAllText(path, json);
-        Debug.Log("저장 완료");
+        File.WriteAllText(path, wrapperJson);
+        Debug.Log("암호화 저장 완료");
     }
+
 }
