@@ -202,7 +202,7 @@ public class TetriminoBlock : MonoBehaviour
         //int currentHeight = TetrisManager.Instance.tower.GetCurrentHeight();
         //SpecialQuestManager.Instance.OnHeightChanged(currentHeight);
 
-        SpecialQuestManager.Instance.OnBlockDropped();
+        //SpecialQuestManager.Instance.OnBlockDropped();
         TetrisManager.Instance.CheckTower();
         TetrisManager.Instance.SpawnNextBlock();
     }
