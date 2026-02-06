@@ -1,43 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;  
+using TMPro;
 
 public class ScoreUIBinder : MonoBehaviour
 {
     [Header("Text References")]
-    public TextMeshProUGUI playerNameText;
-    public TextMeshProUGUI playerNameText2;
-    public TextMeshProUGUI totalMoneyText;
-    public TextMeshProUGUI salaryText;
-    //public TextMeshProUGUI favorabilityText;
+    public TMP_Text playerNameText;
+    public TMP_Text playerNameText2;
+    public TMP_Text totalMoneyText;
+    public TMP_Text salaryText;
 
     [Header("Debug / Test")]
-    public int testSalary = 0; // 아직 시스템 없으니까 임시 값
+    public int testSalary = 0; // 아직 시스템 없으므로 임시
 
     public void Refresh()
     {
-        //Debug.Log("UI Refresh 호출됨");
-
         var saveData = Datamanager.Instance.saveData;
 
         // 플레이어 이름
-        playerNameText.text =
-            saveData.player.playerName;
+        playerNameText.text = saveData.player.playerName;
+        playerNameText2.text = saveData.player.playerName;
 
-        playerNameText2.text =
-            saveData.player.playerName;
-
-        // 총자산
+        // 총 자산
         totalMoneyText.text =
             saveData.player.totalMoney.ToString();
 
-        // 월급 (아직 계산 시스템 없으므로 임시값)
+        // 월급 (임시값)
         salaryText.text =
             testSalary.ToString();
-
-        // 우호도 (예시: 단월국)
-        //favorabilityText.text =
-        //    saveData.relationship.danwol.ToString();
     }
 }
