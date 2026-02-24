@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TetrisGame;
+using TMPro;
+
+[System.Serializable]
+public class BackgroundSliderColor
+{
+    public Sprite background;
+    public Color sliderColor;
+}
 
 public class SpecialQuestUI : MonoBehaviour
 {
@@ -12,47 +20,49 @@ public class SpecialQuestUI : MonoBehaviour
     public static SpecialQuestUI CurrentUI;
 
     [Header("공통UI")]
-    public Text questNameText;
-    public Text descriptionText;
+    public TMP_Text questNameText;
+    public TMP_Text descriptionText;
     public int rewardText;
-    public Text progressText;
+    public TMP_Text progressText;
     public Slider time;
     [Header("배경")]
     public Image backgroundImage;
+    [Header("슬라이더 색상 설정")]
+    public Image sliderFillImage;   // Slider → Fill 영역 Image
 
     [Header("퀘스트별UI")]
     [Header("블럭파괴")]
     public GameObject blockBreakPanel;
-    public Text blockBreakProgress;
+    public TMP_Text blockBreakProgress;
 
     [Header("블럭파괴금지")]
     public GameObject blockNoBreakPanel;
-    public Text blockNoBreakProgress;
+    public TMP_Text blockNoBreakProgress;
 
     [Header("높이 제한")]
     public GameObject HeightLimitPanel;
-    public Text HeightLimitProgress;
+    public TMP_Text HeightLimitProgress;
 
     [Header("높이 달성")]
     public GameObject HeightAchievementPanel;
-    public Text HeightAchievementProgress;
+    public TMP_Text HeightAchievementProgress;
 
     [Header("높이 유지")]
     public GameObject HeightKeepPanel;
-    public Text HeightKeepProgress;
+    public TMP_Text HeightKeepProgress;
 
     [Header("높이 높이 블럭 설치")]
     public GameObject HeightSpecialBlockPanel;
-    public Text HeightSpecialBlockProgress;
+    public TMP_Text HeightSpecialBlockProgress;
 
 
     [Header("입력제한")]
     public GameObject InputRestrictionPanel;
-    public Text InputRestrictionProgress;
+    public TMP_Text InputRestrictionProgress;
 
     [Header("시야 방해")]
     public GameObject ViewObstructionPanel;
-    public Text ViewObstructionProgress;
+    public TMP_Text ViewObstructionProgress;
 
     private int questID;
 
@@ -75,7 +85,8 @@ public class SpecialQuestUI : MonoBehaviour
                 quest.background != null ? quest.background : defaultBackground;
             backgroundImage.enabled = true;
         }
-
+        sliderFillImage.color = quest.sliderColor;
+        
         //시간
         if (quest.timeType == TimeType.Seconds)
         {
@@ -166,15 +177,10 @@ public class SpecialQuestUI : MonoBehaviour
     }
     private IEnumerator RefreshAndShowCoroutine()
     {
-        yield return null; // 패널 On/Off 반영
+        yield return new WaitForEndOfFrame();
 
-        // 레이아웃 강제 재계산
-        sizeFitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
-        sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
         LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
 
-        // 이제 보여주기
         canvasGroup.alpha = 1f;
     }
 
@@ -232,4 +238,5 @@ public class SpecialQuestUI : MonoBehaviour
         Destroy(gameObject);
         CurrentUI = null;
     }
+
 }

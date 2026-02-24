@@ -1263,28 +1263,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 410173d87a6a5f447b5e3f7f949ad5be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questNameText: {fileID: 7830921422307374658}
-  descriptionText: {fileID: 1064894917169426218}
+  questNameText: {fileID: 0}
+  descriptionText: {fileID: 0}
   rewardText: 0
-  progressText: {fileID: 1015182633618014382}
+  progressText: {fileID: 0}
   time: {fileID: 5750395976966028426}
   backgroundImage: {fileID: 7387269475474237735}
+  sliderFillImage: {fileID: 0}
+  sliderColors: []
   blockBreakPanel: {fileID: 3654095751837560981}
-  blockBreakProgress: {fileID: 9067875304426340800}
+  blockBreakProgress: {fileID: 0}
   blockNoBreakPanel: {fileID: 1005101149519592643}
-  blockNoBreakProgress: {fileID: 6969417224608224146}
+  blockNoBreakProgress: {fileID: 0}
   HeightLimitPanel: {fileID: 6555049476200123481}
-  HeightLimitProgress: {fileID: 1002421633780188564}
+  HeightLimitProgress: {fileID: 0}
   HeightAchievementPanel: {fileID: 8064058341464680710}
-  HeightAchievementProgress: {fileID: 6927182247304857192}
+  HeightAchievementProgress: {fileID: 0}
   HeightKeepPanel: {fileID: 7557332250273186365}
-  HeightKeepProgress: {fileID: 4511151675344403055}
+  HeightKeepProgress: {fileID: 0}
   HeightSpecialBlockPanel: {fileID: 494603685321934070}
-  HeightSpecialBlockProgress: {fileID: 7060100715648960524}
+  HeightSpecialBlockProgress: {fileID: 0}
   InputRestrictionPanel: {fileID: 3273715258823530336}
-  InputRestrictionProgress: {fileID: 6397373402145464882}
+  InputRestrictionProgress: {fileID: 0}
   ViewObstructionPanel: {fileID: 6212953261592198939}
-  ViewObstructionProgress: {fileID: 5585461203923789619}
+  ViewObstructionProgress: {fileID: 0}
   defaultBackground: {fileID: 0}
 --- !u!114 &8390355406289107692
 MonoBehaviour:

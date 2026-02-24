@@ -38,6 +38,7 @@ public class SpecialQuestData : ScriptableObject
 {
     [Header("기본 조건")]
     public Sprite background;
+    public Color sliderColor;
     public int branchID;                // 퀘스트 고유 ID
     public string questName;           // 퀘스트 이름
     [TextArea] public string description; // 퀘스트 내용

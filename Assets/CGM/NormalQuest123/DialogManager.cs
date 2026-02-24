@@ -5,6 +5,8 @@ using System.IO;
 
 public class DialogManager : MonoBehaviour
 {
+    public HashSet<int> allBranchIDs = new HashSet<int>();
+
     private Queue<DialogLine> dialogQueue = new Queue<DialogLine>();
     private List<DialogLine> allDialogs = new List<DialogLine>();
 
@@ -39,6 +41,7 @@ public class DialogManager : MonoBehaviour
             string[] values = line.Split(',');
 
             int branch = int.Parse(values[0]);
+            allBranchIDs.Add(branch);
             int backGround = int.Parse(values[1]);
             string ocp = values[2];
             string name = values[3];
@@ -83,13 +86,69 @@ public class DialogManager : MonoBehaviour
         return null;
     }
 
+    public bool HasBranch(int id)
+    {
+        return allBranchIDs.Contains(id);
+    }
+
     public bool HasMoreDialog()
     {
         return dialogQueue.Count > 0;
+    }
+
+    int GetHundreds(int value) => (value / 100) % 10;
+    int GetTens(int value) => (value / 10) % 10;
+    int GetOnes(int value) => value % 10;
+
+    int GetDigitSimilarity(int target, int candidate)
+    {
+        int diff =
+            Mathf.Abs(GetHundreds(target) - GetHundreds(candidate)) * 3 +
+            Mathf.Abs(GetTens(target) - GetTens(candidate)) * 2 +
+            Mathf.Abs(GetOnes(target) - GetOnes(candidate)) * 1;
+
+        return diff;
+    }
+
+    public int FindMostSimilarBranch(int targetID, int baseID)
+    {
+        int bestID = -1;
+        int bestScore = int.MaxValue;
+
+        foreach (int id in allBranchIDs)
+        {
+            // 같은 월 범위만
+            if (id < baseID || id >= baseID + 1000)
+                continue;
+
+            int score = GetDigitSimilarity(targetID, id);
+
+            if (score < bestScore)
+            {
+                bestScore = score;
+                bestID = id;
+            }
+        }
+
+        return bestID;
+    }
+
+    public List<int> GetAllBranchIDs()
+    {
+        List<int> list = new List<int>();
+
+        foreach (var d in allDialogs)
+        {
+            if (!list.Contains(d.branch))
+                list.Add(d.branch);
+        }
+
+        return list;
     }
 
     public void ClearQueue()  // ⬅️ 거절 등으로 대화 중단 시 사용
     {
         dialogQueue.Clear();
     }
+
 }
