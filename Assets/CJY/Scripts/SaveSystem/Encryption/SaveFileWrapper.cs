@@ -4,8 +4,9 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class ProgressData
+public class SaveFileWrapper
 {
-    public int currentStage; // 1 ~ 12 (1¿ù ~ 12¿ù)
+    public string hash;
+    public byte[] data;
 }
 
