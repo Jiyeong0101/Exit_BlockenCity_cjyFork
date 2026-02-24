@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SpecialQuestData5
   m_EditorClassIdentifier: 
   background: {fileID: 0}
+  sliderColor: {r: 0.3480331, g: 0.6181556, b: 0.745283, a: 0}
   branchID: 41
   questName: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 5\uBC88"
   description: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 5\uBC88\uC785\uB2C8\uB2F9\n\uB192\uC774
