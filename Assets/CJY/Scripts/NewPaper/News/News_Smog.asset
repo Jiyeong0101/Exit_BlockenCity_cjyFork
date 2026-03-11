@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e663eb442db11594e9945a9ce733fad2, type: 3}
+  m_Name: News_Smog
+  m_EditorClassIdentifier: 
+  targetObstacle: 9
+  title: "[\uC2A4\uBAA8\uADF8 \uC8FC\uC758] \uD68C\uC0C9 \uC7A5\uB9C9 \uD655\uC0B0\u2026
+    \uC678\uACFD \uC2DC\uC57C \uD750\uB9BC"
+  content: "\uAD6C\uB8E1\uCC44\uC131 \uC0C1\uACF5\uC5D0 \uD68C\uC0C9\uBE5B \uC7A5\uB9C9\uC774
+    \uB4DC\uB9AC\uC6B0\uACE0 \uC788\uB2E4.\r\n\uBE5B\uC774 \uB610\uB837\uD558\uAC8C
+    \uD37C\uC9C0\uC9C0 \uBABB\uD55C \uCC44 \uACF5\uAE30 \uC18D\uC5D0 \uAC07\uD788\uBA70,
+    \uB3C4\uC2DC \uC678\uACFD\uC774 \uD750\uB9BF\uD558\uAC8C \uBC88\uC9C0\uACE0 \uC788\uB2E4.\r\n\r\n\uBA40\uB9AC
+    \uC788\uB294 \uAD6C\uC870\uBB3C\uC758 \uC724\uACFD\uC774 \uC120\uBA85\uD558\uC9C0
+    \uC54A\uAC8C \uBCF4\uC77C \uC218 \uC788\uC73C\uBA70,\r\n\uACBD\uACC4 \uAD6C\uAC04\uC758
+    \uAC70\uB9AC \uAC10\uAC01\uC774 \uC65C\uACE1\uB420 \uAC00\uB2A5\uC131\uB3C4 \uC788\uB2E4.\r"
+  icon: {fileID: 100843396, guid: 5cbc65dd05a7c2348b6527345ff6d754, type: 3}

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e663eb442db11594e9945a9ce733fad2, type: 3}
+  m_Name: News_Drought
+  m_EditorClassIdentifier: 
+  targetObstacle: 8
+  title: "[\uAC74\uAE30 \uACBD\uBCF4] \uC790\uC7AC \uAC74\uC870 \uC2EC\uD654\u2026
+    \uADE0\uC5F4 \uBC1C\uC0DD \uAC00\uB2A5\uC131"
+  content: "\uAC74\uC870\uD55C \uAE30\uB958\uAC00 \uC7A5\uAE30\uAC04 \uC9C0\uC18D\uB418\uBA70
+    \uC790\uC7AC\uC758 \uC218\uBD84 \uD568\uB7C9\uC774 \uAE09\uACA9\uD788 \uB0AE\uC544\uC9C0\uACE0
+    \uC788\uB2E4.\r\n\uC774\uB85C \uC778\uD574 \uC77C\uBD80 \uAD6C\uC870\uBB3C\uC5D0\uC11C
+    \uBBF8\uC138 \uADE0\uC5F4\uC774\uB098 \uBD80\uBD84 \uBD95\uAD34\uAC00 \uBC1C\uC0DD\uD560
+    \uAC00\uB2A5\uC131\uB3C4 \uC81C\uAE30\uB418\uC5C8\uB2E4.\r\n\r\n\uC124\uCE58
+    \uC9C1\uD6C4\uC758 \uC548\uC815\uC131 \uD655\uBCF4\uAC00 \uBB34\uC5C7\uBCF4\uB2E4
+    \uC911\uC694\uD574\uC9C8 \uC804\uB9DD\uC774\uB2E4.\r\n\uC138\uC2EC\uD55C \uC810\uAC80\uC774
+    \uC694\uAD6C\uB41C\uB2E4."
+  icon: {fileID: -546507101, guid: 5cbc65dd05a7c2348b6527345ff6d754, type: 3}
