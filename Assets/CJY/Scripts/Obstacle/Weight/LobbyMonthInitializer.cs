@@ -58,6 +58,14 @@ public class LobbyMonthInitializer : MonoBehaviour
         {
             Debug.LogWarning("[LobbyMonthInitializer] WeatherNewsSystem이 씬에 없습니다!");
         }
-        // ============================
+
+        if (StoryNewsSystem.Instance != null)
+        {
+            StoryNewsSystem.Instance.ShowStoryNews(month);
+        }
+        else
+        {
+            Debug.LogWarning("[LobbyMonthInitializer] StoryNewsSystem이 씬에 없습니다!");
+        }
     }
 }
