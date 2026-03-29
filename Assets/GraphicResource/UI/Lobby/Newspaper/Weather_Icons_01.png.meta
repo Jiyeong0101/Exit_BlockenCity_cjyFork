@@ -7,7 +7,7 @@ TextureImporter:
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 1
+    sRGBTexture: 0
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_0"
+      name: Weather_Icons_01_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1cda1e6a1f5c6e545bc2896d55b50061
-      internalID: -1659621584
+      spriteID: e861054a02a61ce49be4b5e9b2242a61
+      internalID: 1246055632
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_1"
+      name: Weather_Icons_01_1
       rect:
         serializedVersion: 2
         x: 164
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90ca04eb59fed1d4187345c2d086f9f4
-      internalID: -1468256416
+      spriteID: f7590f1e10ce6064fa4475724f6c1420
+      internalID: 278650325
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_2"
+      name: Weather_Icons_01_2
       rect:
         serializedVersion: 2
         x: 328
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f27ef6449aea644ebfe00c42a315198
-      internalID: 1239652775
+      spriteID: 7c9df5868ccb89e46bf73bc79c7676f8
+      internalID: -1925431228
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_3"
+      name: Weather_Icons_01_3
       rect:
         serializedVersion: 2
         x: 0
@@ -187,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ea3513ea74d3ce44872aa52e3d8501a
-      internalID: 52748555
+      spriteID: 49bba6e6dffef8948a317fe2b8a527c2
+      internalID: 331989922
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_4"
+      name: Weather_Icons_01_4
       rect:
         serializedVersion: 2
         x: 164
@@ -208,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8620c281a7f16bb4580e2a9d98b290cf
-      internalID: -1786196022
+      spriteID: d1a96dee396178f408ba5e2ac0adc565
+      internalID: 973284214
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_5"
+      name: Weather_Icons_01_5
       rect:
         serializedVersion: 2
         x: 328
@@ -229,14 +229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c834e4a6ea25284d941acb8d9ad7800
-      internalID: 1091423383
+      spriteID: ea54e38851dbff849a626691d1ee2b47
+      internalID: 548710507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_6"
+      name: Weather_Icons_01_6
       rect:
         serializedVersion: 2
         x: 0
@@ -250,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 514823641a01b5342940be9c390c0610
-      internalID: -2147118871
+      spriteID: dce88aceb662a9340805e6e91006c407
+      internalID: -583923117
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_7"
+      name: Weather_Icons_01_7
       rect:
         serializedVersion: 2
         x: 164
@@ -271,14 +271,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e46c4b70a028ebb42b2a9b62bf1f7527
-      internalID: -334427491
+      spriteID: 572f02b9a8c176b4daca61e3e92a05c0
+      internalID: -2124603148
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uC81C\uBAA9-\uC5C6\uC74C-3_8"
+      name: Weather_Icons_01_8
       rect:
         serializedVersion: 2
         x: 328
@@ -292,8 +292,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e65ef2186216acf4ebdbc835043c936f
-      internalID: 665221302
+      spriteID: 9c137a883ca8d754c8d56500540a9c47
+      internalID: -562979441
       vertices: []
       indices: 
       edges: []
@@ -301,7 +301,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5b39228c5038996458bd1abb4067f1b6
+    spriteID: 063d2199355efe94ebc2e25526315ca7
     internalID: 0
     vertices: []
     indices: 
@@ -309,15 +309,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_0": -1659621584
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_1": -1468256416
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_2": 1239652775
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_3": 52748555
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_4": -1786196022
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_5": 1091423383
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_6": -2147118871
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_7": -334427491
-      "\uC81C\uBAA9-\uC5C6\uC74C-3_8": 665221302
+      Weather_Icons_01_0: 1246055632
+      Weather_Icons_01_1: 278650325
+      Weather_Icons_01_2: -1925431228
+      Weather_Icons_01_3: 331989922
+      Weather_Icons_01_4: 973284214
+      Weather_Icons_01_5: 548710507
+      Weather_Icons_01_6: -583923117
+      Weather_Icons_01_7: -2124603148
+      Weather_Icons_01_8: -562979441
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
