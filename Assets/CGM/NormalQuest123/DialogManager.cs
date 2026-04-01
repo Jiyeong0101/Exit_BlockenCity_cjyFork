@@ -6,6 +6,7 @@ using System.IO;
 public class DialogManager : MonoBehaviour
 {
     public HashSet<int> allBranchIDs = new HashSet<int>();
+    public HashSet<int> spawnableBranchIDs = new HashSet<int>();
 
     private Queue<DialogLine> dialogQueue = new Queue<DialogLine>();
     private List<DialogLine> allDialogs = new List<DialogLine>();
@@ -39,28 +40,41 @@ public class DialogManager : MonoBehaviour
             }
 
             string[] values = line.Split(',');
+            System.Array.Resize(ref values, 9);
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = values[i].Trim();
+            }
 
             int branch = int.Parse(values[0]);
-            allBranchIDs.Add(branch);
-            int backGround = int.Parse(values[1]);
-            string ocp = values[2];
-            string name = values[3];
-            string dialog = values[4];
+            int backGround = string.IsNullOrEmpty(values[1]) ? 0 : int.Parse(values[1]);
 
-            int questionType = 0; // 기본값 0
-            if (values.Length > 5 && !string.IsNullOrEmpty(values[5]))
-                int.TryParse(values[5], out questionType);
+            string ocp = values[2];
+
+            int characterImageID = 0;
+            if (!string.IsNullOrEmpty(values[3]))
+                int.TryParse(values[3], out characterImageID);
+
+            string name = values[4];
+            string dialog = values[5];
+
+            int questionType = 0;
+            if (!string.IsNullOrEmpty(values[6]))
+                int.TryParse(values[6], out questionType);
 
             int acceptBranch = -1;
             int declineBranch = -1;
 
-            if (values.Length > 6 && !string.IsNullOrEmpty(values[6]))
-                int.TryParse(values[6], out acceptBranch);
+            if (!string.IsNullOrEmpty(values[7]))
+                int.TryParse(values[7], out acceptBranch);
 
-            if (values.Length > 7 && !string.IsNullOrEmpty(values[7]))
-                int.TryParse(values[7], out declineBranch);
+            if (!string.IsNullOrEmpty(values[8]))
+                int.TryParse(values[8], out declineBranch);
 
-            allDialogs.Add(new DialogLine(branch, backGround, ocp, name, dialog, questionType, acceptBranch, declineBranch));
+            allDialogs.Add(new DialogLine(branch, backGround, characterImageID,ocp, name, dialog,questionType, acceptBranch, declineBranch));
+           
+            spawnableBranchIDs.Add(branch);
         }
     }
 
@@ -75,6 +89,8 @@ public class DialogManager : MonoBehaviour
                 dialogQueue.Enqueue(dialog);
             }
         }
+
+        Debug.Log($"[DialogManager] branch {branchID} 로드 / {dialogQueue.Count}개 라인");
     }
 
     public DialogLine GetNextDialog()
@@ -133,17 +149,9 @@ public class DialogManager : MonoBehaviour
         return bestID;
     }
 
-    public List<int> GetAllBranchIDs()
+    public List<int> GetSpawnableBranchIDs()
     {
-        List<int> list = new List<int>();
-
-        foreach (var d in allDialogs)
-        {
-            if (!list.Contains(d.branch))
-                list.Add(d.branch);
-        }
-
-        return list;
+        return new List<int>(spawnableBranchIDs);
     }
 
     public void ClearQueue()  // ⬅️ 거절 등으로 대화 중단 시 사용

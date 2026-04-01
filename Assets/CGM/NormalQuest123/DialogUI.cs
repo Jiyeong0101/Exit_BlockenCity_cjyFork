@@ -11,6 +11,10 @@ public class DialogUI : MonoBehaviour
     public Image backgroundImage;
     public List<BackgroundEntry> backgroundList;
 
+    [Header("Character")]
+    public Image characterImage;
+    public List<CharacterImageEntry> characterImageList;
+
     [Header("Button Colors By Background")]
     public List<ButtonColorEntry> buttonColorList;
 
@@ -39,6 +43,8 @@ public class DialogUI : MonoBehaviour
     public List<SpecialQuestData> allQuestData; // Branch 번호 기반 인덱스 접근
 
     public static DialogUI Instance;
+    public bool IsDialogActive => dialogPanel.activeSelf;
+    public bool IsDialogRunning { get; private set; }
     private void Awake()
     {
         Instance = this;
@@ -105,9 +111,12 @@ public class DialogUI : MonoBehaviour
         Debug.Log($"[DialogUI] StartDialog 호출됨 / branch = {branch}");
         Debug.Log($"DialogManager.Instance = {DialogManager.Instance}");
 
+        IsDialogRunning = true;
+
+        DialogManager.Instance.ClearQueue();
         DialogManager.Instance.LoadDialogByBranch(branch);
         isWaitingForChoice = false;
-       //HideAllButtons();
+        //HideAllButtons();
         dialogPanel.SetActive(true);
         ShowNextDialog();
     }
@@ -118,13 +127,23 @@ public class DialogUI : MonoBehaviour
 
         if (!DialogManager.Instance.HasMoreDialog())
         {
+            IsDialogRunning = false;
+
             nameText.text = "";
             dialogText.text = "대화가 종료되었습니다.";
             dialogPanel.SetActive(false);
             return;
         }
-
         currentLine = DialogManager.Instance.GetNextDialog();
+
+        // ⭐ null 방어
+        if (currentLine == null)
+        {
+            Debug.LogError("currentLine NULL 발생");
+            IsDialogRunning = false;
+            dialogPanel.SetActive(false);
+            return;
+        }
 
         // ===== name & ocp =====
         nameText.text = currentLine.name;
@@ -148,6 +167,7 @@ public class DialogUI : MonoBehaviour
         typingCoroutine = StartCoroutine(TypeDialog(currentLine.dialog));
 
         isWaitingForChoice = currentLine.questionType == 1;
+        UpdateCharacterImage(currentLine.characterImageID);
     }
     private void UpdateBackground(int bgID)
     {
@@ -179,7 +199,21 @@ public class DialogUI : MonoBehaviour
         }
     }
 
+    private void UpdateCharacterImage(int charID)
+    {
+        CharacterImageEntry entry = characterImageList.Find(c => c.id == charID);
 
+        if (entry != null && entry.image != null)
+        {
+            characterImage.sprite = entry.image;
+            characterImage.gameObject.SetActive(true);
+        }
+        else
+        {
+            characterImage.gameObject.SetActive(false);
+            Debug.LogWarning($"캐릭터 이미지 없음 ID: {charID}");
+        }
+    }
     private IEnumerator TypeDialog(string dialog)
     {
         isTyping = true;
@@ -240,6 +274,7 @@ public class DialogUI : MonoBehaviour
                 SpecialQuestManager.Instance.AddQuest(matchedQuest);
             }
             Debug.Log("수락 선택됨2");
+            DialogManager.Instance.ClearQueue();
             DialogManager.Instance.LoadDialogByBranch(currentLine.acceptBranch);
         }
 
@@ -254,6 +289,7 @@ public class DialogUI : MonoBehaviour
 
         if (currentLine.declineBranch != -1)
         {
+            DialogManager.Instance.ClearQueue();
             DialogManager.Instance.LoadDialogByBranch(currentLine.declineBranch);
             ShowNextDialog();
         }
