@@ -49,7 +49,7 @@ public class TetrisNavigator : MonoBehaviour
             t.SetParent(ghostRoot, false);
 
             t.localScale = src.localScale * ghostScale;
-            Debug.Log($"[DEBUG] ghost cube scale = {t.localScale}");
+            //Debug.Log($"[DEBUG] ghost cube scale = {t.localScale}");
 
             ghostCubes.Add(t);
         }
