@@ -104,9 +104,6 @@ public class SpecialQuestManager : MonoBehaviour
         activeQuests.Remove(instance);
     }
 
-    // ===============================
-    // 타이머 종료 콜백
-    // ===============================
     public void OnTimeExpired(SpecialQuestInstance instance)
     {
         if (instance.isFinished) return;
@@ -134,9 +131,7 @@ public class SpecialQuestManager : MonoBehaviour
                 break;
         }
     }
-    // ===============================
-    // 이벤트 처리
-    // ===============================
+
     public void OnBlockDestroyed(BlockType destroyedType)
     {
         foreach (var instance in activeQuests)
@@ -169,8 +164,10 @@ public class SpecialQuestManager : MonoBehaviour
 
     public void OnHeightChanged(int currentHeight)
     {
-        foreach (var instance in activeQuests)
+        for (int i = activeQuests.Count - 1; i >= 0; i--)
         {
+            var instance = activeQuests[i];
+
             if (instance.isFinished) continue;
 
             instance.ui?.UpdateHeightProgress(

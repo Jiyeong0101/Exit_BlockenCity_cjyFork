@@ -32,6 +32,9 @@ public class SpecialQuestSpawner : MonoBehaviour
     {
         if (timeSlider == null) return;
 
+        if (DialogUI.Instance != null && DialogUI.Instance.IsDialogRunning)
+            return;
+
         float ratio = 1f - (timeSlider.value / timeSlider.maxValue);
 
         if (!cycleStarted && ratio > 0.01f)
@@ -69,7 +72,7 @@ public class SpecialQuestSpawner : MonoBehaviour
 
     void SpawnSpecialQuest()
     {
-        int month = 1;  // 1~12
+        int month = Datamanager.Instance.saveData.progress.currentStage; ;  // 1~12
 
         int a = SliderToDigit(sliderA);
         int b = SliderToDigit(sliderB);
@@ -91,7 +94,7 @@ public class SpecialQuestSpawner : MonoBehaviour
     // ⭐ 자리별 차이 기반 가장 가까운 ID 찾기
     int FindBestBranchID(int targetID)
     {
-        List<int> allBranch = DialogManager.Instance.GetAllBranchIDs();
+        List<int> allBranch = DialogManager.Instance.GetSpawnableBranchIDs();
 
         if (allBranch.Contains(targetID))
             return targetID;
@@ -116,7 +119,7 @@ public class SpecialQuestSpawner : MonoBehaviour
                 Mathf.Abs(t10 - i10) +
                 Mathf.Abs(t1 - i1);
 
-            if (score < bestScore)
+            if (score < bestScore || (score == bestScore && id < bestID))
             {
                 bestScore = score;
                 bestID = id;
