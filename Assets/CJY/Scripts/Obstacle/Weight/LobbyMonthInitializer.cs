@@ -48,5 +48,24 @@ public class LobbyMonthInitializer : MonoBehaviour
 
         var obstacle = GameObstacleSystem.Instance.GetSelectedObstacle();
         uiText.text = $"{month}월 방해물: {obstacle.type}";
+
+        // 신문 시스템: 확정된 날씨를 바탕으로 뉴스 UI 업데이트
+        if (WeatherNewsSystem.Instance != null)
+        {
+            WeatherNewsSystem.Instance.ShowTodayNews();
+        }
+        else
+        {
+            Debug.LogWarning("[LobbyMonthInitializer] WeatherNewsSystem이 씬에 없습니다!");
+        }
+
+        if (StoryNewsSystem.Instance != null)
+        {
+            StoryNewsSystem.Instance.ShowStoryNews(month);
+        }
+        else
+        {
+            Debug.LogWarning("[LobbyMonthInitializer] StoryNewsSystem이 씬에 없습니다!");
+        }
     }
 }

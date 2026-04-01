@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e663eb442db11594e9945a9ce733fad2, type: 3}
+  m_Name: News_StrongWind
+  m_EditorClassIdentifier: 
+  targetObstacle: 5
+  title: "[\uAC15\uD48D \uC8FC\uC758\uBCF4] \uBC30\uCE58 \uC548\uC815\uC131 \uACBD\uACC4"
+  content: "\uC131\uBCBD \uC0AC\uC774\uB85C \uBD88\uC5B4\uB4DC\uB294 \uB3CC\uD48D\uC774
+    \uC810\uCC28 \uAC70\uC138\uC9C0\uACE0 \uC788\uB2E4.\r\n\uC784\uC2DC \uACE0\uC815
+    \uC0C1\uD0DC\uC758 \uAD6C\uC870\uBB3C\uC774 \uC21C\uAC04\uC801\uC778 \uC555\uB825\uC5D0
+    \uBC00\uB824 \uC704\uCE58\uAC00 \uC5B4\uAE0B\uB0A0 \uAC00\uB2A5\uC131\uC774 \uC81C\uAE30\uB418\uC5C8\uB2E4.\r\n\r\n\uC804\uBB38\uAC00\uB4E4\uC740
+    <b>\u201C\uC548\uC815\uC774 \uC644\uC804\uD788 \uD655\uBCF4\uB418\uAE30 \uC804\uAE4C\uC9C0\uB294
+    \uBC29\uC2EC\uD574\uC11C\uB294 \uC548 \uB41C\uB2E4\u201D</b>\uACE0 \uAC15\uC870\uD588\uB2E4.\r\n\uBC14\uB78C\uC758
+    \uD750\uB984\uC774 \uBC30\uCE58 \uADE0\uD615\uC744 \uD754\uB4E4 \uC218 \uC788\uB2E4.\r\r"
+  icon: {fileID: -1315437525, guid: 5cbc65dd05a7c2348b6527345ff6d754, type: 3}
