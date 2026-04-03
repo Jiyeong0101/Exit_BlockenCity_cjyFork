@@ -5441,7 +5441,7 @@ GameObject:
   - component: {fileID: 2040370443}
   - component: {fileID: 2040370442}
   m_Layer: 5
-  m_Name: IMG_Icon
+  m_Name: IMG_WeatherIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
