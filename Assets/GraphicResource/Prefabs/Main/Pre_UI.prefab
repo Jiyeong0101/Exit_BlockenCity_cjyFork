@@ -4732,6 +4732,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pre_Quest_Active_DangWolGuk
       objectReference: {fileID: 0}
+    - target: {fileID: 5475829419113535049, guid: 8bff2201d25157b4fb38754575a46c7b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475829419113535049, guid: 8bff2201d25157b4fb38754575a46c7b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475829419113535049, guid: 8bff2201d25157b4fb38754575a46c7b, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6872714252837411457, guid: 8bff2201d25157b4fb38754575a46c7b, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
