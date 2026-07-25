@@ -10,6 +10,7 @@ public class SaveData
     public RelationshipData relationship = new RelationshipData();
     public ProgressData progress = new ProgressData();
     public FriendlinessData friendlinessData = new FriendlinessData();
+    public StoryProgressData story = new StoryProgressData();
 
     public NewsData news = new NewsData();
 }

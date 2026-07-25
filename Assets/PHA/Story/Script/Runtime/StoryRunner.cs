@@ -9,7 +9,14 @@ public class StoryRunner : MonoBehaviour
     [SerializeField]
     private StoryUI storyUI;
 
+    [Header("스토리 시퀀스")]
+    [SerializeField]
+    private StorySequenceController sequenceController;
+
     [Header("테스트용 스토리")]
+    [SerializeField]
+    private bool useTestStory;
+
     [SerializeField]
     private StoryData testStory;
 
@@ -22,7 +29,8 @@ public class StoryRunner : MonoBehaviour
     private string defaultPlayerName = "서안";
 
     [SerializeField]
-    private string playerJobTitle = "공작청 현장감독관";
+    private string playerJobTitle =
+        "공작청 현장감독관";
 
     [Header("자동 진행")]
     [Min(0f)]
@@ -47,15 +55,36 @@ public class StoryRunner : MonoBehaviour
     private bool autoMode;
     private bool skipMode;
 
+    /*
+     * 현재 실행 중인 스토리 안에서 발생한
+     * 선택 결과를 임시로 보관합니다.
+     */
     private readonly Dictionary<string, string>
         storyResults = new();
 
+    /*
+     * 외부 시스템에서 임시로 등록하는 조건입니다.
+     *
+     * 예:
+     * SetStoryUnlock("MetHongryeon", true);
+     */
     private readonly Dictionary<string, string>
         storyConditions = new();
 
-    public bool IsStoryPlaying => isStoryPlaying;
-    public bool AutoMode => autoMode;
-    public bool SkipMode => skipMode;
+    /*
+     * 완료 스토리, 세력 소개 여부,
+     * 선택 결과 저장 등을 담당합니다.
+     */
+    private StoryProgressService progressService;
+
+    public bool IsStoryPlaying =>
+        isStoryPlaying;
+
+    public bool AutoMode =>
+        autoMode;
+
+    public bool SkipMode =>
+        skipMode;
 
     private string CurrentPlayerName
     {
@@ -66,7 +95,7 @@ public class StoryRunner : MonoBehaviour
                 return defaultPlayerName;
             }
 
-            var saveData =
+            SaveData saveData =
                 Datamanager.Instance.saveData;
 
             if (saveData == null ||
@@ -83,6 +112,18 @@ public class StoryRunner : MonoBehaviour
 
     private void Awake()
     {
+        progressService =
+            new StoryProgressService();
+
+        FindSequenceController();
+
+        if (sequenceController != null)
+        {
+            sequenceController.Initialize(
+                progressService
+            );
+        }
+
         BindButtons();
     }
 
@@ -98,12 +139,78 @@ public class StoryRunner : MonoBehaviour
             return;
         }
 
-        storyUI.SetAutoModeVisual(false);
+        ApplyAdvanceModeSetting();
 
-        if (playOnStart &&
-            testStory != null)
+        if (!playOnStart)
         {
+            return;
+        }
+
+        /*
+         * 테스트 모드가 켜져 있으면
+         * 특정 StoryData만 실행합니다.
+         */
+        if (useTestStory)
+        {
+            if (testStory == null)
+            {
+                Debug.LogWarning(
+                    "테스트용 StoryData가 연결되지 않았습니다.",
+                    this
+                );
+
+                return;
+            }
+
             StartStory(testStory);
+            return;
+        }
+
+        /*
+         * 실제 게임에서는 현재 월과 조건에 맞는
+         * 스토리 시퀀스를 생성합니다.
+         */
+        StartCurrentStorySequence();
+    }
+
+    private void OnEnable()
+    {
+        if (StorySettingsManager.Instance != null)
+        {
+            StorySettingsManager.Instance
+                .OnStorySettingsChanged +=
+                ApplyAdvanceModeSetting;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (StorySettingsManager.Instance != null)
+        {
+            StorySettingsManager.Instance
+                .OnStorySettingsChanged -=
+                ApplyAdvanceModeSetting;
+        }
+    }
+
+    private void FindSequenceController()
+    {
+        if (sequenceController != null)
+        {
+            return;
+        }
+
+        sequenceController =
+            GetComponent<StorySequenceController>();
+
+        if (sequenceController == null)
+        {
+            Debug.LogError(
+                "StorySequenceController가 연결되지 않았습니다. " +
+                "StoryRunner와 같은 오브젝트에 추가하거나 " +
+                "Inspector에서 직접 연결해주세요.",
+                this
+            );
         }
     }
 
@@ -120,9 +227,6 @@ public class StoryRunner : MonoBehaviour
         Button skipButton =
             storyUI.GetSkipButton();
 
-        //Button logButton =
-        //    storyUI.GetLogButton();
-
         if (autoButton != null)
         {
             autoButton.onClick.AddListener(
@@ -136,21 +240,96 @@ public class StoryRunner : MonoBehaviour
                 ToggleSkipMode
             );
         }
-
-        //if (logButton != null)
-        //{
-        //    logButton.onClick.AddListener(
-        //        OpenStoryLog
-        //    );
-        //}
     }
 
-    public void StartStory(StoryData story)
+    /*
+     * 현재 월과 저장된 조건을 기준으로
+     * StorySequenceController에 스토리 목록 생성을 요청합니다.
+     */
+    public void StartCurrentStorySequence()
+    {
+        if (sequenceController == null)
+        {
+            FindSequenceController();
+        }
+
+        if (sequenceController == null)
+        {
+            return;
+        }
+
+        /*
+         * 이전 테스트 스토리에서 남은
+         * 현재 실행 중 선택 결과를 초기화합니다.
+         */
+        storyResults.Clear();
+
+        bool sequenceCreated =
+            sequenceController.BuildCurrentSequence();
+
+        if (!sequenceCreated)
+        {
+            Debug.LogWarning(
+                "현재 실행할 수 있는 스토리 시퀀스가 없습니다.",
+                this
+            );
+
+            return;
+        }
+
+        PlayNextQueuedStory();
+    }
+
+    /*
+     * StorySequenceController가 골라놓은
+     * 다음 StoryData를 받아 실행합니다.
+     */
+    private void PlayNextQueuedStory()
+    {
+        if (sequenceController == null)
+        {
+            return;
+        }
+
+        bool hasNextStory =
+            sequenceController.TryGetNextStory(
+                out StoryData nextStory
+            );
+
+        if (!hasNextStory ||
+            nextStory == null)
+        {
+            Debug.Log(
+                "현재 시점의 모든 스토리를 완료했습니다.",
+                this
+            );
+
+            return;
+        }
+
+        StartStory(nextStory);
+    }
+
+    /*
+     * 전달받은 StoryData의 실제 재생을 시작합니다.
+     */
+    public void StartStory(
+        StoryData story)
     {
         if (story == null)
         {
             Debug.LogError(
                 "실행할 StoryData가 없습니다.",
+                this
+            );
+
+            return;
+        }
+
+        if (storyUI == null)
+        {
+            Debug.LogError(
+                "StoryUI가 연결되지 않았습니다.",
                 this
             );
 
@@ -177,22 +356,35 @@ public class StoryRunner : MonoBehaviour
         isWaitingForChoice = false;
         isProcessingNode = false;
 
-        autoMode = false;
+        autoMode =
+            StorySettingsManager.Instance != null &&
+            StorySettingsManager.Instance
+                .IsAutoAdvance();
+
         skipMode = false;
 
         storyUI.ClearLogEntries();
 
         storyUI.Open();
-        storyUI.SetAutoModeVisual(false);
+
+        storyUI.SetAutoModeVisual(
+            autoMode
+        );
 
         storyUI.ShowStoryTitle(
             story,
-            () => MoveToNode(
-                story.StartNodeId
-            )
+            () =>
+            {
+                MoveToNode(
+                    story.StartNodeId
+                );
+            }
         );
     }
 
+    /*
+     * 대화창의 다음 버튼을 눌렀을 때 호출합니다.
+     */
     public void OnClickNext()
     {
         if (!isStoryPlaying ||
@@ -213,12 +405,15 @@ public class StoryRunner : MonoBehaviour
         }
 
         CancelScheduledAdvance();
+
         MoveToNextNode();
     }
 
-    private void MoveToNode(string nodeId)
+    private void MoveToNode(
+        string nodeId)
     {
-        if (!isStoryPlaying)
+        if (!isStoryPlaying ||
+            currentStory == null)
         {
             return;
         }
@@ -250,6 +445,12 @@ public class StoryRunner : MonoBehaviour
     private IEnumerator ProcessNode(
         StoryNodeData node)
     {
+        if (node == null)
+        {
+            EndStory();
+            yield break;
+        }
+
         isProcessingNode = true;
         isWaitingForChoice = false;
 
@@ -263,15 +464,21 @@ public class StoryRunner : MonoBehaviour
         switch (node.NodeType)
         {
             case StoryNodeType.CharacterDialogue:
-                yield return ProcessCharacterDialogue(node);
+                yield return ProcessCharacterDialogue(
+                    node
+                );
                 break;
 
             case StoryNodeType.PlayerDialogue:
-                yield return ProcessPlayerDialogue(node);
+                yield return ProcessPlayerDialogue(
+                    node
+                );
                 break;
 
             case StoryNodeType.Narration:
-                yield return ProcessNarration(node);
+                yield return ProcessNarration(
+                    node
+                );
                 break;
 
             case StoryNodeType.Choice:
@@ -279,6 +486,16 @@ public class StoryRunner : MonoBehaviour
                 break;
 
             case StoryNodeType.End:
+                EndStory();
+                break;
+
+            default:
+                Debug.LogWarning(
+                    $"지원하지 않는 노드 타입: " +
+                    $"{node.NodeType}",
+                    currentStory
+                );
+
                 EndStory();
                 break;
         }
@@ -299,7 +516,7 @@ public class StoryRunner : MonoBehaviour
     }
 
     private IEnumerator ProcessCharacterDialogue(
-     StoryNodeData node)
+        StoryNodeData node)
     {
         CharacterData character =
             node.Character;
@@ -307,7 +524,8 @@ public class StoryRunner : MonoBehaviour
         if (character == null)
         {
             Debug.LogWarning(
-                $"[{node.NodeId}] 캐릭터가 지정되지 않았습니다.",
+                $"[{node.NodeId}] " +
+                "캐릭터가 지정되지 않았습니다.",
                 currentStory
             );
 
@@ -341,7 +559,7 @@ public class StoryRunner : MonoBehaviour
     }
 
     private IEnumerator ProcessPlayerDialogue(
-    StoryNodeData node)
+        StoryNodeData node)
     {
         storyUI.SetSpeaker(
             CurrentPlayerName,
@@ -368,7 +586,7 @@ public class StoryRunner : MonoBehaviour
     }
 
     private IEnumerator ProcessNarration(
-    StoryNodeData node)
+        StoryNodeData node)
     {
         storyUI.HideSpeaker();
 
@@ -407,7 +625,15 @@ public class StoryRunner : MonoBehaviour
         );
     }
 
-    public void SetStoryCondition( string key, string value)
+    /*
+     * 외부 시스템에서 임시 스토리 조건을 등록할 때 사용합니다.
+     *
+     * 예:
+     * SetStoryCondition("HasSpecialItem", "True");
+     */
+    public void SetStoryCondition(
+        string key,
+        string value)
     {
         if (string.IsNullOrWhiteSpace(key))
         {
@@ -428,7 +654,9 @@ public class StoryRunner : MonoBehaviour
         );
     }
 
-    public void SetStoryUnlock(string key, bool unlocked)
+    public void SetStoryUnlock(
+        string key,
+        bool unlocked)
     {
         SetStoryCondition(
             key,
@@ -436,7 +664,8 @@ public class StoryRunner : MonoBehaviour
         );
     }
 
-    private bool IsChoiceAvailable( StoryChoiceData choice)
+    private bool IsChoiceAvailable(
+        StoryChoiceData choice)
     {
         if (choice == null)
         {
@@ -460,7 +689,9 @@ public class StoryRunner : MonoBehaviour
             return false;
         }
 
-        // 현재 스토리에서 발생한 선택 결과 확인
+        /*
+         * 1. 현재 스토리에서 발생한 선택 결과를 확인합니다.
+         */
         if (storyResults.TryGetValue(
                 choice.RequiredKey,
                 out string storyResultValue))
@@ -468,11 +699,14 @@ public class StoryRunner : MonoBehaviour
             return string.Equals(
                 storyResultValue,
                 choice.RequiredValue,
-                System.StringComparison.OrdinalIgnoreCase
+                System.StringComparison
+                    .OrdinalIgnoreCase
             );
         }
 
-        // 별도로 등록된 영구/임시 해금 조건 확인
+        /*
+         * 2. 외부에서 등록한 임시 조건을 확인합니다.
+         */
         if (storyConditions.TryGetValue(
                 choice.RequiredKey,
                 out string conditionValue))
@@ -480,7 +714,27 @@ public class StoryRunner : MonoBehaviour
             return string.Equals(
                 conditionValue,
                 choice.RequiredValue,
-                System.StringComparison.OrdinalIgnoreCase
+                System.StringComparison
+                    .OrdinalIgnoreCase
+            );
+        }
+
+        /*
+         * 3. 이전 스토리에서 영구 저장된
+         * 선택 결과를 확인합니다.
+         */
+        if (progressService != null)
+        {
+            string savedValue =
+                progressService.GetChoiceValue(
+                    choice.RequiredKey
+                );
+
+            return string.Equals(
+                savedValue,
+                choice.RequiredValue,
+                System.StringComparison
+                    .OrdinalIgnoreCase
             );
         }
 
@@ -528,19 +782,26 @@ public class StoryRunner : MonoBehaviour
     private void SaveChoiceResult(
         StoryChoiceData choice)
     {
-        if (string.IsNullOrWhiteSpace(
+        if (choice == null ||
+            string.IsNullOrWhiteSpace(
                 choice.ResultKey))
         {
             return;
         }
 
+        /*
+         * 현재 스토리 안에서 즉시 사용하기 위한 값입니다.
+         */
         storyResults[choice.ResultKey] =
             choice.ResultValue;
 
-        Debug.Log(
-            $"선택 결과 저장: " +
-            $"{choice.ResultKey} = " +
-            $"{choice.ResultValue}"
+        /*
+         * 다음 스토리나 게임 재실행 후에도 사용하도록
+         * SaveData에 저장합니다.
+         */
+        progressService?.SaveChoiceResult(
+            choice.ResultKey,
+            choice.ResultValue
         );
     }
 
@@ -548,14 +809,34 @@ public class StoryRunner : MonoBehaviour
         string key,
         string defaultValue = "")
     {
-        return storyResults.TryGetValue(
-            key,
-            out string value)
-            ? value
-            : defaultValue;
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            return defaultValue;
+        }
+
+        if (storyResults.TryGetValue(
+                key,
+                out string currentValue))
+        {
+            return currentValue;
+        }
+
+        if (progressService != null)
+        {
+            string savedValue =
+                progressService.GetChoiceValue(key);
+
+            if (!string.IsNullOrEmpty(savedValue))
+            {
+                return savedValue;
+            }
+        }
+
+        return defaultValue;
     }
 
-    private string ReplaceTokens(string text)
+    private string ReplaceTokens(
+        string text)
     {
         if (string.IsNullOrEmpty(text))
         {
@@ -576,6 +857,11 @@ public class StoryRunner : MonoBehaviour
     private void ScheduleAutomaticAdvance(
         StoryNodeData node)
     {
+        if (node == null)
+        {
+            return;
+        }
+
         bool shouldAdvance =
             skipMode ||
             autoMode ||
@@ -610,7 +896,7 @@ public class StoryRunner : MonoBehaviour
         float delay)
     {
         yield return new WaitForSecondsRealtime(
-            delay
+            Mathf.Max(0f, delay)
         );
 
         advanceCoroutine = null;
@@ -665,6 +951,7 @@ public class StoryRunner : MonoBehaviour
         CancelScheduledAdvance();
 
         if (autoMode &&
+            currentNode != null &&
             !isWaitingForChoice &&
             !storyUI.IsTyping &&
             !isProcessingNode)
@@ -699,6 +986,7 @@ public class StoryRunner : MonoBehaviour
         CancelScheduledAdvance();
 
         if (skipMode &&
+            currentNode != null &&
             !isWaitingForChoice &&
             !isProcessingNode)
         {
@@ -708,16 +996,15 @@ public class StoryRunner : MonoBehaviour
         }
     }
 
-    //private void OpenStoryLog()
-    //{
-    //    Debug.Log(
-    //        "스토리 로그 UI는 아직 연결되지 않았습니다."
-    //    );
-    //}
-
     private IEnumerator ProcessEffects(
         StoryNodeData node)
     {
+        if (node == null ||
+            node.Effects == null)
+        {
+            yield break;
+        }
+
         foreach (StoryEffectData effect
                  in node.Effects)
         {
@@ -730,20 +1017,35 @@ public class StoryRunner : MonoBehaviour
 
             Debug.Log(
                 $"스토리 효과 요청: " +
-                $"{effect.EffectType}"
+                $"{effect.EffectType}",
+                this
             );
 
+            /*
+             * 추후 여기서 전용 StoryEffectController에
+             * 효과 실행을 위임할 수 있습니다.
+             */
             if (effect.WaitForCompletion)
             {
                 yield return new WaitForSecondsRealtime(
-                    effect.Duration
+                    Mathf.Max(
+                        0f,
+                        effect.Duration
+                    )
                 );
             }
         }
     }
 
+    /*
+     * 현재 StoryData를 종료하고,
+     * 시퀀스에 다음 StoryData가 있으면 이어서 실행합니다.
+     */
     public void EndStory()
     {
+        StoryData finishedStory =
+            currentStory;
+
         StopAllStoryCoroutines();
 
         isStoryPlaying = false;
@@ -756,12 +1058,104 @@ public class StoryRunner : MonoBehaviour
         currentNode = null;
         currentStory = null;
 
-        storyUI.SetAutoModeVisual(false);
-        storyUI.Close();
+        if (storyUI != null)
+        {
+            storyUI.SetAutoModeVisual(false);
+            storyUI.Close();
+        }
+
+        /*
+         * 완료 스토리와 세력 소개 여부를 저장합니다.
+         */
+        if (finishedStory != null)
+        {
+            progressService?.CompleteStory(
+                finishedStory
+            );
+        }
+
+        /*
+         * StorySequenceController가 활성화된 상태라면
+         * 다음 StoryData를 요청합니다.
+         *
+         * 마지막 스토리였다면 TryGetNextStory가 false를
+         * 반환하면서 시퀀스가 종료됩니다.
+         */
+        if (sequenceController != null &&
+            sequenceController.IsPlayingSequence)
+        {
+            PlayNextQueuedStory();
+            return;
+        }
 
         Debug.Log(
-            "스토리가 종료되었습니다."
+            "스토리 진행이 종료되었습니다.",
+            this
         );
+    }
+
+    private void AddNodeToLog(
+        StoryNodeData node,
+        string speakerName)
+    {
+        if (node == null ||
+            storyUI == null)
+        {
+            return;
+        }
+
+        string outputText =
+            ReplaceTokens(node.Text);
+
+        if (string.IsNullOrWhiteSpace(
+                outputText))
+        {
+            return;
+        }
+
+        storyUI.AddLogEntry(
+            speakerName,
+            outputText
+        );
+    }
+
+    private void ApplyAdvanceModeSetting()
+    {
+        if (StorySettingsManager.Instance == null)
+        {
+            return;
+        }
+
+        autoMode =
+            StorySettingsManager.Instance
+                .IsAutoAdvance();
+
+        if (autoMode)
+        {
+            skipMode = false;
+        }
+
+        if (storyUI != null)
+        {
+            storyUI.SetAutoModeVisual(
+                autoMode
+            );
+        }
+
+        CancelScheduledAdvance();
+
+        if (autoMode &&
+            isStoryPlaying &&
+            currentNode != null &&
+            !isWaitingForChoice &&
+            storyUI != null &&
+            !storyUI.IsTyping &&
+            !isProcessingNode)
+        {
+            ScheduleAutomaticAdvance(
+                currentNode
+            );
+        }
     }
 
     private void CancelScheduledAdvance()
@@ -811,9 +1205,6 @@ public class StoryRunner : MonoBehaviour
         Button skipButton =
             storyUI.GetSkipButton();
 
-        //Button logButton =
-        //    storyUI.GetLogButton();
-
         if (autoButton != null)
         {
             autoButton.onClick.RemoveListener(
@@ -827,35 +1218,5 @@ public class StoryRunner : MonoBehaviour
                 ToggleSkipMode
             );
         }
-
-        //if (logButton != null)
-        //{
-        //    logButton.onClick.RemoveListener(
-        //        OpenStoryLog
-        //    );
-        //}
-    }
-
-    private void AddNodeToLog(
-    StoryNodeData node,
-    string speakerName)
-    {
-        if (node == null)
-        {
-            return;
-        }
-
-        string outputText =
-            ReplaceTokens(node.Text);
-
-        if (string.IsNullOrWhiteSpace(outputText))
-        {
-            return;
-        }
-
-        storyUI.AddLogEntry(
-            speakerName,
-            outputText
-        );
     }
 }

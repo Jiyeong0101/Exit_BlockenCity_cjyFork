@@ -18,6 +18,12 @@ MonoBehaviour:
   year: 1960
   month: 1
   day: 17
+  priority: 100
+  playOnce: 1
+  playTiming: 1
+  availableMonth: 1
+  conditions: []
+  unlockFactionId: Normal_01
   startNodeId: appointment_001
   nodes:
   - nodeId: appointment_001

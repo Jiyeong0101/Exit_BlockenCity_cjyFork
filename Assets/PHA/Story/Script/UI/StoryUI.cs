@@ -75,6 +75,28 @@ public class StoryUI : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        ApplyTextSizeSetting();
+
+        if (StorySettingsManager.Instance != null)
+        {
+            StorySettingsManager.Instance
+                .OnStorySettingsChanged +=
+                ApplyTextSizeSetting;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (StorySettingsManager.Instance != null)
+        {
+            StorySettingsManager.Instance
+                .OnStorySettingsChanged -=
+                ApplyTextSizeSetting;
+        }
+    }
+
     public void Open()
     {
         StopTyping();
@@ -757,8 +779,8 @@ public class StoryUI : MonoBehaviour
     #region 스토리 로그
 
     public void AddLogEntry(
-        string speakerName,
-        string dialogue)
+    string speakerName,
+    string dialogue)
     {
         if (logContent == null)
         {
@@ -793,9 +815,13 @@ public class StoryUI : MonoBehaviour
 
         newLog.gameObject.SetActive(true);
 
+        float fontSize =
+            GetConfiguredTextSize();
+
         newLog.Setup(
             speakerName,
-            dialogue
+            dialogue,
+            fontSize
         );
     }
 
@@ -824,4 +850,61 @@ public class StoryUI : MonoBehaviour
     }
 
     #endregion
+
+    private float GetConfiguredTextSize()
+    {
+        if (StorySettingsManager.Instance == null)
+        {
+            return 30f;
+        }
+
+        StoryTextSize size =
+            StorySettingsManager.Instance.GetTextSize();
+
+        switch (size)
+        {
+            case StoryTextSize.Small:
+                return 24f;
+
+            case StoryTextSize.Large:
+                return 36f;
+
+            case StoryTextSize.Medium:
+            default:
+                return 30f;
+        }
+    }
+
+    public void ApplyTextSizeSetting()
+    {
+        float fontSize =
+            GetConfiguredTextSize();
+
+        if (dialogueText != null)
+        {
+            dialogueText.fontSize =
+                fontSize;
+        }
+
+        if (logContent == null)
+        {
+            return;
+        }
+
+        foreach (
+            StoryLogItemUI logItem
+            in logContent.GetComponentsInChildren<
+                StoryLogItemUI>(true))
+        {
+            if (logTemplate != null &&
+                logItem == logTemplate)
+            {
+                continue;
+            }
+
+            logItem.ApplyFontSize(
+                fontSize
+            );
+        }
+    }
 }

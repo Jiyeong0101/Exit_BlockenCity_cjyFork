@@ -10,6 +10,13 @@ public enum StoryType
     Event,      // 세력 이벤트 스토리
 }
 
+public enum StoryPlayTiming
+{
+    BeforeMonthly,  // 월 메인 스토리 전에 실행
+    Monthly,        // 해당 월의 메인 스토리 후보
+    AfterMonthly    // 월 메인 스토리 이후 실행
+}
+
 [CreateAssetMenu(
     fileName = "StoryData",
     menuName = "Game/Story/Story Data"
@@ -34,13 +41,46 @@ public class StoryData : ScriptableObject
     [SerializeField]
     private int year;
 
-    [Range(1, 12)]
+    [Tooltip("0이면 월 제한이 없는 이벤트 스토리")]
+    [Range(0, 12)]
     [SerializeField]
-    private int month = 1;
+    private int month;
 
     [Range(0, 31)]
     [SerializeField]
     private int day;
+
+    [Header("스토리 실행 설정")]
+
+    [Tooltip("동일 시점의 스토리 중 낮은 값이 먼저 실행됩니다.")]
+    [SerializeField]
+    private int priority = 100;
+
+    [Tooltip("한 번 완료하면 다시 실행하지 않습니다.")]
+    [SerializeField]
+    private bool playOnce = true;
+
+    [SerializeField]
+    private StoryPlayTiming playTiming =
+        StoryPlayTiming.Monthly;
+
+    [Tooltip("0이면 월 제한 없이 조건을 만족할 때 실행됩니다.")]
+    [SerializeField]
+    [Range(0, 12)]
+    private int availableMonth;
+
+    [Header("실행 조건")]
+
+    [SerializeField]
+    private List<StoryConditionData> conditions =
+        new();
+
+    [Header("완료 시 처리")]
+
+    [Tooltip("완료 시 소개된 것으로 저장할 세력 ID")]
+    [SerializeField]
+    private string unlockFactionId;
+
 
     [Header("스토리 노드")]
 
@@ -61,9 +101,17 @@ public class StoryData : ScriptableObject
 
     public string StartNodeId => startNodeId;
 
-    public IReadOnlyList<StoryNodeData> Nodes =>
-        nodes;
+    public IReadOnlyList<StoryNodeData> Nodes => nodes;
 
+    public int Priority => priority;
+    public bool PlayOnce => playOnce;
+
+    public StoryPlayTiming PlayTiming => playTiming;
+
+    public IReadOnlyList<StoryConditionData>  Conditions => conditions;
+
+    public string UnlockFactionId =>
+        unlockFactionId;
     public string GetTypeDisplayName()
     {
         return storyType switch
