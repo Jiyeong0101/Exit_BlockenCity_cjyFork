@@ -47,7 +47,7 @@ public class EncyclopediaUIController : MonoBehaviour
     [Header("캐릭터 기본 UI")]
     public Image characterPortraitImage;
     public TMP_Text characterNameText;
-    public TMP_Text characterEnglishNameText;
+    public Text characterEnglishNameText;
     public TMP_Text dialogueText;
     public TMP_Text ageText;
     public TMP_Text jobText;
