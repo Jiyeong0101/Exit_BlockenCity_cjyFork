@@ -16,6 +16,7 @@ public class StoryUI : MonoBehaviour
     [SerializeField] private Text dateText;
     [SerializeField] private Text titleNameText;
     [SerializeField] private Button titleConfirmButton;
+    [SerializeField] private CutScVFXController titleTypingEffect;
 
     [Header("캐릭터")]
     [SerializeField] private Image characterImage;
@@ -69,12 +70,26 @@ public class StoryUI : MonoBehaviour
 
     public void Open()
     {
-        dialogueRoot.SetActive(true);
+        StopTyping();
+
+        // 스토리 시작 직후에는 제목과 대화창을 모두 정리
+        if (dialogueRoot != null)
+        {
+            dialogueRoot.SetActive(false);
+        }
+
+        if (titleRoot != null)
+        {
+            titleRoot.SetActive(false);
+        }
 
         HideChoices();
         HideNextLineIcon();
 
-        dialogueText.text = string.Empty;
+        if (dialogueText != null)
+        {
+            dialogueText.text = string.Empty;
+        }
     }
 
     public void Close()
@@ -97,7 +112,9 @@ public class StoryUI : MonoBehaviour
 
     #region 제목
 
-    public void ShowStoryTitle(StoryData story, Action onConfirmed)
+    public void ShowStoryTitle(
+    StoryData story,
+    Action onConfirmed)
     {
         if (story == null)
         {
@@ -112,11 +129,15 @@ public class StoryUI : MonoBehaviour
 
         titleConfirmAction = onConfirmed;
 
+        if (dialogueRoot != null)
+        {
+            dialogueRoot.SetActive(false);
+        }
+
         if (titleRoot == null)
         {
             Debug.LogWarning(
-                "Title Root가 연결되지 않아 " +
-                "바로 스토리를 시작합니다.",
+                "Title Root가 연결되지 않아 바로 시작합니다.",
                 this
             );
 
@@ -126,26 +147,45 @@ public class StoryUI : MonoBehaviour
 
         titleRoot.SetActive(true);
 
-        if (yearText != null)
-        {
-            yearText.text = GetYearText(story);
-        }
+        string year =
+            GetYearText(story);
 
-        if (dateText != null)
-        {
-            dateText.text = GetDateText(story);
-        }
+        string date =
+            GetDateText(story);
 
-        if (titleNameText != null)
+        string title =
+            story.StoryTitle ?? string.Empty;
+
+        if (titleTypingEffect != null)
         {
-            titleNameText.text = story.StoryTitle;
+            titleTypingEffect.PlaySequence(
+                year,
+                date,
+                title
+            );
+        }
+        else
+        {
+            if (yearText != null)
+            {
+                yearText.text = year;
+            }
+
+            if (dateText != null)
+            {
+                dateText.text = date;
+            }
+
+            if (titleNameText != null)
+            {
+                titleNameText.text = title;
+            }
         }
 
         if (titleConfirmButton == null)
         {
             Debug.LogWarning(
-                "제목 확인 버튼이 연결되지 않아 " +
-                "바로 스토리를 시작합니다.",
+                "Title Confirm Button이 연결되지 않았습니다.",
                 this
             );
 
@@ -171,12 +211,33 @@ public class StoryUI : MonoBehaviour
             );
         }
 
-        HideTitle();
+        if (titleTypingEffect != null)
+        {
+            titleTypingEffect.StopSequence();
+        }
 
-        Action callback = titleConfirmAction;
+        HideTitle();
+        ShowDialogue();
+
+        Action callback =
+            titleConfirmAction;
+
         titleConfirmAction = null;
 
         callback?.Invoke();
+    }
+
+    public void ShowDialogue()
+    {
+        if (titleRoot != null)
+        {
+            titleRoot.SetActive(false);
+        }
+
+        if (dialogueRoot != null)
+        {
+            dialogueRoot.SetActive(true);
+        }
     }
 
     public void HideTitle()
@@ -474,8 +535,9 @@ public class StoryUI : MonoBehaviour
     #region 선택지
 
     public void ShowChoices(
-        IReadOnlyList<StoryChoiceData> choices,
-        Action<StoryChoiceData> onSelected)
+    IReadOnlyList<StoryChoiceData> choices,
+    Func<StoryChoiceData, bool> isChoiceAvailable,
+    Action<StoryChoiceData> onSelected)
     {
         HideChoices();
 
@@ -485,40 +547,103 @@ public class StoryUI : MonoBehaviour
             return;
         }
 
-        choiceBox.SetActive(true);
-
-        int visibleCount = Mathf.Min(
-            choices.Count,
-            choiceButtons.Length
-        );
-
-        if (choices.Count > choiceButtons.Length)
+        if (choiceBox == null)
         {
-            Debug.LogWarning(
-                $"선택지는 {choices.Count}개이지만 " +
-                $"현재 UI에는 {choiceButtons.Length}개까지만 " +
-                "표시할 수 있습니다."
+            Debug.LogError(
+                "Choice Box가 연결되지 않았습니다.",
+                this
             );
+
+            return;
         }
 
-        for (int i = 0; i < visibleCount; i++)
+        choiceBox.SetActive(true);
+
+        int uiIndex = 0;
+
+        for (int choiceIndex = 0;
+             choiceIndex < choices.Count;
+             choiceIndex++)
         {
-            int index = i;
-            StoryChoiceData currentChoice = choices[index];
+            StoryChoiceData currentChoice =
+                choices[choiceIndex];
 
-            choiceButtons[index].gameObject.SetActive(true);
-            choiceButtons[index].interactable = true;
-
-            choiceTexts[index].text =
-                currentChoice.ChoiceText;
-
-            choiceButtons[index].onClick.RemoveAllListeners();
-
-            choiceButtons[index].onClick.AddListener(() =>
+            if (currentChoice == null)
             {
-                DisableAllChoiceButtons();
-                onSelected?.Invoke(currentChoice);
-            });
+                continue;
+            }
+
+            bool isAvailable =
+                isChoiceAvailable == null ||
+                isChoiceAvailable(currentChoice);
+
+            // 잠긴 선택지를 숨기는 설정
+            if (!isAvailable &&
+                currentChoice.HideWhenLocked)
+            {
+                continue;
+            }
+
+            if (uiIndex >= choiceButtons.Length ||
+                uiIndex >= choiceTexts.Length)
+            {
+                Debug.LogWarning(
+                    "표시할 선택지가 현재 선택지 UI 수보다 많습니다."
+                );
+
+                break;
+            }
+
+            Button button =
+                choiceButtons[uiIndex];
+
+            TMP_Text choiceText =
+                choiceTexts[uiIndex];
+
+            button.gameObject.SetActive(true);
+            button.interactable = isAvailable;
+
+            if (!isAvailable &&
+                !string.IsNullOrWhiteSpace(
+                    currentChoice.LockedText))
+            {
+                choiceText.text =
+                    currentChoice.LockedText;
+            }
+            else
+            {
+                choiceText.text =
+                    currentChoice.ChoiceText;
+            }
+
+            button.onClick.RemoveAllListeners();
+
+            if (isAvailable)
+            {
+                StoryChoiceData capturedChoice =
+                    currentChoice;
+
+                button.onClick.AddListener(() =>
+                {
+                    DisableAllChoiceButtons();
+
+                    onSelected?.Invoke(
+                        capturedChoice
+                    );
+                });
+            }
+
+            uiIndex++;
+        }
+
+        if (uiIndex == 0)
+        {
+            Debug.LogWarning(
+                "조건을 만족하는 선택지가 하나도 없습니다.",
+                this
+            );
+
+            choiceBox.SetActive(false);
         }
     }
 
@@ -618,5 +743,17 @@ public class StoryUI : MonoBehaviour
         }
 
         titleConfirmAction = null;
+    }
+
+    private void OnClickStoryTitle()
+    {
+        if (titleTypingEffect != null &&
+            titleTypingEffect.IsPlaying)
+        {
+            titleTypingEffect.CompleteImmediately();
+            return;
+        }
+
+        ConfirmStoryTitle();
     }
 }
