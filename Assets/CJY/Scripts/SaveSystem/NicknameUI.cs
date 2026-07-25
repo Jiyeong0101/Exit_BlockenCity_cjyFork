@@ -6,7 +6,7 @@ using UnityEngine;
 public class NicknameUI : MonoBehaviour
 {
     public TMP_InputField nicknameInput;
-    public TMP_Text warningText;
+    public GameObject warningText;
 
     //public GameObject nicknamePanel;
 
@@ -52,7 +52,6 @@ public class NicknameUI : MonoBehaviour
 
     private IEnumerator WarningRoutine(string message)
     {
-        warningText.text = message;
         warningText.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(3f);

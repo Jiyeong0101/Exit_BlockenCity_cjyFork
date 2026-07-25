@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/CJY/Title.unity
     guid: af29bfa71a4c0ce438b27dc1602114af
   - enabled: 1
+    path: Assets/CJY/NickName.unity
+    guid: b74badde02a739c47b1d7490d586e7d3
+  - enabled: 1
     path: Assets/CJY/Lobby.unity
     guid: b1aadc3fad488cb41bdeeaf692236f63
   - enabled: 1
