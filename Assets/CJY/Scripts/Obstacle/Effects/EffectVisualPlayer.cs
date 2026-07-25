@@ -38,7 +38,6 @@ public class EffectVisualPlayer : MonoBehaviour
     private const string LightningPath = "GraphicResourc/Prefabs/VFX/VFX_ElectricScr_Burst";
     private const string RainPath = "GraphicResourc/Prefabs/VFX/VFX_RainScr_Loop";
     private const string SmogPath = "GraphicResourc/Prefabs/VFX/VFX_SmogScr_Loop";
-    private const string OverheatPath = "GraphicResourc/Prefabs/VFX/VFX_WindScr_Burst";
     private const string SnowfallPath = "GraphicResourc/Prefabs/VFX/VFX_FrozenScr_Loop";
 
     // 1월 얼음 블록 이미지
@@ -138,26 +137,25 @@ public class EffectVisualPlayer : MonoBehaviour
     // 8월 폭염 효과
     public GameObject PlayOverheatWarning(string message = "건축 기계 과열!")
     {
-        var prefab = Resources.Load<GameObject>(OverheatPath);
-        if (prefab == null) return null;
-
-        var canvas = GameObject.Find("Canvas");
-        if (canvas == null) return null;
-
-        var instance = Instantiate(prefab, canvas.transform);
-
-        var text = instance.GetComponentInChildren<TextMeshProUGUI>();
-        if (text != null)
-            text.text = message;
-
-        var rect = instance.GetComponent<RectTransform>();
-        if (rect != null)
+        // 1. 인스펙터에 UI 오브젝트가 연결되어 있는지 확인
+        if (overheatUIPrefab == null)
         {
-            rect.anchoredPosition = Vector2.zero;
-            rect.localScale = Vector3.one;
+            Debug.LogWarning("[PlayOverheatWarning] overheatUIPrefab이 인스펙터에 연결되어 있지 않습니다!");
+            return null;
         }
 
-        return instance;
+        // 2. 텍스트 문구 업데이트 (필요 시)
+        var text = overheatUIPrefab.GetComponentInChildren<TextMeshProUGUI>();
+        if (text != null)
+        {
+            text.text = message;
+        }
+
+        // 3. UI 최상단 정렬 & 활성화
+        overheatUIPrefab.transform.SetAsLastSibling(); // 다른 UI 뒤에 가려지는 것 방지
+        overheatUIPrefab.SetActive(true);
+
+        return overheatUIPrefab;
     }
 
     // 10월 건기 블록 파괴 효과

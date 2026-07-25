@@ -28,9 +28,9 @@ namespace AllIn1SpriteShader
 
         private Material currMaterial, prevMaterial;
         private bool destroyed = false;
-        #if UNITY_EDITOR
+        
         private bool matAssigned = false;
-        #endif
+        
         private enum AfterSetAction { Clear, CopyMaterial, Reset};
 
         [Range(1f, 20f)] public float normalStrength = 5f;
