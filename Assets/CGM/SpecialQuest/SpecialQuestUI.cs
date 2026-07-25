@@ -18,9 +18,16 @@ public class SpecialQuestUI : MonoBehaviour
     public Slider time;
     public Image sliderFillImage;
 
-    [Header("배경")]
+    [Header("상세 배경")]
     public Image backgroundImage;
     [SerializeField] private Sprite defaultBackground;
+
+    [Header("요약 배경")]
+    public Image backgroundImage1;
+    [SerializeField] private Sprite defaultBackground1;
+
+    public Slider color;
+    public Image colorImage;
 
     private SpecialQuestData quest;
 
@@ -55,9 +62,14 @@ public class SpecialQuestUI : MonoBehaviour
         descriptionText.text = quest.description;
         rewardText.text = $"+{quest.reward}";
 
-        // 배경
+        // 상세 배경
         backgroundImage.sprite =
             quest.background != null ? quest.background : defaultBackground;
+
+        // 요약 배경
+        backgroundImage1.sprite =
+            quest.background != null ? quest.background : defaultBackground1;
+        colorImage.color = quest.SummaryColor;
 
         // 슬라이더
         time.maxValue = quest.timeValue;

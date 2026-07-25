@@ -171,7 +171,7 @@ public class SpecialQuestManager : MonoBehaviour
 
             if (instance.isFinished) continue;
 
-            // 👉 높이 관련 퀘스트만 UI 업데이트
+            // 높이 관련 퀘스트만 UI 업데이트
             switch (instance.data.questType)
             {
                 case SpecialQuestType.HeightKeep:
@@ -181,7 +181,7 @@ public class SpecialQuestManager : MonoBehaviour
                     break;
             }
 
-            // 👉 판정 로직
+            // 판정 로직
             switch (instance.data.questType)
             {
                 case SpecialQuestType.HeightKeep:
