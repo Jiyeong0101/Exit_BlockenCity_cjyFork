@@ -41,8 +41,10 @@ public class EncyclopediaUIController : MonoBehaviour
 
     [Header("캐릭터 선택 버튼")]
     public Button[] characterButtons;
-
     public TMP_Text[] characterButtonNameTexts;
+
+    [Header("캐릭터 버튼 이미지")]
+    [SerializeField] private Image[] characterButtonImages;
 
     [Header("캐릭터 기본 UI")]
     public Image characterPortraitImage;
@@ -366,6 +368,9 @@ public class EncyclopediaUIController : MonoBehaviour
             {
                 if (characterButtonNameTexts[i] != null)
                     characterButtonNameTexts[i].text = character.characterName;
+
+                if (characterButtonImages[i] != null)
+                    characterButtonImages[i].sprite = character.portrait;
             }
             else
             {
