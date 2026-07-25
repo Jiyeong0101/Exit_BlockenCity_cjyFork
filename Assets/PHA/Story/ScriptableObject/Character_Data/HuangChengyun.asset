@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: HuangChengyun
   m_EditorClassIdentifier: 
   characterId: Char_YeSeo_01
-  characterName: "\uD669 \uC131\uC724 (\u9EC3\u6210\u5141)"
-  characterName_eng: "Wong\u2074 Sing\u2074 Wan\u2075"
+  characterName: "\uD669 \uC131\uC724 "
+  characterName_eng: "\u9EC3\u6210\u5141"
   dialogue: 
   portrait: {fileID: 21300000, guid: 81615526a14f3fc4db5612d498954892, type: 3}
   fullBodyImage: {fileID: 21300000, guid: bc212b66698bb7b4db6e1005e76f7dd1, type: 3}
   silhouette: {fileID: 21300000, guid: fe653321f17efa74ea6ffecfeecadf9b, type: 3}
   fullBodysilhouette: {fileID: 21300000, guid: e02f9033a3104ef458194d0cbfe5e49f, type: 3}
+  storyPortraits: []
   age: 24
   job: "\uB465\uC9C0 \uC18C\uC18D \uC791\uC804 \uCC38\uBAA8"
   height: 190
