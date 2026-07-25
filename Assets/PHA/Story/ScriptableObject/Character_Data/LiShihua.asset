@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: LiShihua
   m_EditorClassIdentifier: 
   characterId: Char_Danwol_01
-  characterName: "\uB9AC \uC2DC\uD654 (\u674E\u8A69\u83EF)"
-  characterName_eng: "Lei\u2075 Si\xB9 Waa\u2074"
+  characterName: "\uB9AC \uC2DC\uD654"
+  characterName_eng: "\u674E\u8A69\u83EF"
   dialogue: 
   portrait: {fileID: 21300000, guid: f0c79fc48404af2449d3aced45e358e3, type: 3}
   fullBodyImage: {fileID: 21300000, guid: 75218a0a141038248ae29653193fce59, type: 3}

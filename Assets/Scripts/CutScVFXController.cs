@@ -6,86 +6,127 @@ using UnityEngine.UI;
 public class CutScVFXController : MonoBehaviour
 {
     [Header("Audio")]
-    public AudioSource typingSFX;
-    public AudioSource typingEndSFX;
-    [Space(5f)]
+    [SerializeField]
+    private AudioSource typingSFX;
+
+    [SerializeField]
+    private AudioSource typingEndSFX;
+
+    [Header("Text")]
+    [SerializeField]
+    private Text text1;
+
+    [SerializeField]
+    private Text text2;
+
+    [SerializeField]
+    private Text text3;
 
     [Header("Typing Settings")]
-    
-    [Space(5f)]
-    public Text text1;
-   [TextArea] public string message1;
-    
-    [Space(5f)]
-    public Text text2;
-    [TextArea] public string message2;
+    [Min(0.001f)]
+    [SerializeField]
+    private float typingSpeed = 0.08f;
 
-    [Space(5f)]
-    public Text text3;
-    [TextArea] public string message3;
+    [SerializeField]
+    private string cursorChar = "|";
 
-    [Space(5f)]
-    public float typingSpeed = 0.1f;
-    public string cursorChar = "|";
-    public float cursorBlinkRate = 0.5f;
+    [Min(0.01f)]
+    [SerializeField]
+    private float cursorBlinkRate = 0.5f;
 
+    private Coroutine sequenceCoroutine;
     private Coroutine blinkCoroutine;
 
-    public void PlaySequence()
+    private string finalText1 = string.Empty;
+    private string finalText2 = string.Empty;
+    private string finalText3 = string.Empty;
+
+    public bool IsPlaying =>
+        sequenceCoroutine != null;
+
+
+    public void PlaySequence(
+        string message1,
+        string message2,
+        string message3)
     {
-        StopAllCoroutines();
+        StopSequence();
 
-        if (typingSFX != null)
-            typingSFX.Stop();
+        finalText1 = message1 ?? string.Empty;
+        finalText2 = message2 ?? string.Empty;
+        finalText3 = message3 ?? string.Empty;
 
-        if (typingEndSFX != null)
-            typingEndSFX.Stop();
+        if (text1 != null)
+        {
+            text1.text = string.Empty;
+        }
 
-        text1.text = "";
-        text2.text = "";
-        text3.text = "";
+        if (text2 != null)
+        {
+            text2.text = string.Empty;
+        }
 
-        StartCoroutine(SequenceRoutine());
+        if (text3 != null)
+        {
+            text3.text = string.Empty;
+        }
+
+        sequenceCoroutine = StartCoroutine(
+            SequenceRoutine()
+        );
     }
 
     private IEnumerator SequenceRoutine()
     {
-        yield return StartCoroutine(TypeSingle(text1, message1, false));
-        yield return StartCoroutine(TypeSingle(text2, message2, false));
-        yield return StartCoroutine(TypeSingle(text3, message3, true));
+        yield return TypeSingle(
+            text1,
+            finalText1,
+            false
+        );
+
+        yield return TypeSingle(
+            text2,
+            finalText2,
+            false
+        );
+
+        yield return TypeSingle(
+            text3,
+            finalText3,
+            true
+        );
+
+        sequenceCoroutine = null;
     }
 
-    private IEnumerator TypeSingle(Text target, string message, bool allowBlink)
+    private IEnumerator TypeSingle(
+        Text target,
+        string message,
+        bool allowBlink)
     {
-        string currentText = "";
+        if (target == null)
+        {
+            yield break;
+        }
+
+        string currentText = string.Empty;
 
         if (typingSFX != null)
         {
             typingSFX.Play();
         }
 
-        for (int i = 0; i < message.Length; i++)
+        foreach (char character in message)
         {
-            char c = message[i];
+            currentText += character;
+            target.text =
+                currentText + cursorChar;
 
-            if (IsKorean(c))
-            {
-                foreach (string step in DecomposeKorean(c))
-                {
-                    target.text = currentText + step + cursorChar;
-                    yield return new WaitForSeconds(typingSpeed);
-                }
-
-                currentText += c;
-            }
-            else
-            {
-                currentText += c;
-                target.text = currentText + cursorChar;
-                yield return new WaitForSeconds(typingSpeed);
-            }
+            yield return new WaitForSecondsRealtime(
+                typingSpeed
+            );
         }
-        
+
         if (typingSFX != null)
         {
             typingSFX.Stop();
@@ -98,7 +139,12 @@ public class CutScVFXController : MonoBehaviour
 
         if (allowBlink)
         {
-            blinkCoroutine = StartCoroutine(CursorBlink(target, currentText));
+            blinkCoroutine = StartCoroutine(
+                CursorBlink(
+                    target,
+                    currentText
+                )
+            );
         }
         else
         {
@@ -106,60 +152,76 @@ public class CutScVFXController : MonoBehaviour
         }
     }
 
-    private IEnumerator CursorBlink(Text target, string finalMessage)
+    private IEnumerator CursorBlink(
+        Text target,
+        string finalMessage)
     {
         bool visible = true;
 
         while (true)
         {
-            if (visible)
-            {
-                target.text = finalMessage + cursorChar;
-            }
-            else
-            {
-                target.text = finalMessage +
-                    "<color=#00000000>" + cursorChar + "</color>";
-            }
+            target.text = visible
+                ? finalMessage + cursorChar
+                : finalMessage +
+                  "<color=#00000000>" +
+                  cursorChar +
+                  "</color>";
 
             visible = !visible;
-            yield return new WaitForSeconds(cursorBlinkRate);
+
+            yield return new WaitForSecondsRealtime(
+                cursorBlinkRate
+            );
         }
     }
 
-    private bool IsKorean(char c)
+    public void CompleteImmediately()
     {
-        return c >= 0xAC00 && c <= 0xD7A3;
-    }
+        StopSequence();
 
-    private IEnumerable<string> DecomposeKorean(char syllable)
-    {
-        List<string> steps = new List<string>();
-
-        int unicode = syllable - 0xAC00;
-
-        int cho = unicode / 588;
-        int jung = (unicode % 588) / 28;
-        int jong = unicode % 28;
-
-        string[] CHO = {
-            "ぁ","あ","い","ぇ","え","ぉ","け","げ","こ","さ",
-            "ざ","し","じ","す","ず","せ","ぜ","そ","ぞ"
-        };
-
-        steps.Add(CHO[cho]);
-
-        char jungCombined =
-            (char)(0xAC00 + (cho * 588) + (jung * 28));
-        steps.Add(jungCombined.ToString());
-
-        if (jong != 0)
+        if (text1 != null)
         {
-            char final =
-                (char)(0xAC00 + (cho * 588) + (jung * 28) + jong);
-            steps.Add(final.ToString());
+            text1.text = finalText1;
         }
 
-        return steps;
+        if (text2 != null)
+        {
+            text2.text = finalText2;
+        }
+
+        if (text3 != null)
+        {
+            text3.text = finalText3;
+        }
+    }
+
+    public void StopSequence()
+    {
+        if (sequenceCoroutine != null)
+        {
+            StopCoroutine(sequenceCoroutine);
+            sequenceCoroutine = null;
+        }
+
+        if (blinkCoroutine != null)
+        {
+            StopCoroutine(blinkCoroutine);
+            blinkCoroutine = null;
+        }
+
+        if (typingSFX != null)
+        {
+            typingSFX.Stop();
+        }
+
+        if (typingEndSFX != null)
+        {
+            typingEndSFX.Stop();
+        }
+    }
+
+    private void OnDisable()
+    {
+        StopSequence();
     }
 }

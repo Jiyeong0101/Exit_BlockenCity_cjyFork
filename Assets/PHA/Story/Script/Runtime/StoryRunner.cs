@@ -50,6 +50,9 @@ public class StoryRunner : MonoBehaviour
     private readonly Dictionary<string, string>
         storyResults = new();
 
+    private readonly Dictionary<string, string>
+        storyConditions = new();
+
     public bool IsStoryPlaying => isStoryPlaying;
     public bool AutoMode => autoMode;
     public bool SkipMode => skipMode;
@@ -377,6 +380,86 @@ public class StoryRunner : MonoBehaviour
         );
     }
 
+    public void SetStoryCondition( string key, string value)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            Debug.LogWarning(
+                "스토리 조건 키가 비어 있습니다.",
+                this
+            );
+
+            return;
+        }
+
+        storyConditions[key] =
+            value ?? string.Empty;
+
+        Debug.Log(
+            $"스토리 조건 등록: {key} = {value}",
+            this
+        );
+    }
+
+    public void SetStoryUnlock(string key, bool unlocked)
+    {
+        SetStoryCondition(
+            key,
+            unlocked.ToString()
+        );
+    }
+
+    private bool IsChoiceAvailable( StoryChoiceData choice)
+    {
+        if (choice == null)
+        {
+            return false;
+        }
+
+        if (!choice.UseCondition)
+        {
+            return true;
+        }
+
+        if (string.IsNullOrWhiteSpace(
+                choice.RequiredKey))
+        {
+            Debug.LogWarning(
+                $"선택지 '{choice.ChoiceText}'의 " +
+                "Required Key가 비어 있습니다.",
+                this
+            );
+
+            return false;
+        }
+
+        // 현재 스토리에서 발생한 선택 결과 확인
+        if (storyResults.TryGetValue(
+                choice.RequiredKey,
+                out string storyResultValue))
+        {
+            return string.Equals(
+                storyResultValue,
+                choice.RequiredValue,
+                System.StringComparison.OrdinalIgnoreCase
+            );
+        }
+
+        // 별도로 등록된 영구/임시 해금 조건 확인
+        if (storyConditions.TryGetValue(
+                choice.RequiredKey,
+                out string conditionValue))
+        {
+            return string.Equals(
+                conditionValue,
+                choice.RequiredValue,
+                System.StringComparison.OrdinalIgnoreCase
+            );
+        }
+
+        return false;
+    }
+
     private void ProcessChoice(
         StoryNodeData node)
     {
@@ -390,6 +473,7 @@ public class StoryRunner : MonoBehaviour
 
         storyUI.ShowChoices(
             node.Choices,
+            IsChoiceAvailable,
             OnChoiceSelected
         );
     }
