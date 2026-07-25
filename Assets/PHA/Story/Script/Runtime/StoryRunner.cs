@@ -120,8 +120,8 @@ public class StoryRunner : MonoBehaviour
         Button skipButton =
             storyUI.GetSkipButton();
 
-        Button logButton =
-            storyUI.GetLogButton();
+        //Button logButton =
+        //    storyUI.GetLogButton();
 
         if (autoButton != null)
         {
@@ -137,12 +137,12 @@ public class StoryRunner : MonoBehaviour
             );
         }
 
-        if (logButton != null)
-        {
-            logButton.onClick.AddListener(
-                OpenStoryLog
-            );
-        }
+        //if (logButton != null)
+        //{
+        //    logButton.onClick.AddListener(
+        //        OpenStoryLog
+        //    );
+        //}
     }
 
     public void StartStory(StoryData story)
@@ -179,6 +179,8 @@ public class StoryRunner : MonoBehaviour
 
         autoMode = false;
         skipMode = false;
+
+        storyUI.ClearLogEntries();
 
         storyUI.Open();
         storyUI.SetAutoModeVisual(false);
@@ -297,7 +299,7 @@ public class StoryRunner : MonoBehaviour
     }
 
     private IEnumerator ProcessCharacterDialogue(
-        StoryNodeData node)
+     StoryNodeData node)
     {
         CharacterData character =
             node.Character;
@@ -312,6 +314,12 @@ public class StoryRunner : MonoBehaviour
             storyUI.HideSpeaker();
 
             yield return ShowNodeText(node);
+
+            AddNodeToLog(
+                node,
+                string.Empty
+            );
+
             yield break;
         }
 
@@ -325,10 +333,15 @@ public class StoryRunner : MonoBehaviour
         );
 
         yield return ShowNodeText(node);
+
+        AddNodeToLog(
+            node,
+            character.CharacterName
+        );
     }
 
     private IEnumerator ProcessPlayerDialogue(
-        StoryNodeData node)
+    StoryNodeData node)
     {
         storyUI.SetSpeaker(
             CurrentPlayerName,
@@ -337,7 +350,9 @@ public class StoryRunner : MonoBehaviour
 
         if (node.KeepPortrait)
         {
-            storyUI.SetCharacterDimmed(true);
+            storyUI.SetCharacterDimmed(
+                node.DimPortrait
+            );
         }
         else
         {
@@ -345,16 +360,23 @@ public class StoryRunner : MonoBehaviour
         }
 
         yield return ShowNodeText(node);
+
+        AddNodeToLog(
+            node,
+            CurrentPlayerName
+        );
     }
 
     private IEnumerator ProcessNarration(
-        StoryNodeData node)
+    StoryNodeData node)
     {
         storyUI.HideSpeaker();
 
         if (node.KeepPortrait)
         {
-            storyUI.SetCharacterDimmed(true);
+            storyUI.SetCharacterDimmed(
+                node.DimPortrait
+            );
         }
         else
         {
@@ -362,6 +384,11 @@ public class StoryRunner : MonoBehaviour
         }
 
         yield return ShowNodeText(node);
+
+        AddNodeToLog(
+            node,
+            string.Empty
+        );
     }
 
     private IEnumerator ShowNodeText(
@@ -681,12 +708,12 @@ public class StoryRunner : MonoBehaviour
         }
     }
 
-    private void OpenStoryLog()
-    {
-        Debug.Log(
-            "스토리 로그 UI는 아직 연결되지 않았습니다."
-        );
-    }
+    //private void OpenStoryLog()
+    //{
+    //    Debug.Log(
+    //        "스토리 로그 UI는 아직 연결되지 않았습니다."
+    //    );
+    //}
 
     private IEnumerator ProcessEffects(
         StoryNodeData node)
@@ -784,8 +811,8 @@ public class StoryRunner : MonoBehaviour
         Button skipButton =
             storyUI.GetSkipButton();
 
-        Button logButton =
-            storyUI.GetLogButton();
+        //Button logButton =
+        //    storyUI.GetLogButton();
 
         if (autoButton != null)
         {
@@ -801,11 +828,34 @@ public class StoryRunner : MonoBehaviour
             );
         }
 
-        if (logButton != null)
+        //if (logButton != null)
+        //{
+        //    logButton.onClick.RemoveListener(
+        //        OpenStoryLog
+        //    );
+        //}
+    }
+
+    private void AddNodeToLog(
+    StoryNodeData node,
+    string speakerName)
+    {
+        if (node == null)
         {
-            logButton.onClick.RemoveListener(
-                OpenStoryLog
-            );
+            return;
         }
+
+        string outputText =
+            ReplaceTokens(node.Text);
+
+        if (string.IsNullOrWhiteSpace(outputText))
+        {
+            return;
+        }
+
+        storyUI.AddLogEntry(
+            speakerName,
+            outputText
+        );
     }
 }

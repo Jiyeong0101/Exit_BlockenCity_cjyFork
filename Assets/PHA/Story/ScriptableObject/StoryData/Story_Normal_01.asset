@@ -109,26 +109,35 @@ MonoBehaviour:
     text: 
     character: {fileID: 11400000, guid: a778268b0982c7d4bae2b7d849161739, type: 2}
     portraitId: D_01_00
-    nextNodeId: appointment_narration_001
+    nextNodeId: 
     choices:
-    - choiceText: "\uC194\uC9C1\uD788 \uB9D0\uD574\uC11C, \uCD5C\uC545\uC5D0 \uAC00\uAE4C\uC6E0\uC2B5\uB2C8\uB2E4.
-        \uC774\uACF3\uC5D4 \uADDC\uCE59\uB3C4 \uC5C6\uACE0, \uBB34\uC9C8\uC11C\uD55C
-        \uACF3\uC774\uB2C8\uAE4C\uC694."
-      targetNodeId: appointment_narration_001
+    - choiceText: "\uC194\uC9C1\uD788 \uB9D0\uD574, \uCD5C\uC545\uC5D0 \uAC00\uAE4C\uC6E0\uB2E4."
+      targetNodeId: appointment_player_answer_001
       resultKey: 
       resultValue: 
-    - choiceText: "\uC544\uC9C1\uC740 \uD310\uB2E8\uD558\uAE30 \uC5B4\uB835\uC2B5\uB2C8\uB2E4.
-        \uC870\uAE08 \uB354 \uACAA\uC5B4\uBD10\uC57C \uC81C\uB300\uB85C \uC54C \uC218
-        \uC788\uACA0\uC8E0."
-      targetNodeId: appointment_narration_001
+      useCondition: 0
+      requiredKey: 
+      requiredValue: True
+      hideWhenLocked: 1
+      lockedText: 
+    - choiceText: "\uC544\uC9C1\uC740 \uD310\uB2E8\uD558\uAE30 \uC5B4\uB835\uB2E4."
+      targetNodeId: appointment_player_answer_002
       resultKey: 
       resultValue: 
-    - choiceText: "\uC0DD\uAC01\uBCF4\uB2E4 \uAD1C\uCC2E\uC740 \uACF3\uC778 \uAC83
-        \uAC19\uC2B5\uB2C8\uB2E4. \uB098\uB984 \uC9C8\uC11C\uB3C4 \uC788\uACE0, \uC0AC\uB78C\uB4E4\uB3C4
-        \uAD1C\uCC2E\uC740 \uAC83 \uAC19\uACE0\uC694."
-      targetNodeId: appointment_narration_001
+      useCondition: 0
+      requiredKey: 
+      requiredValue: True
+      hideWhenLocked: 1
+      lockedText: 
+    - choiceText: "\uC0DD\uAC01\uBCF4\uB2E4\uB294 \uAD1C\uCC2E\uC740 \uACF3\uC774\uB2E4."
+      targetNodeId: appointment_player_answer_003
       resultKey: 
       resultValue: 
+      useCondition: 0
+      requiredKey: 
+      requiredValue: True
+      hideWhenLocked: 1
+      lockedText: 
     dimPortrait: 1
     keepPortrait: 1
     useTypingEffect: 0
@@ -305,6 +314,51 @@ MonoBehaviour:
     choices: []
     dimPortrait: 0
     keepPortrait: 0
+    useTypingEffect: 0
+    autoAdvance: 0
+    autoAdvanceDelay: 0
+    effects: []
+  - nodeId: appointment_player_answer_001
+    nodeType: 1
+    text: "\uC194\uC9C1\uD788 \uB9D0\uD574\uC11C, \uCD5C\uC545\uC5D0 \uAC00\uAE4C\uC6E0\uC2B5\uB2C8\uB2E4.
+      \uC774\uACF3\uC5D4 \uADDC\uCE59\uB3C4 \uC5C6\uACE0, \uBB34\uC9C8\uC11C\uD55C
+      \uACF3\uC774\uB2C8\uAE4C\uC694."
+    character: {fileID: 11400000, guid: a778268b0982c7d4bae2b7d849161739, type: 2}
+    portraitId: D_01_00
+    nextNodeId: appointment_narration_001
+    choices: []
+    dimPortrait: 1
+    keepPortrait: 1
+    useTypingEffect: 0
+    autoAdvance: 0
+    autoAdvanceDelay: 0
+    effects: []
+  - nodeId: appointment_player_answer_002
+    nodeType: 1
+    text: "\uC544\uC9C1\uC740 \uD310\uB2E8\uD558\uAE30 \uC5B4\uB835\uC2B5\uB2C8\uB2E4.
+      \uC870\uAE08 \uB354 \uACAA\uC5B4\uBD10\uC57C \uC81C\uB300\uB85C \uC54C \uC218
+      \uC788\uACA0\uC8E0."
+    character: {fileID: 11400000, guid: a778268b0982c7d4bae2b7d849161739, type: 2}
+    portraitId: D_01_00
+    nextNodeId: appointment_narration_001
+    choices: []
+    dimPortrait: 1
+    keepPortrait: 1
+    useTypingEffect: 0
+    autoAdvance: 0
+    autoAdvanceDelay: 0
+    effects: []
+  - nodeId: appointment_player_answer_003
+    nodeType: 1
+    text: "\uC0DD\uAC01\uBCF4\uB2E4 \uAD1C\uCC2E\uC740 \uACF3\uC778 \uAC83 \uAC19\uC2B5\uB2C8\uB2E4.
+      \uB098\uB984 \uC9C8\uC11C\uB3C4 \uC788\uACE0, \uC0AC\uB78C\uB4E4\uB3C4 \uAD1C\uCC2E\uC740
+      \uAC83 \uAC19\uACE0\uC694."
+    character: {fileID: 11400000, guid: a778268b0982c7d4bae2b7d849161739, type: 2}
+    portraitId: D_01_00
+    nextNodeId: appointment_narration_001
+    choices: []
+    dimPortrait: 1
+    keepPortrait: 1
     useTypingEffect: 0
     autoAdvance: 0
     autoAdvanceDelay: 0
