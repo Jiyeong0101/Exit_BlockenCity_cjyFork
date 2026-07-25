@@ -9,11 +9,6 @@ public class SpecialQuestSpawner : MonoBehaviour
     [Header("Timer Slider")]
     public Slider timeSlider;
 
-    [Header("Status Sliders (A,B,C)")]
-    public Slider sliderA;
-    public Slider sliderB;
-    public Slider sliderC;
-
     [Header("Spawn Ratio Range (0~1)")]
     [Range(0f, 1f)] public float minSpawnRatio = 0.2f;
     [Range(0f, 1f)] public float maxSpawnRatio = 0.8f;
