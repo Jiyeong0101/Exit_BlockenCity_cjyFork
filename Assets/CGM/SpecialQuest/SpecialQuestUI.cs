@@ -68,7 +68,7 @@ public class SpecialQuestUI : MonoBehaviour
 
         // 요약 배경
         backgroundImage1.sprite =
-            quest.background != null ? quest.background : defaultBackground1;
+            quest.Summarybackground != null ? quest.Summarybackground : defaultBackground1;
         colorImage.color = quest.SummaryColor;
 
         // 슬라이더
