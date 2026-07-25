@@ -21,8 +21,6 @@ public class StoryUI : MonoBehaviour
     [Header("캐릭터")]
     [SerializeField] private Image characterImage;
 
-    [Tooltip("캐릭터 이미지를 어둡게 만들 때 활성화할 오브젝트")]
-    [SerializeField] private GameObject characterDarkMask;
 
     [Header("대화창")]
     [SerializeField] private GameObject chatBox;
@@ -49,6 +47,10 @@ public class StoryUI : MonoBehaviour
     [SerializeField] private Button skipButton;
     [SerializeField] private Button logButton;
 
+    [Header("스토리 로그")]
+    [SerializeField] private Transform logContent;
+    [SerializeField] private StoryLogItemUI logTemplate;
+
     [Header("타이핑 설정")]
     [Min(0.001f)]
     [SerializeField] private float typingInterval = 0.03f;
@@ -66,6 +68,11 @@ public class StoryUI : MonoBehaviour
     private void Awake()
     {
         ValidateChoiceObjects();
+
+        if (logTemplate != null)
+        {
+            logTemplate.gameObject.SetActive(false);
+        }
     }
 
     public void Open()
@@ -362,24 +369,14 @@ public class StoryUI : MonoBehaviour
 
     public void SetCharacterDimmed(bool dimmed)
     {
-        if (characterDarkMask != null)
+        if (characterImage == null)
         {
-            characterDarkMask.SetActive(dimmed);
             return;
         }
 
-        // Mask 오브젝트가 연결되지 않았을 경우를 위한 예비 처리
-        if (characterImage != null)
-        {
-            float brightness = dimmed ? 0.4f : 1f;
-
-            characterImage.color = new Color(
-                brightness,
-                brightness,
-                brightness,
-                1f
-            );
-        }
+        characterImage.color = dimmed
+            ? new Color(0.45f, 0.45f, 0.45f, 1f)
+            : Color.white;
     }
 
     public void SetFactionImage(Sprite sprite)
@@ -756,4 +753,75 @@ public class StoryUI : MonoBehaviour
 
         ConfirmStoryTitle();
     }
+
+    #region 스토리 로그
+
+    public void AddLogEntry(
+        string speakerName,
+        string dialogue)
+    {
+        if (logContent == null)
+        {
+            Debug.LogWarning(
+                "Log Content가 연결되지 않았습니다.",
+                this
+            );
+
+            return;
+        }
+
+        if (logTemplate == null)
+        {
+            Debug.LogWarning(
+                "Log Template이 연결되지 않았습니다.",
+                this
+            );
+
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(dialogue))
+        {
+            return;
+        }
+
+        StoryLogItemUI newLog =
+            Instantiate(
+                logTemplate,
+                logContent
+            );
+
+        newLog.gameObject.SetActive(true);
+
+        newLog.Setup(
+            speakerName,
+            dialogue
+        );
+    }
+
+    public void ClearLogEntries()
+    {
+        if (logContent == null)
+        {
+            return;
+        }
+
+        for (int i = logContent.childCount - 1;
+             i >= 0;
+             i--)
+        {
+            Transform child =
+                logContent.GetChild(i);
+
+            if (logTemplate != null &&
+                child == logTemplate.transform)
+            {
+                continue;
+            }
+
+            Destroy(child.gameObject);
+        }
+    }
+
+    #endregion
 }
