@@ -18,4 +18,16 @@ public class SceneChange : MonoBehaviour
             StageManager.Instance.RestartStage();
         }
     }
+
+    // 게임 종료 버튼
+    public void QuitGame()
+    {
+        Debug.Log("게임 종료");
+
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
 }

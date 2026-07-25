@@ -44,7 +44,7 @@ public class ScoreUIBinder : MonoBehaviour
     public GameObject scoreWindowObject;   // 최상위 부모 (전체 UI를 감싸는 캔버스나 패널)
 
     [Header("Scene Names")]
-    public string storySceneName = "StoryScene"; // 게임 클리어 시 이동할 씬 이름
+    public string storySceneName = "Story"; // 게임 클리어 시 이동할 씬 이름
     public string lobbySceneName = "Lobby";      // 게임 오버 시 이동할 씬 이름
 
     // 현재 결과 창의 상태를 저장할 변수

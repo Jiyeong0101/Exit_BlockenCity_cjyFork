@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa573599e69a6074fae017c9bb7c0b7e, type: 3}
   m_Name: Story_Normal_03
   m_EditorClassIdentifier: 
-  storyId: 
+  storyId: Normal_03
   storyType: 0
-  storyTitle: 
-  year: 0
-  month: 1
+  storyTitle: "\uBD88\uD655\uC2E4\uD568 \uC18D\uC5D0\uC11C"
+  year: 1960
+  month: 3
   day: 0
   startNodeId: 
   nodes: []
