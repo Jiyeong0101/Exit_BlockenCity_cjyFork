@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using TetrisGame;
 using UnityEngine;
 
+public enum FriendlinessType
+{
+    DanWol,
+    HongNyeonGwi,
+    YaSeo,
+    JeonSangYeon,
+    MaCheonGyo
+}
+
 public enum SpecialQuestType
 {
     BlockBreak,     // 블럭 파괴
@@ -63,7 +72,9 @@ public class SpecialQuestData : ScriptableObject
     public int timeValue;              // 시간 값 (n번 드랍 또는 n초)
 
     [Header("보상")]
-    public int reward;                 // 보상
+    // 우호도 보상
+    public FriendlinessType friendlinessType;
+    public int friendlinessReward;
 
     [HideInInspector]
     public bool IsCompleted = false;   // 완료 여부

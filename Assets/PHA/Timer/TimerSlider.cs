@@ -6,33 +6,22 @@ using UnityEngine.UI;
 public class TimerSlider : MonoBehaviour
 {
     public Slider timerSlider;
-    private float maxTime;
-    private float currentTime;
-
-    private bool isTimeOver = false;
 
     void Start()
     {
-        maxTime = GameManager.Instance.gameTime;
-        currentTime = maxTime;
-        timerSlider.maxValue = maxTime;
-        timerSlider.value = maxTime;
+        if (GameManager.Instance != null && timerSlider != null)
+        {
+            timerSlider.maxValue = GameManager.Instance.gameTime;
+            timerSlider.value = GameManager.Instance.gameTime;
+        }
     }
 
     void Update()
     {
-        if (!isTimeOver)
+        // GameManager의 정제된 시간을 가져와 슬라이더에 표시만 함 (직접 시간을 깎지 않음!)
+        if (GameManager.Instance != null && timerSlider != null)
         {
-            if (currentTime > 0f)
-            {
-                currentTime -= Time.deltaTime;
-                timerSlider.value = currentTime;
-            }
-            else
-            {
-                isTimeOver = true;
-                GameManager.Instance.TimeOver();
-            }
+            timerSlider.value = GameManager.Instance.gameTime;
         }
     }
 }

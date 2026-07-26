@@ -103,6 +103,12 @@ public class TetriminoBlock : MonoBehaviour
     {
         if (!isSelect) return;
 
+        // [추가] 게임이 일시정지되었거나 이미 종료되었다면 아래 낙하 계산을 하지 않고 멈춤
+        if (TetrisManager.Instance != null && (TetrisManager.Instance.isPaused || TetrisManager.Instance.isGameEnded))
+        {
+            return;
+        }
+
         if (blockType == BlockType.None)
         {
             //None일 경우 잘못된 블럭 처리 요망

@@ -26,7 +26,8 @@ MonoBehaviour:
   restrictedInput: 
   darknessLevel: 0
   timeType: 2
-  timeRole: 1
-  timeValue: 30
-  reward: 1000
+  timeRole: 2
+  timeValue: 10
+  friendlinessType: 0
+  friendlinessReward: 2
   IsCompleted: 0

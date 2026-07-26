@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 
     public float gameTime = 180f;
 
+    public bool isGameEnded { get; private set; } = false;
+    public bool isPaused { get; private set; } = false;
+
     [HideInInspector] public ScoreUIBinder scoreManager;
 
     private void Awake()
@@ -18,23 +21,59 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        isGameEnded = false;
+        isPaused = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // 일시정지 상태이거나 게임이 종료되었으면 타이머 멈춤
+        if (isGameEnded || isPaused) return;
+
+        if (gameTime > 0f)
+        {
+            gameTime -= Time.deltaTime;
+
+            if (gameTime <= 0f)
+            {
+                gameTime = 0f;
+                TimeOver();
+            }
+        }
+    }
+
+    public void PauseGame()
+    {
+        isPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+    }
+
+    public void StopGame()
+    {
+        isGameEnded = true;
     }
 
     public void TimeOver()
     {
+        if (isGameEnded) return;
+        isGameEnded = true;
+
         Debug.Log("일차 종료!");
 
-        //점수창 활성화
-        scoreManager.ToggleScoreUI(true);
+        if (TetrisManager.Instance != null)
+        {
+            TetrisManager.Instance.GameClear();
+        }
+
+        if (scoreManager != null)
+        {
+            scoreManager.ToggleScoreUI(true, isGameOver: false);
+        }
     }
 }

@@ -60,7 +60,7 @@ public class SpecialQuestUI : MonoBehaviour
 
         questNameText.text = quest.questName;
         descriptionText.text = quest.description;
-        rewardText.text = $"+{quest.reward}";
+        rewardText.text = $"+{quest.friendlinessReward}";
 
         // 상세 배경
         backgroundImage.sprite =
