@@ -246,23 +246,23 @@ public class SpecialQuestManager : MonoBehaviour
         switch (type)
         {
             case FriendlinessType.DanWol:
-                data.DanWol += amount;
+                data.DanWol = Mathf.Max(0, data.DanWol + amount);
                 break;
 
             case FriendlinessType.HongNyeonGwi:
-                data.HongNyeonGwi += amount;
+                data.HongNyeonGwi = Mathf.Max(0, data.HongNyeonGwi + amount);
                 break;
 
             case FriendlinessType.YaSeo:
-                data.YaSeo += amount;
+                data.YaSeo = Mathf.Max(0, data.YaSeo + amount);
                 break;
 
             case FriendlinessType.JeonSangYeon:
-                data.JeonSangYeon += amount;
+                data.JeonSangYeon = Mathf.Max(0, data.JeonSangYeon + amount);
                 break;
 
             case FriendlinessType.MaCheonGyo:
-                data.MaCheonGyo += amount;
+                data.MaCheonGyo = Mathf.Max(0, data.MaCheonGyo + amount);
                 break;
         }
 

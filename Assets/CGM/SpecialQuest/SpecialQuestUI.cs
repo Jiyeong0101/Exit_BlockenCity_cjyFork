@@ -60,7 +60,7 @@ public class SpecialQuestUI : MonoBehaviour
 
         questNameText.text = quest.questName;
         descriptionText.text = quest.description;
-        rewardText.text = $"+{quest.friendlinessReward}";
+        rewardText.text =$"{GetFriendlinessName(quest.friendlinessType)} 우호도 +{quest.friendlinessReward}";
 
         // 상세 배경
         backgroundImage.sprite =
@@ -196,6 +196,30 @@ public class SpecialQuestUI : MonoBehaviour
                 break;
         }
     }
+    private string GetFriendlinessName(FriendlinessType type)
+    {
+        switch (type)
+        {
+            case FriendlinessType.DanWol:
+                return "단월국";
+
+            case FriendlinessType.HongNyeonGwi:
+                return "홍련귀";
+
+            case FriendlinessType.YaSeo:
+                return "야서";
+
+            case FriendlinessType.JeonSangYeon:
+                return "전국상인연합회";
+
+            case FriendlinessType.MaCheonGyo:
+                return "마천교";
+
+            default:
+                return "";
+        }
+    }
+
     public void SetExpanded(bool expanded)
     {
         detailPanel.SetActive(expanded);
@@ -206,4 +230,5 @@ public class SpecialQuestUI : MonoBehaviour
             UpdateSummary();
         }
     }
+
 }

@@ -360,6 +360,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 522508692113550803, guid: 8a536724d9b673148898e8ba7c926efd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 18466844}
+    - targetCorrespondingSourceObject: {fileID: 961657600987756952, guid: 8a536724d9b673148898e8ba7c926efd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 635684878}
   m_SourcePrefab: {fileID: 100100000, guid: 8a536724d9b673148898e8ba7c926efd, type: 3}
 --- !u!1 &18466842 stripped
 GameObject:
@@ -384,6 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 1
+  settingsWindow: {fileID: 0}
 --- !u!114 &18466845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 0
+  settingsWindow: {fileID: 0}
 --- !u!1 &78634941
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +499,7 @@ MonoBehaviour:
   tetrisspawner: {fileID: 411465152}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 7
+    type: 1
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &78634946
@@ -1473,6 +1478,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 1
+  settingsWindow: {fileID: 0}
+--- !u!1 &635684876 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 961657600987756952, guid: 8a536724d9b673148898e8ba7c926efd, type: 3}
+  m_PrefabInstance: {fileID: 18466841}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635684878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635684876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440dd74272e73fb49bf8505d47b42890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonType: 4
+  settingsWindow: {fileID: 465806405}
 --- !u!114 &660487297 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5985961590796253524, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
@@ -2070,6 +2095,25 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1258746410}
   m_SourcePrefab: {fileID: 100100000, guid: 8b77b0256eb49b744b2f2fa2f37a3cdb, type: 3}
+--- !u!1 &825814268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5295513352838646407, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
+  m_PrefabInstance: {fileID: 1965335693}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &825814270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825814268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440dd74272e73fb49bf8505d47b42890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonType: 3
+  settingsWindow: {fileID: 465806405}
 --- !u!114 &829513379 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4514803612787110153, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
@@ -2578,6 +2622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonType: 2
+  settingsWindow: {fileID: 0}
 --- !u!1 &1281578695 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6873486427507890860, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
@@ -3082,7 +3127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2771027fcc413f4a9d04c06ed50453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 100
+  gameTime: 5
   scoreManager: {fileID: 1069338447}
 --- !u!4 &1672152914
 Transform:
@@ -3472,7 +3517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423396313146569200, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 423396313146569200, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -3959,6 +4004,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6873486427507890860, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1281578698}
+    - targetCorrespondingSourceObject: {fileID: 5295513352838646407, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 825814270}
   m_SourcePrefab: {fileID: 100100000, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
 --- !u!224 &1965335694 stripped
 RectTransform:
