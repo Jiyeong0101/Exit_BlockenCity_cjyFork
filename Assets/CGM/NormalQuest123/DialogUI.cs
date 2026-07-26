@@ -288,6 +288,16 @@ public class DialogUI : MonoBehaviour
         isWaitingForChoice = false;
         HideAllButtons();
 
+        // 수락 브랜치에 연결된 퀘스트 찾기
+        SpecialQuestData matchedQuest =
+            allQuestData.Find(q => q.branchID == currentLine.acceptBranch);
+
+        // 우호도 감소
+        if (matchedQuest != null)
+        {
+            SpecialQuestManager.Instance.OnQuestDeclined(matchedQuest);
+        }
+
         if (currentLine.declineBranch != -1)
         {
             DialogManager.Instance.ClearQueue();

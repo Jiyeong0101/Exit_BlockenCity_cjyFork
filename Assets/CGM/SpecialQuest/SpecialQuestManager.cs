@@ -75,7 +75,7 @@ public class SpecialQuestManager : MonoBehaviour
         instance.isFinished = true;
 
         Debug.Log($"[SpecialQuest] 성공: {instance.data.questName}");
-
+        ChangeFriendliness(instance.data.friendlinessType,instance.data.friendlinessReward);
         if (instance.data.questType == SpecialQuestType.InputRestriction)
         {
             InputManager.Instance.ClearRestrictedInputs();
@@ -93,6 +93,9 @@ public class SpecialQuestManager : MonoBehaviour
         instance.isFinished = true;
 
         Debug.Log($"[SpecialQuest] 실패: {instance.data.questName}");
+
+        int penalty = Mathf.Max(1, instance.data.friendlinessReward / 2);
+        ChangeFriendliness(instance.data.friendlinessType,-penalty);
 
         Destroy(instance.ui?.gameObject);
 
@@ -223,4 +226,47 @@ public class SpecialQuestManager : MonoBehaviour
                 CompleteQuest(instance);
         }
     }
+
+    public void OnQuestDeclined(SpecialQuestData quest)
+    {
+        int penalty = Mathf.Max(1, quest.friendlinessReward / 2);
+
+        ChangeFriendliness(
+            quest.friendlinessType,
+            -penalty
+        );
+
+        Debug.Log($"[SpecialQuest] 거절 : {quest.questName}");
+    }
+
+    private void ChangeFriendliness(FriendlinessType type, int amount)
+    {
+        var data = Datamanager.Instance.saveData.friendlinessData;
+
+        switch (type)
+        {
+            case FriendlinessType.DanWol:
+                data.DanWol += amount;
+                break;
+
+            case FriendlinessType.HongNyeonGwi:
+                data.HongNyeonGwi += amount;
+                break;
+
+            case FriendlinessType.YaSeo:
+                data.YaSeo += amount;
+                break;
+
+            case FriendlinessType.JeonSangYeon:
+                data.JeonSangYeon += amount;
+                break;
+
+            case FriendlinessType.MaCheonGyo:
+                data.MaCheonGyo += amount;
+                break;
+        }
+
+        Debug.Log($"우호도 변경 : {type} {(amount >= 0 ? "+" : "")}{amount}");
+    }
+
 }
