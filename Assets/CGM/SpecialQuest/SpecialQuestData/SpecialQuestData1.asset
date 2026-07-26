@@ -25,7 +25,7 @@ MonoBehaviour:
   targetHeight: 0
   restrictedInput: 
   darknessLevel: 0
-  timeType: 2
+  timeType: 1
   timeRole: 2
   timeValue: 10
   friendlinessType: 0
