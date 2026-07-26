@@ -163,6 +163,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "\uB3C4\uAC10"
   arrowUI: {fileID: 938542977}
+  clickSound: {fileID: 8300000, guid: e86302a164a768a4f967d5e390b1ec7b, type: 3}
+  use3DSound: 0
   onClickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1074,6 +1076,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "\uAC8C\uC784 \uC2DC\uC791"
   arrowUI: {fileID: 1483398512}
+  clickSound: {fileID: 8300000, guid: e86302a164a768a4f967d5e390b1ec7b, type: 3}
+  use3DSound: 0
   onClickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1177,6 +1181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "\uC124\uC815"
   arrowUI: {fileID: 918707297}
+  clickSound: {fileID: 8300000, guid: e86302a164a768a4f967d5e390b1ec7b, type: 3}
+  use3DSound: 0
   onClickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1442,6 +1448,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "\uC2E0\uBB38"
   arrowUI: {fileID: 680407033}
+  clickSound: {fileID: 8300000, guid: e86302a164a768a4f967d5e390b1ec7b, type: 3}
+  use3DSound: 0
   onClickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1736,6 +1744,51 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
+--- !u!1 &785332005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 785332007}
+  - component: {fileID: 785332006}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &785332006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785332005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37741bf6acc5dc340a775f454806ef46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxMixerGroup: {fileID: -4253095368035106385, guid: 027c873ff74c72841988a3fed3436e34, type: 2}
+--- !u!4 &785332007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785332005}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.0022047, y: -11.5444565, z: -16.32731}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &798548441
 GameObject:
   m_ObjectHideFlags: 0
@@ -3061,7 +3114,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1355409206290717953, guid: 027c873ff74c72841988a3fed3436e34, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 6422a0d2205618142a93840b3ef7b53f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 02cec7119c395b9439b63ffe4d096e90, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3872,6 +3925,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: "\uB3C4\uAC10"
   arrowUI: {fileID: 2044943006}
+  clickSound: {fileID: 8300000, guid: e86302a164a768a4f967d5e390b1ec7b, type: 3}
+  use3DSound: 0
   onClickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -21463,3 +21518,4 @@ SceneRoots:
   - {fileID: 1450176244}
   - {fileID: 1673273002}
   - {fileID: 241022347}
+  - {fileID: 785332007}
