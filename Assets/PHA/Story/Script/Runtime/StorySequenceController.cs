@@ -20,6 +20,8 @@ public class StorySequenceController
 
     public bool IsPlayingSequence { get; private set; }
 
+    public bool HasNextStory => storyQueue.Count > 0;
+
     public void Initialize(
         StoryProgressService service)
     {
