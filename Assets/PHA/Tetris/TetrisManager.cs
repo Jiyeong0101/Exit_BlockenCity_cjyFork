@@ -1,27 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using TetrisGame;
-using System.Xml.Serialization;
 
 public class TetrisManager : MonoBehaviour
 {
     public static TetrisManager Instance;
 
     public Vector3Int tetrisTowerSize = new Vector3Int(4, 8, 4);
-
     public float fallInterval;
-
     public TetrisTower tower;
-
     public TetrisSpawner spawner;
-
     public TetrisController controller;
 
     private int[] typeBlockCount = new int[(int)BlockType.None];
-
     public ScoreUIBinder scoreUIBinder;
+
+    public bool isGameEnded { get; private set; } = false;
+    public bool isPaused { get; private set; } = false; // [추가] 일시정지 상태 플래그
 
     private void Awake()
     {
@@ -29,73 +25,109 @@ public class TetrisManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
-
     }
 
-    // Start is called before the first frame update
     void Start()
     {
+        isGameEnded = false;
+        isPaused = false;
+
         Vector3 spawnPos = tower.GetSpawnPosition();
         spawner.SetTowerSpawnPosition(spawnPos);
         SpawnNextBlock();
 
         for (int i = 0; i < typeBlockCount.Length; i++)
-        { typeBlockCount[i] = 0; }
-
+        {
+            typeBlockCount[i] = 0;
+        }
     }
 
-
-    //타입별 블럭 갯수 카운트
-    public void IncreaseTypeBlockCount(BlockType type)
+    // [추가] 일시정지 상태 설정 함수
+    public void SetPause(bool pause)
     {
-        typeBlockCount[(int)type]++;
+        isPaused = pause;
+
+        // 컨트롤러 키 입력 차단/해제
+        if (controller != null)
+        {
+            controller.enabled = !pause && !isGameEnded;
+        }
     }
 
+    public void GameClear()
+    {
+        if (isGameEnded) return;
+        isGameEnded = true;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StopGame();
+        }
+
+        if (controller != null)
+        {
+            controller.enabled = false;
+        }
+
+        Debug.Log("[Tetris] GAME CLEAR");
+
+        if (scoreUIBinder != null)
+        {
+            scoreUIBinder.ToggleScoreUI(true, isGameOver: false);
+        }
+    }
+
+    public void IncreaseTypeBlockCount(BlockType type) => typeBlockCount[(int)type]++;
     public void DecreaseTypeBlockCount(BlockType type)
     {
         typeBlockCount[(int)type]--;
-
         if (QuestManager.Instance != null)
         {
             QuestManager.Instance.UpdateQuestProgress(type);
         }
-
     }
-
-    // 특정 블럭 타입의 갯수 반환
-    public int GetBlockCount(BlockType type)
-    {
-        return typeBlockCount[(int)type];
-    }
-
-    // 전체 카운트 배열을 복사해서 반환
-    public int[] GetAllBlockCounts()
-    {
-        return (int[])typeBlockCount.Clone();
-    }
-
-
+    public int GetBlockCount(BlockType type) => typeBlockCount[(int)type];
+    public int[] GetAllBlockCounts() => (int[])typeBlockCount.Clone();
 
     public void SpawnNextBlock()
     {
+        // [수정] 게임 종료 OR 일시정지 상태면 새 블록 생성 안 함
+        if (isGameEnded || isPaused) return;
+
         spawner.SpawnBlock();
         controller.SetCurrentBlock(spawner.GetTetriminoBlock());
     }
 
     public void CheckTower()
     {
-        tower.CheckAndDeleteFullLines();       //타워 검사
+        // [수정] 게임 종료 OR 일시정지 상태면 검사 차단
+        if (isGameEnded || isPaused) return;
+
+        tower.CheckAndDeleteFullLines();
     }
 
     public void GameOver()
     {
+        if (isGameEnded) return;
+        isGameEnded = true;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StopGame();
+        }
+
         Debug.Log("[Tetris] GAME OVER");
-        // TODO: 게임오버 UI, 입력 차단, 재시작 처리 등
+
+        if (controller != null)
+        {
+            controller.enabled = false;
+        }
 
         StageManager.Instance.OverStage();
 
-        scoreUIBinder.ToggleScoreUI(true, true);
-
+        if (scoreUIBinder != null)
+        {
+            scoreUIBinder.ToggleScoreUI(true, isGameOver: true);
+        }
     }
-
 }
