@@ -505,9 +505,9 @@ MonoBehaviour:
   inputBlocker: {fileID: 78634942}
   tetrisController: {fileID: 411465151}
   tetrisspawner: {fileID: 411465152}
-  useInspectorObstacle: 1
+  useInspectorObstacle: 0
   selectedObstacleEntry:
-    type: 7
+    type: 0
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &78634946
@@ -2406,7 +2406,7 @@ MonoBehaviour:
   clearWindowObject: {fileID: 669186501}
   gameOverWindowObject: {fileID: 178226221}
   scoreWindowObject: {fileID: 997562292}
-  storySceneName: StoryScene
+  storySceneName: Story
   lobbySceneName: Lobby
 --- !u!4 &1069338448
 Transform:
@@ -2871,7 +2871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2771027fcc413f4a9d04c06ed50453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 10
+  gameTime: 120
   scoreManager: {fileID: 1069338447}
 --- !u!4 &1672152914
 Transform:
@@ -3155,7 +3155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423396313146569200, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 423396313146569200, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode

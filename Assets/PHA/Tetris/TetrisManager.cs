@@ -46,12 +46,6 @@ public class TetrisManager : MonoBehaviour
     public void SetPause(bool pause)
     {
         isPaused = pause;
-
-        // 컨트롤러 키 입력 차단/해제
-        if (controller != null)
-        {
-            controller.enabled = !pause && !isGameEnded;
-        }
     }
 
     public void GameClear()
