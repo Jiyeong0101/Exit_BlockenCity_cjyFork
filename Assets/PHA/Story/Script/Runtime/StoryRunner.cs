@@ -13,6 +13,11 @@ public class StoryRunner : MonoBehaviour
     [SerializeField]
     private StorySequenceController sequenceController;
 
+    [Header("월 완료 처리")]
+    [SerializeField]
+    private StoryMonthCompletionController
+    monthCompletionController;
+
     [Header("테스트용 스토리")]
     [SerializeField]
     private bool useTestStory;
@@ -41,6 +46,7 @@ public class StoryRunner : MonoBehaviour
     [Min(0f)]
     [SerializeField]
     private float skipAdvanceDelay = 0.05f;
+
 
     private StoryData currentStory;
     private StoryNodeData currentNode;
@@ -116,6 +122,7 @@ public class StoryRunner : MonoBehaviour
             new StoryProgressService();
 
         FindSequenceController();
+        FindMonthCompletionController();
 
         if (sequenceController != null)
         {
@@ -1064,9 +1071,7 @@ public class StoryRunner : MonoBehaviour
             storyUI.Close();
         }
 
-        /*
-         * 완료 스토리와 세력 소개 여부를 저장합니다.
-         */
+        // 방금 종료된 개별 StoryData 완료 저장
         if (finishedStory != null)
         {
             progressService?.CompleteStory(
@@ -1075,23 +1080,47 @@ public class StoryRunner : MonoBehaviour
         }
 
         /*
-         * StorySequenceController가 활성화된 상태라면
-         * 다음 StoryData를 요청합니다.
-         *
-         * 마지막 스토리였다면 TryGetNextStory가 false를
-         * 반환하면서 시퀀스가 종료됩니다.
+         * 아직 재생할 이벤트/월 스토리가 남아 있다면
+         * 월을 증가시키지 않고 다음 스토리를 실행합니다.
          */
         if (sequenceController != null &&
-            sequenceController.IsPlayingSequence)
+            sequenceController.HasNextStory)
         {
             PlayNextQueuedStory();
             return;
         }
 
+        /*
+         * Queue의 모든 스토리가 끝났으므로
+         * 이번 달 전체 스토리가 종료된 상태입니다.
+         */
+        if (sequenceController != null)
+        {
+            sequenceController.StopSequence();
+        }
+
         Debug.Log(
-            "스토리 진행이 종료되었습니다.",
+            "이번 달의 모든 스토리가 종료되었습니다.",
             this
         );
+
+        if (monthCompletionController == null)
+        {
+            FindMonthCompletionController();
+        }
+
+        if (monthCompletionController == null)
+        {
+            Debug.LogError(
+                "월 완료 처리를 실행할 수 없습니다.",
+                this
+            );
+
+            return;
+        }
+
+        monthCompletionController
+            .CompleteMonthAndReturnToLobby();
     }
 
     private void AddNodeToLog(
@@ -1216,6 +1245,28 @@ public class StoryRunner : MonoBehaviour
         {
             skipButton.onClick.RemoveListener(
                 ToggleSkipMode
+            );
+        }
+    }
+
+    private void FindMonthCompletionController()
+    {
+        if (monthCompletionController != null)
+        {
+            return;
+        }
+
+        monthCompletionController =
+            GetComponent<StoryMonthCompletionController>();
+
+        if (monthCompletionController == null)
+        {
+            Debug.LogError(
+                "StoryMonthCompletionController가 " +
+                "연결되지 않았습니다. " +
+                "StoryRunner와 같은 오브젝트에 추가하거나 " +
+                "Inspector에서 직접 연결해주세요.",
+                this
             );
         }
     }
