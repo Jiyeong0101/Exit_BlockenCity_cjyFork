@@ -15,7 +15,8 @@ MonoBehaviour:
   characterId: Char_HongNyeonGwi_02
   characterName: "\uC544\uB828"
   characterName_eng: "\u96C5\u84EE"
-  dialogue: 
+  dialogue: "\uBE44\uBC00\uC740 \uC228\uAE30\uB294 \uAC83\uC774 \uC544\uB2C8\uB77C,
+    \uBBFF\uAC8C \uB9CC\uB4DC\uB294 \uAC70\uC57C."
   portrait: {fileID: 21300000, guid: 65e6e8d4f379e584288cb8b9fb08d872, type: 3}
   fullBodyImage: {fileID: 21300000, guid: 3c58b203384b81547bc1f28c066b82e2, type: 3}
   silhouette: {fileID: 21300000, guid: 2dcb591c7d8f04c49b945cd72925514f, type: 3}

@@ -30,12 +30,12 @@ MonoBehaviour:
     nodeType: 2
     text: "({UserName}\uAC00 \uC774\uBC88 \uB2EC\uC758 \uBCF4\uACE0\uB97C \uC704\uD574
       \uB9AC \uC2DC\uD654\uC758 \uC0AC\uBB34\uC2E4\uC744 \uCC3E\uC558\uB2E4.)"
-    character: {fileID: 11400000, guid: a778268b0982c7d4bae2b7d849161739, type: 2}
-    portraitId: D_01_00
+    character: {fileID: 0}
+    portraitId: 
     nextNodeId: Narration_02
     choices: []
-    dimPortrait: 1
-    keepPortrait: 1
+    dimPortrait: 0
+    keepPortrait: 0
     useTypingEffect: 0
     autoAdvance: 0
     autoAdvanceDelay: 0
@@ -44,12 +44,12 @@ MonoBehaviour:
     nodeType: 2
     text: "(\uB9AC \uC2DC\uD654\uB294 {UserName}\uAC00 \uAC74\uB128 \uBCF4\uACE0\uC11C\uB97C
       \uCC9C\uCC9C\uD788 \uB118\uACA8\uBCF4\uC558\uB2E4.)"
-    character: {fileID: 11400000, guid: a778268b0982c7d4bae2b7d849161739, type: 2}
-    portraitId: D_01_00
+    character: {fileID: 0}
+    portraitId: 
     nextNodeId: Narration_03
     choices: []
-    dimPortrait: 1
-    keepPortrait: 1
+    dimPortrait: 0
+    keepPortrait: 0
     useTypingEffect: 0
     autoAdvance: 0
     autoAdvanceDelay: 0
@@ -57,12 +57,12 @@ MonoBehaviour:
   - nodeId: Narration_03
     nodeType: 2
     text: "(\uBA87 \uC7A5\uC744 \uB118\uAE30\uB358 \uC190\uC774 \uBA48\uCDC4\uB2E4.)"
-    character: {fileID: 11400000, guid: a778268b0982c7d4bae2b7d849161739, type: 2}
-    portraitId: D_01_00
+    character: {fileID: 0}
+    portraitId: 
     nextNodeId: Sihwa_01
     choices: []
-    dimPortrait: 1
-    keepPortrait: 1
+    dimPortrait: 0
+    keepPortrait: 0
     useTypingEffect: 0
     autoAdvance: 0
     autoAdvanceDelay: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
     nextNodeId: Sihwa_02
     choices: []
     dimPortrait: 0
-    keepPortrait: 1
+    keepPortrait: 0
     useTypingEffect: 0
     autoAdvance: 0
     autoAdvanceDelay: 0

@@ -72,6 +72,6 @@ public class StorySettingsManager : MonoBehaviour
     public void ResetSettings()
     {
         SetTextSize(StoryTextSize.Medium);
-        SetAdvanceMode(StoryAdvanceMode.Auto);
+        SetAdvanceMode(StoryAdvanceMode.Manual);
     }
 }
