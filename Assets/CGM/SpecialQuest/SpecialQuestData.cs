@@ -16,6 +16,7 @@ public enum SpecialQuestType
 {
     BlockBreak,     // 블럭 파괴
     BlockNoBreak,   // 블럭 파괴 금지
+    BlockMake,   // 블럭 건설
 
     HeightLimit,    //높이 제한
     HeightAchievement, //높이 달성 
@@ -75,6 +76,8 @@ public class SpecialQuestData : ScriptableObject
     // 우호도 보상
     public FriendlinessType friendlinessType;
     public int friendlinessReward;
+
+    public Color rewardColor;
 
     [HideInInspector]
     public bool IsCompleted = false;   // 완료 여부

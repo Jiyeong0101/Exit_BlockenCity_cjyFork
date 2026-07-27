@@ -62,6 +62,8 @@ public class SpecialQuestUI : MonoBehaviour
         descriptionText.text = quest.description;
         rewardText.text =$"{GetFriendlinessName(quest.friendlinessType)} 우호도 +{quest.friendlinessReward}";
 
+        rewardText.color = quest.rewardColor;
+
         // 상세 배경
         backgroundImage.sprite =
             quest.background != null ? quest.background : defaultBackground;
@@ -109,8 +111,11 @@ public class SpecialQuestUI : MonoBehaviour
             case SpecialQuestType.BlockBreak:
                 return $"{value} / {quest.targetCount}";
 
-            case SpecialQuestType.BlockNoBreak:
-                return $"{quest.blockType} 블럭 파괴 시 실패";
+            //case SpecialQuestType.BlockNoBreak:
+                //return $"{quest.blockType} 블럭 파괴 시 실패";
+
+            case SpecialQuestType.BlockMake:
+                return $"{value} / {quest.targetCount}";
 
             case SpecialQuestType.HeightLimit:
             case SpecialQuestType.HeightAchievement:
@@ -119,9 +124,8 @@ public class SpecialQuestUI : MonoBehaviour
             case SpecialQuestType.HeightKeep:
                 return $"높이 {value + 1} 유지 중";
 
-            case SpecialQuestType.HeightSpecialBlock:
-                return $"높이 : {value + 1} / {quest.targetHeight}\n" +
-                       $"{quest.blockType} {(flag ? "✔" : "✘")}";
+            //case SpecialQuestType.HeightSpecialBlock:
+                //return $"높이 : {value + 1} / {quest.targetHeight}\n + {quest.blockType} {(flag ? "O" : "X")}";
 
             case SpecialQuestType.InputRestriction:
                 return $"{quest.restrictedInput} 제한됨";
@@ -153,7 +157,7 @@ public class SpecialQuestUI : MonoBehaviour
 
     private IEnumerator AutoClose()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.0f);
         Destroy(gameObject);
         CurrentUI = null;
     }
@@ -178,6 +182,11 @@ public class SpecialQuestUI : MonoBehaviour
         switch (quest.questType)
         {
             case SpecialQuestType.BlockBreak:
+                summarySlider.maxValue = quest.targetCount;
+                summarySlider.value = currentProgress;
+                break;
+
+            case SpecialQuestType.BlockMake:
                 summarySlider.maxValue = quest.targetCount;
                 summarySlider.value = currentProgress;
                 break;

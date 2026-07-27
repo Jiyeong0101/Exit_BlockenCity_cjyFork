@@ -38,8 +38,19 @@ public class DialogManager : MonoBehaviour
                 isFirstLine = false;
                 continue;
             }
+            string[] values;
 
-            string[] values = line.Split(',');
+            if (line.Contains('\t'))
+            {
+                // TSV(탭 구분)
+                values = line.Split('\t');
+            }
+            else
+            {
+                // CSV(쉼표 구분)
+                values = ParseCSVLine(line);
+            }
+
             System.Array.Resize(ref values, 9);
 
             for (int i = 0; i < values.Length; i++)
@@ -72,9 +83,24 @@ public class DialogManager : MonoBehaviour
             if (!string.IsNullOrEmpty(values[8]))
                 int.TryParse(values[8], out declineBranch);
 
-            allDialogs.Add(new DialogLine(branch, backGround, characterImageID,ocp, name, dialog,questionType, acceptBranch, declineBranch));
-           
-            spawnableBranchIDs.Add(branch);
+            DialogLine dialogLine = new DialogLine(
+                branch,
+                backGround,
+                characterImageID,
+                ocp,
+                name,
+                dialog,
+                questionType,
+                acceptBranch,
+                declineBranch);
+
+            allDialogs.Add(dialogLine);
+
+            // 시작 브랜치만 등록
+            if (questionType == 1)
+            {
+                spawnableBranchIDs.Add(branch);
+            }
         }
     }
 
@@ -148,13 +174,51 @@ public class DialogManager : MonoBehaviour
 
         return bestID;
     }
+    private string[] ParseCSVLine(string line)
+    {
+        List<string> values = new List<string>();
+        bool inQuotes = false;
 
+        System.Text.StringBuilder value = new System.Text.StringBuilder();
+
+        for (int i = 0; i < line.Length; i++)
+        {
+            char c = line[i];
+
+            if (c == '"')
+            {
+                // "" -> "
+                if (inQuotes && i + 1 < line.Length && line[i + 1] == '"')
+                {
+                    value.Append('"');
+                    i++;
+                }
+                else
+                {
+                    inQuotes = !inQuotes;
+                }
+            }
+            else if (c == ',' && !inQuotes)
+            {
+                values.Add(value.ToString());
+                value.Clear();
+            }
+            else
+            {
+                value.Append(c);
+            }
+        }
+
+        values.Add(value.ToString());
+
+        return values.ToArray();
+    }
     public List<int> GetSpawnableBranchIDs()
     {
         return new List<int>(spawnableBranchIDs);
     }
 
-    public void ClearQueue()  // ⬅️ 거절 등으로 대화 중단 시 사용
+    public void ClearQueue()
     {
         dialogQueue.Clear();
     }

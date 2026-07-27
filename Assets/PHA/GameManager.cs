@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public float gameTime = 180f;
+    public float startGameTime = 150f;   // Inspector에서 설정
+    public float gameTime;
 
     public bool isGameEnded { get; private set; } = false;
     public bool isPaused { get; private set; } = false;
@@ -76,4 +77,11 @@ public class GameManager : MonoBehaviour
             scoreManager.ToggleScoreUI(true, isGameOver: false);
         }
     }
+    public void ResetGame()
+    {
+        gameTime = startGameTime;
+        isGameEnded = false;
+        isPaused = false;
+    }
+
 }
