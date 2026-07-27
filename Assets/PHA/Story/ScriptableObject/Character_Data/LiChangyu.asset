@@ -15,7 +15,8 @@ MonoBehaviour:
   characterId: Char_Danwol_02
   characterName: "\uB9AC \uCC3D\uC720 "
   characterName_eng: "\u674E\u660C\u88D5"
-  dialogue: 
+  dialogue: "\uC190\uD574\uB9CC \uC544\uB2C8\uB77C\uBA74\uC57C, \uAD73\uC774 \uC2F8\uC6B8
+    \uC774\uC720\uB3C4 \uC5C6\uC9C0 \uC54A\uACA0\uB098?"
   portrait: {fileID: 21300000, guid: 8a7578eb46acb4e48af04f9ad33419f8, type: 3}
   fullBodyImage: {fileID: 21300000, guid: d8eec975dc2cea142a66055b15719908, type: 3}
   silhouette: {fileID: 21300000, guid: e858325fbe946c34eac6d72269e78f42, type: 3}

@@ -1592,7 +1592,7 @@ MonoBehaviour:
   sequenceController: {fileID: 2119780302}
   monthCompletionController: {fileID: 2119780303}
   useTestStory: 0
-  testStory: {fileID: 11400000, guid: 135c321b9d6bc884ea021788fe43b36a, type: 2}
+  testStory: {fileID: 11400000, guid: c85f37f8b6ffde84fbda57fa61f945f6, type: 2}
   playOnStart: 1
   defaultPlayerName: "\uC11C\uC548"
   playerJobTitle: "\uACF5\uC791\uCCAD \uD604\uC7A5\uAC10\uB3C5\uAD00"

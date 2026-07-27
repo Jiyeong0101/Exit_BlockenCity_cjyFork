@@ -86,6 +86,7 @@ public class EncyclopediaUIController : MonoBehaviour
 
     private void Start()
     {
+        UnlockAllEncyclopedia();
         ResetToDefault();
     }
 
@@ -565,5 +566,83 @@ public class EncyclopediaUIController : MonoBehaviour
         RefreshFactionUI();
         RefreshCharacterButtonUI();
         RefreshCharacterDetailUI();
+    }
+
+    public void UnlockAllEncyclopedia()
+    {
+        if (EncyclopediaSaveManager.Instance == null)
+        {
+            Debug.LogError(
+                "EncyclopediaSaveManager가 없습니다.",
+                this
+            );
+
+            return;
+        }
+
+        if (factions == null)
+        {
+            Debug.LogWarning(
+                "Faction 데이터가 없습니다.",
+                this
+            );
+
+            return;
+        }
+
+        foreach (FactionData faction in factions)
+        {
+            if (faction == null ||
+                faction.characters == null)
+            {
+                continue;
+            }
+
+            foreach (CharacterData character
+                     in faction.characters)
+            {
+                if (character == null ||
+                    string.IsNullOrWhiteSpace(
+                        character.characterId))
+                {
+                    continue;
+                }
+
+                string characterId =
+                    character.characterId;
+
+                EncyclopediaSaveManager.Instance
+                    .UnlockCharacter(characterId);
+
+                for (int i = 0;
+                     i < character.stories.Count;
+                     i++)
+                {
+                    EncyclopediaSaveManager.Instance
+                        .UnlockStory(
+                            characterId,
+                            i
+                        );
+                }
+
+                for (int i = 0;
+                     i < character.relations.Count;
+                     i++)
+                {
+                    EncyclopediaSaveManager.Instance
+                        .UnlockRelation(
+                            characterId,
+                            i
+                        );
+                }
+            }
+        }
+
+        RefreshCurrentUI();
+
+        Debug.Log(
+            "모든 캐릭터 도감 정보가 해금되었습니다.",
+            this
+        );
     }
 }

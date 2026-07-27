@@ -61,6 +61,7 @@ public class StoryRunner : MonoBehaviour
     private bool autoMode;
     private bool skipMode;
 
+
     /*
      * 현재 실행 중인 스토리 안에서 발생한
      * 선택 결과를 임시로 보관합니다.
@@ -136,6 +137,7 @@ public class StoryRunner : MonoBehaviour
 
     private void Start()
     {
+
         if (storyUI == null)
         {
             Debug.LogError(
@@ -228,21 +230,34 @@ public class StoryRunner : MonoBehaviour
             return;
         }
 
-        Button autoButton =
-            storyUI.GetAutoButton();
+        Button[] autoButtons =
+            storyUI.GetAutoModeButtons();
 
-        Button skipButton =
-            storyUI.GetSkipButton();
-
-        if (autoButton != null)
+        foreach (Button button in autoButtons)
         {
-            autoButton.onClick.AddListener(
+            if (button == null)
+            {
+                continue;
+            }
+
+            button.onClick.RemoveListener(
+                ToggleAutoMode
+            );
+
+            button.onClick.AddListener(
                 ToggleAutoMode
             );
         }
 
+        Button skipButton =
+            storyUI.GetSkipButton();
+
         if (skipButton != null)
         {
+            skipButton.onClick.RemoveListener(
+                ToggleSkipMode
+            );
+
             skipButton.onClick.AddListener(
                 ToggleSkipMode
             );
@@ -365,8 +380,7 @@ public class StoryRunner : MonoBehaviour
 
         autoMode =
             StorySettingsManager.Instance != null &&
-            StorySettingsManager.Instance
-                .IsAutoAdvance();
+            StorySettingsManager.Instance.IsAutoAdvance();
 
         skipMode = false;
 
@@ -862,17 +876,20 @@ public class StoryRunner : MonoBehaviour
     }
 
     private void ScheduleAutomaticAdvance(
-        StoryNodeData node)
+    StoryNodeData node)
     {
         if (node == null)
         {
             return;
         }
 
+        /*
+         * 자동 진행 버튼 또는 스킵이 켜졌을 때만
+         * 다음 노드를 자동으로 예약합니다.
+         */
         bool shouldAdvance =
             skipMode ||
-            autoMode ||
-            node.AutoAdvance;
+            autoMode;
 
         if (!shouldAdvance)
         {
@@ -885,14 +902,20 @@ public class StoryRunner : MonoBehaviour
         {
             delay = skipAdvanceDelay;
         }
-        else if (node.AutoAdvance)
-        {
-            delay = node.AutoAdvanceDelay;
-        }
         else
         {
-            delay = autoAdvanceDelay;
+            /*
+             * 노드에 별도 자동 진행 시간이 지정되어 있다면
+             * 시간만 사용하고, 자동 진행 여부 자체는
+             * autoMode가 결정합니다.
+             */
+            delay =
+                node.AutoAdvance
+                    ? node.AutoAdvanceDelay
+                    : autoAdvanceDelay;
         }
+
+        CancelScheduledAdvance();
 
         advanceCoroutine = StartCoroutine(
             AutomaticAdvanceRoutine(delay)
@@ -900,7 +923,7 @@ public class StoryRunner : MonoBehaviour
     }
 
     private IEnumerator AutomaticAdvanceRoutine(
-        float delay)
+    float delay)
     {
         yield return new WaitForSecondsRealtime(
             Mathf.Max(0f, delay)
@@ -910,6 +933,13 @@ public class StoryRunner : MonoBehaviour
 
         if (!isStoryPlaying ||
             isWaitingForChoice)
+        {
+            yield break;
+        }
+
+        // 대기 중 자동 진행을 껐다면 진행 중단
+        if (!autoMode &&
+            !skipMode)
         {
             yield break;
         }
@@ -944,22 +974,44 @@ public class StoryRunner : MonoBehaviour
             return;
         }
 
-        autoMode = !autoMode;
+        Debug.Log(
+    $"ToggleAutoMode 호출 / 현재: {autoMode} / 변경: {!autoMode}", this);
+
+        bool nextAutoMode = !autoMode;
+
+        // StoryRunner가 실제로 사용하는 상태를 즉시 변경
+        autoMode = nextAutoMode;
 
         if (autoMode)
         {
+            // 자동 모드와 스킵 모드는 동시에 사용하지 않음
             skipMode = false;
         }
 
-        storyUI.SetAutoModeVisual(
-            autoMode
-        );
-
+        // 기존에 예약된 자동 진행을 즉시 중단
         CancelScheduledAdvance();
 
+        // 버튼 UI 즉시 변경
+        if (storyUI != null)
+        {
+            storyUI.SetAutoModeVisual(autoMode);
+        }
+
+        // 설정값도 현재 상태와 동일하게 저장
+        if (StorySettingsManager.Instance != null)
+        {
+            StorySettingsManager.Instance.SetAdvanceMode(
+                autoMode
+                    ? StoryAdvanceMode.Auto
+                    : StoryAdvanceMode.Manual
+            );
+        }
+
+        // 자동 모드로 켠 경우에만 다시 자동 진행 예약
         if (autoMode &&
             currentNode != null &&
             !isWaitingForChoice &&
+            storyUI != null &&
             !storyUI.IsTyping &&
             !isProcessingNode)
         {
@@ -1171,8 +1223,15 @@ public class StoryRunner : MonoBehaviour
             );
         }
 
+        /*
+         * 이전 자동 진행 예약을 먼저 제거합니다.
+         */
         CancelScheduledAdvance();
 
+        /*
+         * 자동 진행이 켜졌고 현재 대사가 모두 출력된
+         * 상태라면 다시 자동 진행을 예약합니다.
+         */
         if (autoMode &&
             isStoryPlaying &&
             currentNode != null &&
@@ -1228,18 +1287,23 @@ public class StoryRunner : MonoBehaviour
             return;
         }
 
-        Button autoButton =
-            storyUI.GetAutoButton();
+        Button[] autoButtons =
+    storyUI.GetAutoModeButtons();
 
-        Button skipButton =
-            storyUI.GetSkipButton();
-
-        if (autoButton != null)
+        foreach (Button button in autoButtons)
         {
-            autoButton.onClick.RemoveListener(
+            if (button == null)
+            {
+                continue;
+            }
+
+            button.onClick.RemoveListener(
                 ToggleAutoMode
             );
         }
+
+        Button skipButton =
+            storyUI.GetSkipButton();
 
         if (skipButton != null)
         {
@@ -1247,6 +1311,7 @@ public class StoryRunner : MonoBehaviour
                 ToggleSkipMode
             );
         }
+
     }
 
     private void FindMonthCompletionController()

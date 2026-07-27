@@ -740,6 +740,71 @@ public class StoryUI : MonoBehaviour
         return autoButton;
     }
 
+    public Button[] GetAutoModeButtons()
+    {
+        List<Button> buttons = new List<Button>();
+
+        AddButtonIfValid(
+            buttons,
+            autoButton
+        );
+
+        if (autoInactiveObject != null)
+        {
+            Button inactiveButton =
+                autoInactiveObject.GetComponent<Button>();
+
+            if (inactiveButton == null)
+            {
+                inactiveButton =
+                    autoInactiveObject
+                        .GetComponentInChildren<Button>(true);
+            }
+
+            AddButtonIfValid(
+                buttons,
+                inactiveButton
+            );
+        }
+
+        if (autoActiveObject != null)
+        {
+            Button activeButton =
+                autoActiveObject.GetComponent<Button>();
+
+            if (activeButton == null)
+            {
+                activeButton =
+                    autoActiveObject
+                        .GetComponentInChildren<Button>(true);
+            }
+
+            AddButtonIfValid(
+                buttons,
+                activeButton
+            );
+        }
+
+        return buttons.ToArray();
+    }
+
+    private void AddButtonIfValid(
+        List<Button> buttons,
+        Button button)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        if (buttons.Contains(button))
+        {
+            return;
+        }
+
+        buttons.Add(button);
+    }
+
     public Button GetSkipButton()
     {
         return skipButton;

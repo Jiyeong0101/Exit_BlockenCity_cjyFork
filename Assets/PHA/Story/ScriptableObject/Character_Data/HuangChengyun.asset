@@ -15,7 +15,8 @@ MonoBehaviour:
   characterId: Char_YeSeo_01
   characterName: "\uD669 \uC131\uC724 "
   characterName_eng: "\u9EC3\u6210\u5141"
-  dialogue: 
+  dialogue: "\uB204\uAD70\uAC00\uC758 \uC4F8\uBAA8\uAC00 \uB420 \uC218 \uC788\uB2E4\uBA74,
+    \uADF8\uAC78\uB85C \uCDA9\uBD84\uD569\uB2C8\uB2E4."
   portrait: {fileID: 21300000, guid: 81615526a14f3fc4db5612d498954892, type: 3}
   fullBodyImage: {fileID: 21300000, guid: bc212b66698bb7b4db6e1005e76f7dd1, type: 3}
   silhouette: {fileID: 21300000, guid: fe653321f17efa74ea6ffecfeecadf9b, type: 3}
