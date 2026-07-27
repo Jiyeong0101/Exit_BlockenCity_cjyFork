@@ -24,8 +24,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        isGameEnded = false;
-        isPaused = false;
+        ResetGame();
     }
 
     void Update()
