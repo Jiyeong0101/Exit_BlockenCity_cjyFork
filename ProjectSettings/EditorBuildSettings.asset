@@ -24,6 +24,6 @@ EditorBuildSettings:
     path: Assets/PHA/StoryTest.unity
     guid: c0ac4d548dd8b8f4c95a2472f479e12c
   - enabled: 1
-    path: Assets/CGM/CGM_asdfasdf.unity
+    path: Assets/CGM/InGame.unity
     guid: 36ab13e5e446fd948b37db90d9e8b4b5
   m_configObjects: {}

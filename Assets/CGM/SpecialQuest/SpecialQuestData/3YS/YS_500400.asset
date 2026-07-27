@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5af939c6f7241745ad6b5c9168d9c6e, type: 3}
-  m_Name: SpecialQuestData6
+  m_Name: YS_500400
   m_EditorClassIdentifier: 
   background: {fileID: -1526326893, guid: a0a4a4d624feb004ca24742a802f1415, type: 3}
   Summarybackground: {fileID: 1149475584, guid: 33b8ddb6b03fd0148baac9f5e1ff037e, type: 3}
-  SummaryColor: {r: 0, g: 0, b: 0, a: 0}
-  sliderColor: {r: 0, g: 0, b: 0, a: 1}
-  branchID: 211112
-  questName: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 6\uBC88"
-  description: "\uC2A4\uD398\uC15C\uD018\uC2A4\uD2B8\uD14C\uC2A4\uD2B8 6\uBC88\uC785\uB2C8\uB2F9\n\uD2B9\uC815
-    \uB192\uC774 \uD2B9\uC815 \uBE14\uB7ED \uC124\uCE58 \uD018\uC2A4\uD2B8\n\uC2DC\uAC04
-    = \uB4DC\uB78D\uBC88"
-  questType: 5
-  blockType: 2
-  targetCount: 0
-  targetHeight: 3
+  SummaryColor: {r: 0.24313726, g: 0.34509805, b: 0.62352943, a: 1}
+  sliderColor: {r: 0.05882353, g: 0.07450981, b: 0.20392157, a: 1}
+  branchID: 500401
+  questName: "\uC9C0\uC6D0 \uB2E8\uC6D0 \uB2E4\uC218 \uC0AC\uB9DD \uBC0F \uC911\uC0C1"
+  description: "\uCEE8\uD14C\uC774\uB108 \uCCA0\uAC70 5\uAC1C"
+  questType: 0
+  blockType: 7
+  targetCount: 5
+  targetHeight: 0
   restrictedInput: 
   darknessLevel: 0
   timeType: 1
-  timeRole: 0
-  timeValue: 30
-  reward: 0
-  IsCompleted: 1
+  timeRole: 1
+  timeValue: 25
+  friendlinessType: 2
+  friendlinessReward: 1
+  rewardColor: {r: 0.1254902, g: 0.4862745, b: 0.972549, a: 1}
+  IsCompleted: 0

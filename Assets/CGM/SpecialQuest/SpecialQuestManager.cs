@@ -188,7 +188,7 @@ public class SpecialQuestManager : MonoBehaviour
             switch (instance.data.questType)
             {
                 case SpecialQuestType.HeightKeep:
-                    if (currentHeight != instance.baseHeight)
+                    if (currentHeight > instance.baseHeight)
                         FailQuest(instance);
                     break;
 
@@ -209,21 +209,38 @@ public class SpecialQuestManager : MonoBehaviour
     {
         foreach (var instance in activeQuests)
         {
-            if (instance.isFinished) continue;
-            if (instance.data.questType != SpecialQuestType.HeightSpecialBlock)
+            if (instance.isFinished)
                 continue;
 
-            bool installed =
-                pos.y + 1 == instance.data.targetHeight &&
-                type == instance.data.blockType;
+            // BlockMake
+            if (instance.data.questType == SpecialQuestType.BlockMake &&
+                instance.data.blockType == type)
+            {
+                instance.breakCount++;
 
-            instance.ui?.UpdateProgress(
-            TetrisManager.Instance.tower.GetCurrentHeight(),
-            installed
-            );
+                instance.ui?.UpdateProgress(instance.breakCount);
 
-            if (installed)
-                CompleteQuest(instance);
+                if (instance.breakCount >= instance.data.targetCount)
+                {
+                    CompleteQuest(instance);
+                }
+            }
+
+            // HeightSpecialBlock
+            if (instance.data.questType == SpecialQuestType.HeightSpecialBlock)
+            {
+                bool installed =
+                    pos.y + 1 == instance.data.targetHeight &&
+                    type == instance.data.blockType;
+
+                instance.ui?.UpdateProgress(
+                    TetrisManager.Instance.tower.GetCurrentHeight(),
+                    installed
+                );
+
+                if (installed)
+                    CompleteQuest(instance);
+            }
         }
     }
 

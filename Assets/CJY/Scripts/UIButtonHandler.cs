@@ -33,6 +33,11 @@ public class UIButtonHandler : MonoBehaviour
                 case ButtonType.RetryStage:
                     if (StageManager.Instance != null)
                         StageManager.Instance.RestartStage();
+                    if (GameManager.Instance != null)
+                    {
+                        GameManager.Instance.ResetGame();
+                    }
+
                     break;
 
                 case ButtonType.NextResultScene:
