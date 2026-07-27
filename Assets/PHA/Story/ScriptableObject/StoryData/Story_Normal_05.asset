@@ -683,7 +683,7 @@ MonoBehaviour:
     text: "\uBA48\uCD9C \uC218 \uC5C6\uB294 \uC0AC\uB78C\uB3C4 \uC788\uB294 \uBC95\uC774\uB2C8\uAE4C\uC694."
     character: {fileID: 11400000, guid: a778268b0982c7d4bae2b7d849161739, type: 2}
     portraitId: D_01_03
-    nextNodeId: Narration_04
+    nextNodeId: Narration_05
     choices: []
     dimPortrait: 0
     keepPortrait: 1
