@@ -9,9 +9,8 @@ public class NewsBookUI : MonoBehaviour
     [System.Serializable]
     public class NewsSlot
     {
-        // public string slotName;          // 인스펙터 구분용 이름 (선택사항)[cite: 14]
-        public StoryNewsData newsData;     // 신문 데이터[cite: 14]
-        public GameObject newsImageObject; // 미리 배치해 둔 해당 신문의 UI 오브젝트[cite: 14]
+        public StoryNewsData newsData;     // 신문 데이터
+        public GameObject newsImageObject; // 미리 배치해 둔 해당 신문의 UI 오브젝트
     }
 
     [Header("도감에 연결된 전체 신문 오브젝트 목록")]
@@ -24,15 +23,10 @@ public class NewsBookUI : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI dateText;
 
-    private void Awake()
-    {
-        // 버튼 클릭 이벤트 자동 바인딩
-        InitSlotButtons();
-    }
-
     private void OnEnable()
     {
-        // 도감 창이 활성화될 때마다 도감 상태 갱신
+        // 창이 활성화될 때마다 이벤트 등록 및 UI 갱신
+        InitSlotButtons();
         UpdateBookUI();
     }
 
@@ -41,35 +35,49 @@ public class NewsBookUI : MonoBehaviour
     /// </summary>
     private void InitSlotButtons()
     {
+        if (newsSlots == null || newsSlots.Count == 0)
+        {
+            Debug.LogError("[NewsBookUI] newsSlots 리스트가 비어있습니다! Inspector를 확인해주세요.");
+            return;
+        }
+
         foreach (var slot in newsSlots)
         {
-            if (slot.newsData == null || slot.newsImageObject == null) continue;
-
-            // newsImageObject에 Button 컴포넌트가 있는지 확인
-            Button button = slot.newsImageObject.GetComponent<Button>();
-            if (button != null)
+            if (slot.newsImageObject == null)
             {
-                StoryNewsData data = slot.newsData; // 람다식 캡처용 지역 변수
-                button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => OpenNewsPopup(data));
+                Debug.LogWarning("[NewsBookUI] newsImageObject가 연결되지 않은 슬롯이 있습니다.");
+                continue;
             }
+
+            // 자식 오브젝트에 Button이 붙어있어도 찾을 수 있도록 GetComponentInChildren 사용
+            Button button = slot.newsImageObject.GetComponentInChildren<Button>();
+
+            if (button == null)
+            {
+                Debug.LogError($"[NewsBookUI] '{slot.newsImageObject.name}' 오브젝트 또는 자식에 Button 컴포넌트가 없습니다!");
+                continue;
+            }
+
+            StoryNewsData data = slot.newsData; // 람다 캡처
+
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(() =>
+            {
+                Debug.Log($"[NewsBookUI] '{slot.newsImageObject.name}' 클릭됨! (Data 존재: {data != null})");
+                OpenNewsPopup(data);
+            });
         }
     }
 
     /// <summary>
-    /// 저장 상태를 확인하여 획득한 신문 오브젝트만 활성화합니다.
+    /// [데모버전] 저장 데이터와 상관없이 모든 신문 오브젝트를 활성화합니다.
     /// </summary>
     public void UpdateBookUI()
     {
         foreach (var slot in newsSlots)
         {
-            if (slot.newsData == null || slot.newsImageObject == null) continue;
-
-            // 해당 신문이 해금되었는지 체크
-            bool isUnlocked = NewsUnlockManager.IsUnlocked(slot.newsData.id);
-
-            // 획득 시 오브젝트 SetActive(true), 미획득 시 SetActive(false)
-            slot.newsImageObject.SetActive(isUnlocked); 
+            if (slot.newsImageObject == null) continue;
+            slot.newsImageObject.SetActive(true);
         }
     }
 
@@ -78,31 +86,38 @@ public class NewsBookUI : MonoBehaviour
     /// </summary>
     public void OpenNewsPopup(StoryNewsData data)
     {
-        if (data == null) return;
-
-        if (titleText != null) titleText.text = data.title;
-        if (contentText != null) contentText.text = data.content;
-
-        if (iconImage != null)
+        if (newsPanel == null)
         {
-            iconImage.sprite = data.icon;
-            iconImage.gameObject.SetActive(data.icon != null);
+            Debug.LogError("[NewsBookUI] newsPanel이 Inspector에 연결되지 않았습니다!");
+            return;
         }
 
-        if (dateText != null)
-        {
-            dateText.text = $"{data.targetMonth:D2}.xx";
-        }
+        // 데이터가 없더라도 일단 패널은 켜서 작동 여부 확인
+        newsPanel.SetActive(true);
+        newsPanel.transform.SetAsLastSibling(); // 다른 UI 뒤에 가려지지 않도록 맨 앞으로 이동
 
-        if (newsPanel != null)
+        if (data != null)
         {
-            newsPanel.SetActive(true);
+            if (titleText != null) titleText.text = data.title;
+            if (contentText != null) contentText.text = data.content;
+
+            if (iconImage != null)
+            {
+                iconImage.sprite = data.icon;
+                iconImage.gameObject.SetActive(data.icon != null);
+            }
+
+            if (dateText != null)
+            {
+                dateText.text = $"{data.targetMonth:D2}.xx";
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[NewsBookUI] 데이터(newsData)가 null 상태로 팝업이 열렸습니다.");
         }
     }
 
-    /// <summary>
-    /// 팝업 닫기 버튼에 연결할 함수입니다.
-    /// </summary>
     public void CloseNewsPopup()
     {
         if (newsPanel != null)

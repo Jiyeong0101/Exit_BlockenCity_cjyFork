@@ -936,7 +936,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5259960857800187925, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.00000667572
       objectReference: {fileID: 0}
     - target: {fileID: 7260284161382141463, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_SizeDelta.y
@@ -944,7 +944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7260284161382141463, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00015258789
+      value: -0.00039672852
       objectReference: {fileID: 0}
     - target: {fileID: 7785272834520010885, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_text
@@ -1713,7 +1713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5259960857800187925, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.00000667572
       objectReference: {fileID: 0}
     - target: {fileID: 7260284161382141463, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1721,7 +1721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7260284161382141463, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00015258789
+      value: -0.0004119873
       objectReference: {fileID: 0}
     - target: {fileID: 7785272834520010885, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_text
@@ -1966,7 +1966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5259960857800187925, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.00000667572
       objectReference: {fileID: 0}
     - target: {fileID: 7260284161382141463, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1974,7 +1974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7260284161382141463, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00015258789
+      value: -0.0004119873
       objectReference: {fileID: 0}
     - target: {fileID: 7785272834520010885, guid: 20044245472c5af4391cc84c81c06ac0, type: 3}
       propertyPath: m_text
@@ -9850,7 +9850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12553,7 +12553,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1204094933660953917}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: OpenNewsPopup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 4049b9e671ebfcb48a96865baf4b78ce, type: 2}
+          m_ObjectArgumentAssemblyTypeName: StoryNewsData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4321898791054726065
 GameObject:
   m_ObjectHideFlags: 0
@@ -12920,7 +12932,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5315876403177402665}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: OpenNewsPopup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 1028ccf2613a8ef4db15aeb3a5d4b653, type: 2}
+          m_ObjectArgumentAssemblyTypeName: StoryNewsData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &4550318693679042210
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13770,7 +13794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00015258789}
+  m_AnchoredPosition: {x: 0, y: 0.0004272461}
   m_SizeDelta: {x: 0, y: -199.89}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5057448842358931788
@@ -14037,7 +14061,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1104714019057245227}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: OpenNewsPopup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: bada19c74ad72934e8ed0a7c0b687bd4, type: 2}
+          m_ObjectArgumentAssemblyTypeName: StoryNewsData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &5186147896764411613
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14498,7 +14534,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5057448842358931788}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: OpenNewsPopup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 9ee08ad4f30ddea4b872b141cc1789bc, type: 2}
+          m_ObjectArgumentAssemblyTypeName: StoryNewsData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5464044513012682039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15418,7 +15466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5874244287346411685
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15914,7 +15962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -16181,7 +16229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &6244469240284212284
 GameObject:
   m_ObjectHideFlags: 0
@@ -16828,7 +16876,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 895276423626668227}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: OpenNewsPopup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 35b83bda569a7f64a8a0b292315ace69, type: 2}
+          m_ObjectArgumentAssemblyTypeName: StoryNewsData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &6518998165163180829
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17219,8 +17279,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4851068941888346127}
   m_HandleRect: {fileID: 7647222051238996942}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.9999934
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -17564,7 +17624,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6300590150203347415}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: OpenNewsPopup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 07402517f4acac44b8491ca887d15fae, type: 2}
+          m_ObjectArgumentAssemblyTypeName: StoryNewsData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &6892753284729847671
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18389,6 +18461,18 @@ MonoBehaviour:
           m_StringArgument: Inactive
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: CloseNewsPopup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7432141197713485086
 GameObject:
   m_ObjectHideFlags: 0
@@ -18778,7 +18862,7 @@ RectTransform:
   m_Father: {fileID: 7070804203569433051}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 0.9999934}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -18825,7 +18909,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 108010348675358158}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: OpenNewsPopup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 500ec0e772d289e47b9465687e50f470, type: 2}
+          m_ObjectArgumentAssemblyTypeName: StoryNewsData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &7689177941082505975
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19333,7 +19429,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5820562055244368674}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6010394625309795826}
+        m_TargetAssemblyTypeName: NewsBookUI, Assembly-CSharp
+        m_MethodName: OpenNewsPopup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: af2884a6ae7fbfc48b96a3a332252b27, type: 2}
+          m_ObjectArgumentAssemblyTypeName: StoryNewsData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7887100099443500007
 MonoBehaviour:
   m_ObjectHideFlags: 0
