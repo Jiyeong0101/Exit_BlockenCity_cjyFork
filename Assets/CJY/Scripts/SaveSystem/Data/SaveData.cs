@@ -15,5 +15,7 @@ public class SaveData
     public StoryProgressData story = new StoryProgressData();
 
     public NewsData news = new NewsData();
+
+    public EncyclopediaSaveData encyclopedia = new EncyclopediaSaveData();
 }
 
