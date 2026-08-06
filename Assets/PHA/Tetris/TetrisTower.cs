@@ -8,15 +8,21 @@ public class TetrisTower : MonoBehaviour
     private int[,,] towerGrid;
     private Vector3Int towerSize;
 
-    private void Awake()
+    public void Initialize()
     {
         towerSize = TetrisManager.Instance.tetrisTowerSize;
-    }
-
-    void Start()
-    {
         towerGrid = new int[towerSize.x, towerSize.y, towerSize.z];
     }
+
+    //private void Awake()
+    //{
+    //    towerSize = TetrisManager.Instance.tetrisTowerSize;
+    //}
+
+    //void Start()
+    //{
+    //    towerGrid = new int[towerSize.x, towerSize.y, towerSize.z];
+    //}
 
     //추가
     //삭제 시 towerGrid도 비워줘야 하므로 RemoveBlockFromTower() 메서드 추가

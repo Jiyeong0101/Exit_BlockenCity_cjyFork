@@ -1145,6 +1145,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tetrisTowerSize: {x: 4, y: 8, z: 4}
+  stageTowerSizes:
+  - stage: 1
+    towerSize: {x: 4, y: 8, z: 4}
+  - stage: 2
+    towerSize: {x: 4, y: 8, z: 4}
+  - stage: 3
+    towerSize: {x: 5, y: 8, z: 5}
+  - stage: 4
+    towerSize: {x: 5, y: 8, z: 5}
   fallInterval: 1.5
   tower: {fileID: 411465153}
   spawner: {fileID: 411465152}
