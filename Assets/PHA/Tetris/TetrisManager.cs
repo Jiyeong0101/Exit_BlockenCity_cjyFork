@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using TetrisGame;
 
+[System.Serializable]
+public class StageTowerSize
+{
+    public int stage;
+    public Vector3Int towerSize = new Vector3Int(4, 8, 4);
+}
+
 public class TetrisManager : MonoBehaviour
 {
     public static TetrisManager Instance;
 
+    [Header("Tower Layout")]
+    public Transform towerLayout;
+
     public Vector3Int tetrisTowerSize = new Vector3Int(4, 8, 4);
+    [Header("Stage Tower Size")]
+    public List<StageTowerSize> stageTowerSizes = new List<StageTowerSize>();
+
     public float fallInterval;
     public TetrisTower tower;
     public TetrisSpawner spawner;
@@ -31,6 +44,9 @@ public class TetrisManager : MonoBehaviour
     {
         isGameEnded = false;
         isPaused = false;
+
+        ApplyTowerSize();
+        tower.Initialize();
 
         Vector3 spawnPos = tower.GetSpawnPosition();
         spawner.SetTowerSpawnPosition(spawnPos);
@@ -123,5 +139,31 @@ public class TetrisManager : MonoBehaviour
         {
             scoreUIBinder.ToggleScoreUI(true, isGameOver: true);
         }
+    }
+
+    private void ApplyTowerSize()
+    {
+        int month = Datamanager.Instance.saveData.progress.currentStage;
+
+        foreach (StageTowerSize data in stageTowerSizes)
+        {
+            if (data.stage == month)
+            {
+                tetrisTowerSize = data.towerSize;
+
+                if (towerLayout != null)
+                {
+                    towerLayout.localScale = new Vector3(
+                        tetrisTowerSize.x,
+                        tetrisTowerSize.y,
+                        tetrisTowerSize.z);
+                }
+
+                Debug.Log($"Stage {month} Tower Size : {tetrisTowerSize}");
+                return;
+            }
+        }
+
+        Debug.LogWarning($"Stage {month}의 Tower Size가 등록되어 있지 않습니다.");
     }
 }
