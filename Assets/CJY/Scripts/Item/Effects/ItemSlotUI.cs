@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemSlotUI : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class ItemSlotUI : MonoBehaviour
     private Image iconImage;
 
     [SerializeField]
-    private Text countText;
+    private TMP_Text countText;
 
     [SerializeField]
     private Button useButton;
@@ -156,7 +157,7 @@ public class ItemSlotUI : MonoBehaviour
         if (countText != null)
         {
             countText.text =
-                $"¡¿ {count}";
+                $"{count}";
         }
 
 
