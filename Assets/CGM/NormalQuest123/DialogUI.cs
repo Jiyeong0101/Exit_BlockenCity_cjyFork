@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 //스페셜퀘스트로 활용중
 public class DialogUI : MonoBehaviour
@@ -46,6 +47,9 @@ public class DialogUI : MonoBehaviour
     public bool IsDialogActive => dialogPanel.activeSelf;
     public bool IsDialogRunning { get; private set; }
     private bool wasPausedBeforeDialog = false;
+
+    [Header("Mouse Click Settings")]
+    public GameObject dialogClickArea;
 
     private void Awake()
     {
@@ -360,4 +364,64 @@ public class DialogUI : MonoBehaviour
             EndDialog("대화를 거절했습니다.");
         }
     }
+    private void Update()
+    {
+        if (!dialogPanel.activeSelf)
+            return;
+
+        if (!Input.GetMouseButtonDown(0))
+            return;
+
+        PointerEventData pointerData =
+            new PointerEventData(EventSystem.current);
+
+        pointerData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            GameObject clickedObject = result.gameObject;
+
+            // 수락 버튼을 클릭한 경우
+            if (clickedObject == acceptButton.gameObject ||
+                clickedObject.transform.IsChildOf(acceptButton.transform))
+            {
+                return;
+            }
+
+            // 거절 버튼을 클릭한 경우
+            if (clickedObject == declineButton.gameObject ||
+                clickedObject.transform.IsChildOf(declineButton.transform))
+            {
+                return;
+            }
+
+            // 지정한 대화 영역을 클릭한 경우
+            if (clickedObject == dialogClickArea ||
+                clickedObject.transform.IsChildOf(dialogClickArea.transform))
+            {
+                HandleMouseDialogClick();
+                return;
+            }
+        }
+    }
+
+    private void HandleMouseDialogClick()
+    {
+        if (isTyping)
+        {
+            FinishTyping();
+            return;
+        }
+
+        if (isWaitingForChoice)
+        {
+            return;
+        }
+
+        ShowNextDialog();
+    }
+
 }
