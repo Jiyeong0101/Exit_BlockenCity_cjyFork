@@ -3,14 +3,50 @@ using UnityEngine.SceneManagement;
 
 public class SceneChange : MonoBehaviour
 {
-    // 버튼에서 호출할 함수
+    [Header("Title Scene Navigation")]
+    [SerializeField] private string nicknameSceneName = "Nickname";
+    [SerializeField] private string lobbySceneName = "Lobby";
+
+
+    // 일반 씬 전환
     public void LoadScene(string sceneName)
     {
-        // 씬 전환
         SceneManager.LoadScene(sceneName);
     }
 
-    // 게임오버 창의 '다시 하기' 버튼이 호출할 함수
+
+    // =========================
+    // Title
+    // =========================
+
+    public void ContinueGame()
+    {
+        if (!Datamanager.Instance.HasValidSaveData())
+        {
+            Debug.LogWarning(
+                "이어하기 가능한 세이브 데이터가 없습니다.");
+
+            return;
+        }
+
+        Datamanager.Instance.LoadGameData();
+
+        SceneManager.LoadScene(lobbySceneName);
+    }
+
+
+    public void NewGame()
+    {
+        Datamanager.Instance.DeleteGameData();
+
+        SceneManager.LoadScene(nicknameSceneName);
+    }
+
+
+    // =========================
+    // Retry
+    // =========================
+
     public void RetryCurrentStage()
     {
         if (StageManager.Instance != null)
@@ -19,7 +55,11 @@ public class SceneChange : MonoBehaviour
         }
     }
 
-    // 게임 종료 버튼
+
+    // =========================
+    // Quit
+    // =========================
+
     public void QuitGame()
     {
         Debug.Log("게임 종료");

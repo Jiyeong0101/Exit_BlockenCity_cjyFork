@@ -3209,6 +3209,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 01e3117329f810f428e5f18f7a8dd8c8, type: 2}
   - {fileID: 11400000, guid: 29648426ff7d07d409e65c02690ecf2b, type: 2}
   - {fileID: 11400000, guid: 4c414da70f63e47468a80967d8c067a9, type: 2}
+  dialogClickArea: {fileID: 1281578695}
 --- !u!114 &1333928269 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2084448105931955376, guid: 8a536724d9b673148898e8ba7c926efd, type: 3}
@@ -4312,6 +4313,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 930010231521542739, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
+      propertyPath: m_Name
+      value: Pre_SPQuest
+      objectReference: {fileID: 0}
     - target: {fileID: 1167907709017503729, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -4374,6 +4379,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2105602188597230510, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2123695347818099872, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2157369242988104593, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
@@ -4482,6 +4491,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4357591562979510298, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514803612787110153, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4520878335031255742, guid: d77dd0935335f0d4c969b760cf5955d5, type: 3}
