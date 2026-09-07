@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemSlotUI : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class ItemSlotUI : MonoBehaviour
     private Image iconImage;
 
     [SerializeField]
-    private Text countText;
+    private TMP_Text countText;
 
     [SerializeField]
     private Button useButton;
@@ -156,7 +157,7 @@ public class ItemSlotUI : MonoBehaviour
         if (countText != null)
         {
             countText.text =
-                $"× {count}";
+                $"{count}";
         }
 
 
@@ -189,7 +190,6 @@ public class ItemSlotUI : MonoBehaviour
         }
     }
 
-
     private void HandleUseButtonClicked()
     {
         if (itemData == null)
@@ -200,7 +200,23 @@ public class ItemSlotUI : MonoBehaviour
             return;
 
 
-        // 보유 수량 0이면 확인창도 열지 않는다.
+        // 게임 종료 상태에서는 사용 불가
+        if (GameManager.Instance != null &&
+            GameManager.Instance.isGameEnded)
+        {
+            return;
+        }
+
+
+        // 다른 시스템에 의해 Pause 중이면 사용 불가
+        if (GameManager.Instance != null &&
+            GameManager.Instance.IsGamePaused())
+        {
+            return;
+        }
+
+
+        // 보유 수량 없음
         if (!inventory.HasItem(
                 itemData.ItemId))
         {
@@ -213,17 +229,42 @@ public class ItemSlotUI : MonoBehaviour
         }
 
 
-        if (ItemUseConfirmUI.Instance == null)
+        if (ItemManager.Instance == null)
         {
             Debug.LogError(
-                "[ItemUI] ItemUseConfirmUI를 찾을 수 없습니다."
+                "[ItemUI] ItemManager를 찾을 수 없습니다."
             );
 
             return;
         }
 
 
-        ItemUseConfirmUI.Instance
-            .RequestUseItem(itemData);
+        // ============================
+        // 확인창 없이 바로 사용
+        // ============================
+
+        ItemUseResult result =
+            ItemManager.Instance.TryUseItem(
+                itemData.ItemId
+            );
+
+
+        if (result.Success)
+        {
+            Debug.Log(
+                $"[ItemUI] 사용 성공 | " +
+                $"{itemData.ItemName} | " +
+                $"{result.Message}"
+            );
+        }
+        else
+        {
+            Debug.LogWarning(
+                $"[ItemUI] 사용 실패 | " +
+                $"{itemData.ItemName} | " +
+                $"Reason: {result.FailureReason} | " +
+                $"{result.Message}"
+            );
+        }
     }
 }

@@ -88,6 +88,19 @@ public class ItemManager : MonoBehaviour
     /// </summary>
     public ItemUseResult TryUseItem(GameItemId itemId)
     {
+        if (GameManager.Instance != null &&
+        GameManager.Instance.IsGamePaused())
+        {
+            ItemUseResult result = ItemUseResult.Fail(
+                ItemUseFailureReason.InvalidState,
+                "게임이 일시정지된 상태에서는 아이템을 사용할 수 없습니다."
+            );
+
+            OnItemUseFailed?.Invoke(itemId, result);
+
+            return result;
+        }
+
         if (inventory == null)
         {
             ItemUseResult result = ItemUseResult.Fail(

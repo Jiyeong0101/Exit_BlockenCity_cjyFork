@@ -25,11 +25,11 @@ public class ItemHotkeyInput : MonoBehaviour
 
         // 확인창이 열려있다면
         // 5 / 6 / 7 추가 입력 차단
-        if (ItemUseConfirmUI.Instance != null &&
-            ItemUseConfirmUI.Instance.IsConfirmOpen)
-        {
-            return;
-        }
+        //if (itemuseconfirmui.instance != null &&
+        //    itemuseconfirmui.instance.isconfirmopen)
+        //{
+        //    return;
+        //}
 
 
         // 다른 시스템의 Pause 중에는
@@ -76,7 +76,7 @@ public class ItemHotkeyInput : MonoBehaviour
 
 
     private void RequestItem(
-        ItemData itemData)
+    ItemData itemData)
     {
         if (itemData == null)
         {
@@ -88,17 +88,55 @@ public class ItemHotkeyInput : MonoBehaviour
         }
 
 
-        if (ItemUseConfirmUI.Instance == null)
+        if (ItemManager.Instance == null)
         {
             Debug.LogError(
-                "[ItemHotkeyInput] ItemUseConfirmUI가 없습니다."
+                "[ItemHotkeyInput] ItemManager가 없습니다."
             );
 
             return;
         }
 
 
-        ItemUseConfirmUI.Instance
-            .RequestUseItem(itemData);
+        // 보유하고 있지 않으면 사용하지 않음
+        if (ItemManager.Instance.GetItemCount(
+                itemData.ItemId) <= 0)
+        {
+            Debug.Log(
+                $"[ItemHotkeyInput] " +
+                $"{itemData.ItemName}을(를) 보유하고 있지 않습니다."
+            );
+
+            return;
+        }
+
+
+        // ============================
+        // 확인창 없이 바로 사용
+        // ============================
+
+        ItemUseResult result =
+            ItemManager.Instance.TryUseItem(
+                itemData.ItemId
+            );
+
+
+        if (result.Success)
+        {
+            Debug.Log(
+                $"[ItemHotkeyInput] 사용 성공 | " +
+                $"{itemData.ItemName} | " +
+                $"{result.Message}"
+            );
+        }
+        else
+        {
+            Debug.LogWarning(
+                $"[ItemHotkeyInput] 사용 실패 | " +
+                $"{itemData.ItemName} | " +
+                $"Reason: {result.FailureReason} | " +
+                $"{result.Message}"
+            );
+        }
     }
 }
