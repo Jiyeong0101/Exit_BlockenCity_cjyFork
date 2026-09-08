@@ -97,8 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e4fecdc3455c14d9672e714d9fd35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BlockType: 0
   blockType: 2
   visualRoot: {fileID: 0}
+  lineClearEffectDuration: 0.25
+  isChangingPropertyName: IsChanging
 --- !u!114 &2926050441409602892
 MonoBehaviour:
   m_ObjectHideFlags: 0

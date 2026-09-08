@@ -12,6 +12,14 @@ public class TetrisTower : MonoBehaviour
     // 타워의 고정 블록 구조가 크게 변경되었을 때 알림
     public event Action OnTowerStructureChanged;
 
+    [Header("Line Clear Effect")]
+
+    // 블록 파괴 효과 딜레이
+    [SerializeField]
+    private float lineClearDelay = 0.4f;
+
+    private bool isClearingLine = false;
+
     public void Initialize()
     {
         towerSize = TetrisManager.Instance.tetrisTowerSize;
@@ -131,25 +139,105 @@ public class TetrisTower : MonoBehaviour
     }
 
     // 전체 타워 검사 (블럭 락 될때마다 매니저에서 얘 호출되게)
-    public void CheckAndDeleteFullLines()
+    public bool CheckAndDeleteFullLines()
     {
-        bool heightChanged = false;
+        // 이미 Line Clear 연출 중
+        if (isClearingLine)
+            return true;
 
-        Debug.Log("check Delete Full Line");
 
+        bool hasFullLine = false;
+
+
+        // 삭제할 줄이 있는지 먼저 확인
         for (int y = 0; y < towerSize.y; y++)
         {
             if (IsLineFull(y))
             {
-                DeleteLine(y);
-                y--; // 한 줄이 내려왔으니 같은 y를 다시 검사
-                heightChanged = true;
+                hasFullLine = true;
+                break;
             }
         }
 
+
+        // 아무 줄도 안 찼음
+        if (!hasFullLine)
+            return false;
+
+
+        StartCoroutine(
+            ClearFullLinesRoutine()
+        );
+
+
+        return true;
+    }
+
+    private IEnumerator ClearFullLinesRoutine()
+    {
+        isClearingLine = true;
+
+
+        // Line Clear 중에는 입력 막기
+        if (TetrisManager.Instance != null)
+        {
+            TetrisManager.Instance.SetPause(true);
+        }
+
+
+        bool heightChanged = false;
+
+
+        for (int y = 0; y < towerSize.y; y++)
+        {
+            if (!IsLineFull(y))
+                continue;
+
+
+            // ------------------------------------
+            // 효과 → 기다림 → 실제 삭제
+            // ------------------------------------
+
+            yield return StartCoroutine(
+                DeleteLineRoutine(y)
+            );
+
+
+            // 한 줄 내려왔으므로
+            // 같은 y를 다시 검사
+            y--;
+
+
+            heightChanged = true;
+        }
+
+
         if (heightChanged)
         {
-            SpecialQuestManager.Instance?.OnHeightChanged(GetCurrentHeight());
+            SpecialQuestManager.Instance
+                ?.OnHeightChanged(
+                    GetCurrentHeight()
+                );
+        }
+
+
+        isClearingLine = false;
+
+
+        // 입력 다시 활성화
+        if (TetrisManager.Instance != null)
+        {
+            TetrisManager.Instance.SetPause(false);
+        }
+
+
+        // 모든 라인 삭제가 끝난 뒤에
+        // 다음 블록 생성
+        if (TetrisManager.Instance != null &&
+            !TetrisManager.Instance.isGameEnded)
+        {
+            TetrisManager.Instance
+                .SpawnNextBlock();
         }
     }
 
@@ -202,4 +290,42 @@ public class TetrisTower : MonoBehaviour
         }
     }
 
+    private IEnumerator DeleteLineRoutine(int y)
+    {
+        // -----------------------------------------
+        // 1. 삭제 대상 블록에 효과 먼저 재생
+        // -----------------------------------------
+
+        var blocks =
+            FindObjectsOfType<TetriminoBlock>();
+
+
+        foreach (var block in blocks)
+        {
+            if (block == null)
+                continue;
+
+            if (!block.IsLocked)
+                continue;
+
+
+            block.PlayLineClearEffect(y);
+        }
+
+
+        // -----------------------------------------
+        // 2. 효과가 보이도록 기다림
+        // -----------------------------------------
+
+        yield return new WaitForSeconds(
+            lineClearDelay
+        );
+
+
+        // -----------------------------------------
+        // 3. 그제서야 실제 라인 삭제
+        // -----------------------------------------
+
+        DeleteLine(y);
+    }
 }
