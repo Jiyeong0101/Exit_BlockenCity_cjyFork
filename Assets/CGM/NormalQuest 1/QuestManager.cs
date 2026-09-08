@@ -99,7 +99,7 @@ public class QuestManager : MonoBehaviour
         newQuest.IsCompleted = false;
 
         // 목표 개수를 5~20 랜덤
-        newQuest.targetCount = Random.Range(5, 21);
+        newQuest.targetCount = Random.Range(3, 9);
     }
 
     public void CompleteQuest(int questID)

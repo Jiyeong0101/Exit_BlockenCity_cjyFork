@@ -366,11 +366,20 @@ public class TetriminoBlock : MonoBehaviour
         OnAnyBlockLocked?.Invoke(this);
 
 
-        SpecialQuestManager.Instance.OnBlockDropped();
+        SpecialQuestManager.Instance
+            .OnBlockDropped();
 
-        TetrisManager.Instance.CheckTower();
 
-        TetrisManager.Instance.SpawnNextBlock();
+        bool startedLineClear =
+            TetrisManager.Instance
+                .CheckTower();
+
+
+        if (!startedLineClear)
+        {
+            TetrisManager.Instance
+                .SpawnNextBlock();
+        }
     }
 
     public void DeletBlock()
@@ -642,5 +651,28 @@ public class TetriminoBlock : MonoBehaviour
             BlockPrefabBinder.Prefabs.TryGetValue(blockType, out blockPrefab);
         }
 
+    }
+
+    public void PlayLineClearEffect(int clearedY)
+    {
+        if (tetriminoBlockChild == null)
+            return;
+
+
+        foreach (var child in tetriminoBlockChild)
+        {
+            if (child == null)
+                continue;
+
+
+            Vector3Int pos =
+                child.GridPosition;
+
+
+            if (pos.y == clearedY)
+            {
+                child.PlayLineClearEffect();
+            }
+        }
     }
 }
