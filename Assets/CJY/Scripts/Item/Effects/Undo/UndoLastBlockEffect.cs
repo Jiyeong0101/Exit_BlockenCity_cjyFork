@@ -181,9 +181,12 @@ public class UndoLastBlockEffect : ItemEffect
             // Tower Grid에서 제거
             tower.RemoveBlockFromTower(position);
 
-
-            // 설치 당시 증가했던 타입별 블록 수 원상복구
-            TetrisManager.Instance.DecreaseTypeBlockCount(blockType);
+            // 설치 당시 증가했던 타입별 블록 수는 원상복구하지만,
+            // Undo는 "블록 파괴"가 아니므로 퀘스트에는 반영하지 않는다.
+            TetrisManager.Instance.DecreaseTypeBlockCount(
+                blockType,
+                false
+            );
         }
 
 

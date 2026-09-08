@@ -183,14 +183,21 @@ public class TetrisManager : MonoBehaviour
         typeBlockCount[(int)type]++;
     }
 
-    public void DecreaseTypeBlockCount(BlockType type)
+    public void DecreaseTypeBlockCount(
+    BlockType type,
+    bool countAsDestroyed = true)
     {
+        // 실제 타워에 존재하는 타입별 블록 수 감소
         typeBlockCount[(int)type]--;
 
 
-        if (QuestManager.Instance != null)
+        // 실제 "파괴"로 취급되는 경우에만
+        // 파괴 퀘스트 진행
+        if (countAsDestroyed &&
+            QuestManager.Instance != null)
         {
-            QuestManager.Instance.UpdateQuestProgress(type);
+            QuestManager.Instance
+                .UpdateQuestProgress(type);
         }
     }
 
@@ -215,12 +222,13 @@ public class TetrisManager : MonoBehaviour
         controller.SetCurrentBlock(spawner.GetTetriminoBlock());
     }
 
-    public void CheckTower()
+    public bool CheckTower()
     {
         if (isGameEnded || isPaused)
-            return;
+            return false;
 
-        tower.CheckAndDeleteFullLines();
+
+        return tower.CheckAndDeleteFullLines();
     }
 
     public void GameOver()

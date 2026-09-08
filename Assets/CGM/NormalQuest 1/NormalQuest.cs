@@ -20,11 +20,11 @@ public class NormalQuest : ScriptableObject
     {
         get
         {
-            const float minTarget = 5f;
-            const float maxTarget = 20f;
+            const float minTarget = 3f;
+            const float maxTarget = 8f;
 
-            const float minReward = 100f;
-            const float maxReward = 1000f;
+            const float minReward = 600f;
+            const float maxReward = 1300f;
 
             float t = (targetCount - minTarget) / (maxTarget - minTarget);
 
