@@ -477,6 +477,18 @@ public class ShopCharacterPresenter : MonoBehaviour
         }
 
 
+        // 비활성 상태에서는 코루틴 실행 금지
+        if (!speechBubbleVisualizer.gameObject.activeInHierarchy)
+        {
+            Debug.LogWarning(
+                "[ShopCharacterPresenter] " +
+                "Speech Bubble이 비활성 상태라 대사 연출을 실행하지 않습니다."
+            );
+
+            return;
+        }
+
+
         speechBubbleVisualizer.AutoStop();
     }
 }

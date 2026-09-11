@@ -131,7 +131,7 @@ public class ShopUIController : MonoBehaviour
     public void OnClickDanwol()
     {
         TryPurchaseFavor(
-            ShopFaction.Danwol
+            RelationshipType.Danwol
         );
     }
 
@@ -139,7 +139,7 @@ public class ShopUIController : MonoBehaviour
     public void OnClickYaseo()
     {
         TryPurchaseFavor(
-            ShopFaction.Yaseo
+            RelationshipType.Yaseo
         );
     }
 
@@ -147,7 +147,7 @@ public class ShopUIController : MonoBehaviour
     public void OnClickMacheon()
     {
         TryPurchaseFavor(
-            ShopFaction.Macheon
+            RelationshipType.Macheon
         );
     }
 
@@ -155,7 +155,7 @@ public class ShopUIController : MonoBehaviour
     public void OnClickHongryeon()
     {
         TryPurchaseFavor(
-            ShopFaction.Hongryeon
+            RelationshipType.Hongryeon
         );
     }
 
@@ -163,13 +163,13 @@ public class ShopUIController : MonoBehaviour
     public void OnClickJeonSangYeon()
     {
         TryPurchaseFavor(
-            ShopFaction.JeonSangYeon
+            RelationshipType.JeonSangYeon
         );
     }
 
 
     private void TryPurchaseFavor(
-        ShopFaction faction)
+        RelationshipType faction)
     {
         FindReferences();
 
