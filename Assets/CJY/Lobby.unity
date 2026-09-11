@@ -1364,7 +1364,7 @@ MonoBehaviour:
   brokerPurchaseFailMessage: "\uC774 \uC815\uB3C4\uB85C\uB294 \uAC70\uB798\uAC00
     \uC870\uAE08 \uC5B4\uB835\uACA0\uAD70\uC694."
   returnMessageDelay: 2.5
-  playGreetingOnEnable: 1
+  playGreetingOnEnable: 0
 --- !u!114 &431192642
 MonoBehaviour:
   m_ObjectHideFlags: 0
