@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class ShopMemoUI : MonoBehaviour
@@ -22,13 +21,11 @@ public class ShopMemoUI : MonoBehaviour
 
     [Header("References")]
     [SerializeField]
-    private ShopManager shopManager;
-
-    [SerializeField]
     private ItemInventory inventory;
 
 
-    private bool isBound = false;
+    private bool moneyBound = false;
+    private bool inventoryBound = false;
 
 
     private void OnEnable()
@@ -55,16 +52,22 @@ public class ShopMemoUI : MonoBehaviour
 
     private void TryBind()
     {
-        if (isBound)
-            return;
+        // =========================================
+        // 재화 이벤트 연결
+        // =========================================
 
-
-        if (shopManager == null)
+        if (!moneyBound)
         {
-            shopManager =
-                FindObjectOfType<ShopManager>();
+            GameDataManager.Instance.OnMoneyChanged
+                += HandleMoneyChanged;
+
+            moneyBound = true;
         }
 
+
+        // =========================================
+        // ItemInventory 찾기
+        // =========================================
 
         if (inventory == null &&
             ItemManager.Instance != null)
@@ -81,47 +84,54 @@ public class ShopMemoUI : MonoBehaviour
         }
 
 
-        if (shopManager != null)
-        {
-            shopManager.OnMoneyChanged
-                += HandleMoneyChanged;
-        }
+        // =========================================
+        // 아이템 이벤트 연결
+        // =========================================
 
-
-        if (inventory != null)
+        if (!inventoryBound &&
+            inventory != null)
         {
             inventory.OnItemCountChanged
                 += HandleItemCountChanged;
+
+            inventoryBound = true;
         }
-
-
-        isBound = true;
     }
 
 
     private void Unbind()
     {
-        if (!isBound)
-            return;
+        // =========================================
+        // 재화 이벤트 해제
+        // =========================================
 
-
-        if (shopManager != null)
+        if (moneyBound)
         {
-            shopManager.OnMoneyChanged
+            GameDataManager.Instance.OnMoneyChanged
                 -= HandleMoneyChanged;
+
+            moneyBound = false;
         }
 
 
-        if (inventory != null)
+        // =========================================
+        // 아이템 이벤트 해제
+        // =========================================
+
+        if (inventoryBound &&
+            inventory != null)
         {
             inventory.OnItemCountChanged
                 -= HandleItemCountChanged;
+
+            inventoryBound = false;
         }
-
-
-        isBound = false;
     }
 
+
+    // =============================================
+    // 재화 변경
+    // =============================================
 
     private void HandleMoneyChanged(
         int newMoney)
@@ -131,6 +141,10 @@ public class ShopMemoUI : MonoBehaviour
         );
     }
 
+
+    // =============================================
+    // 아이템 수량 변경
+    // =============================================
 
     private void HandleItemCountChanged(
         GameItemId itemId,
@@ -170,25 +184,18 @@ public class ShopMemoUI : MonoBehaviour
     }
 
 
+    // =============================================
+    // 전체 UI 갱신
+    // =============================================
+
     public void RefreshAll()
     {
-        // -------------------------
+        // -----------------------------------------
         // 재화
-        // -------------------------
+        // -----------------------------------------
 
-        int money = 0;
-
-
-        if (Datamanager.Instance != null &&
-            Datamanager.Instance.saveData != null &&
-            Datamanager.Instance.saveData.player != null)
-        {
-            money =
-                Datamanager.Instance
-                    .saveData
-                    .player
-                    .totalMoney;
-        }
+        int money =
+            GameDataManager.Instance.GetMoney();
 
 
         RefreshMoney(
@@ -196,9 +203,15 @@ public class ShopMemoUI : MonoBehaviour
         );
 
 
-        // -------------------------
+        // -----------------------------------------
         // 아이템
-        // -------------------------
+        // -----------------------------------------
+
+        if (inventory == null)
+        {
+            TryBind();
+        }
+
 
         if (inventory == null)
             return;
@@ -229,6 +242,10 @@ public class ShopMemoUI : MonoBehaviour
     }
 
 
+    // =============================================
+    // 재화 UI 갱신
+    // =============================================
+
     private void RefreshMoney(
         int money)
     {
@@ -240,6 +257,10 @@ public class ShopMemoUI : MonoBehaviour
             money.ToString("N0");
     }
 
+
+    // =============================================
+    // 아이템 수량 UI 갱신
+    // =============================================
 
     private void SetCountText(
         TMP_Text text,

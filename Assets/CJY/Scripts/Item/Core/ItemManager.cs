@@ -158,18 +158,50 @@ public class ItemManager : MonoBehaviour
 
 
         // 5. 효과 성공했을 때만 수량 차감
-        bool consumed = inventory.TryConsume(itemId, 1);
+        bool consumed =
+            inventory.TryConsume(
+                itemId,
+                1
+            );
+
 
         if (!consumed)
         {
-            // 정상적인 흐름에서는 발생하면 안 됨.
             Debug.LogError(
-                $"[ItemManager] {itemId} 효과는 성공했지만 아이템 차감에 실패했습니다."
+                $"[ItemManager] {itemId} 효과는 성공했지만 " +
+                $"아이템 차감에 실패했습니다."
             );
+
+
+            ItemUseResult consumeFailResult =
+                ItemUseResult.Fail(
+                    ItemUseFailureReason.InvalidState,
+                    "아이템 수량 차감에 실패했습니다."
+                );
+
+
+            OnItemUseFailed?.Invoke(
+                itemId,
+                consumeFailResult
+            );
+
+
+            return consumeFailResult;
         }
 
 
-        OnItemUseSucceeded?.Invoke(itemId);
+        // =========================================
+        // 효과 성공 + 수량 차감 성공 후 저장
+        // =========================================
+
+        GameDataManager.Instance
+            .SaveGameData();
+
+
+        OnItemUseSucceeded?.Invoke(
+            itemId
+        );
+
 
         return useResult;
     }

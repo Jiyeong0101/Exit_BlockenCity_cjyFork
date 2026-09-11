@@ -13,6 +13,25 @@ public class Datamanager : MonoBehaviour
     private const string SaveFolder = "Save";
     private const string GameDataFileName = "SaveData.dat";
 
+    private bool isLoaded = false;
+
+    public bool IsLoaded
+    {
+        get
+        {
+            return isLoaded;
+        }
+    }
+
+    public void EnsureLoaded()
+    {
+        if (isLoaded)
+            return;
+
+
+        LoadGameData();
+    }
+
     private string SavePath
     {
         get
@@ -50,8 +69,15 @@ public class Datamanager : MonoBehaviour
 
         if (!File.Exists(path))
         {
-            Debug.Log("세이브 없음. 새 데이터 생성.");
-            saveData = new SaveData();
+            Debug.Log(
+                "세이브 없음. 새 데이터 생성."
+            );
+
+            saveData =
+                new SaveData();
+
+            isLoaded = true;
+
             return;
         }
 
@@ -74,6 +100,8 @@ public class Datamanager : MonoBehaviour
             string json = SaveCrypto.Decrypt(wrapper.data);
             saveData = JsonUtility.FromJson<SaveData>(json);
 
+            isLoaded = true;
+
             Debug.Log("세이브 로드 성공");
         }
         catch (Exception e)
@@ -81,6 +109,8 @@ public class Datamanager : MonoBehaviour
             Debug.LogWarning("세이브 손상 감지 → 초기화: " + e.Message);
 
             saveData = new SaveData();
+
+            isLoaded = true;
 
             // 초기화 후 바로 저장
             SaveGameData();
@@ -106,6 +136,9 @@ public class Datamanager : MonoBehaviour
         string path = SavePath;
 
         File.WriteAllText(path, wrapperJson);
+
+        isLoaded = true;
+
         Debug.Log("암호화 저장 완료");
     }
 
@@ -172,6 +205,8 @@ public class Datamanager : MonoBehaviour
         // DontDestroyOnLoad로 살아있는
         // 메모리 데이터도 반드시 초기화
         saveData = new SaveData();
+
+        isLoaded = true;
     }
 
 }

@@ -64,6 +64,10 @@ public class TetriminoBlock : MonoBehaviour
     public bool IsSpecialPiece
         => specialLockHandler != null;
 
+    // 추가
+    // 블록 이동 효과용 이벤트
+    public static event System.Action<TetriminoBlock, Vector3> OnAnyBlockMoved;
+
 
     void Awake()
     {
@@ -475,6 +479,9 @@ public class TetriminoBlock : MonoBehaviour
             localPosition += delta;
 
             inputWhileLandedTimer = 0f;
+
+            // 효과 시스템에 이동 알림
+            OnAnyBlockMoved?.Invoke(this, direction);
         }
     }
 

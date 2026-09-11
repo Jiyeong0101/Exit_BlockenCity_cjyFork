@@ -18,16 +18,10 @@ public class TetriminoBlockChild : MonoBehaviour
 
     public bool PendingDestroy { get; private set; }
 
-    [Header("Line Clear Effect")]
     [SerializeField]
-    private float lineClearEffectDuration = 0.25f;
-
-    [SerializeField]
-    private string isChangingPropertyName = "IsChanging";
+    //private string isChangingPropertyName = "IsChanging";
 
     private Renderer[] cachedRenderers;
-    private MaterialPropertyBlock materialPropertyBlock;
-    private int isChangingPropertyId;
 
     private bool isLineClearEffectPlaying = false;
 
