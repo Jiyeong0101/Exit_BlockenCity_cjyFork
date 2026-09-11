@@ -20,6 +20,10 @@ public class TetrisTower : MonoBehaviour
 
     private bool isClearingLine = false;
 
+    // 추가
+    // 한 층 파괴 연출이 시작될 때 알림
+    public static event Action<int> OnAnyLineClearStarted;
+
     public void Initialize()
     {
         towerSize = TetrisManager.Instance.tetrisTowerSize;
@@ -295,6 +299,9 @@ public class TetrisTower : MonoBehaviour
         // -----------------------------------------
         // 1. 삭제 대상 블록에 효과 먼저 재생
         // -----------------------------------------
+
+        // 라인 파괴 연출 시작 알림
+        OnAnyLineClearStarted?.Invoke(y);
 
         var blocks =
             FindObjectsOfType<TetriminoBlock>();

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.014272037, g: 0.006544047, b: 0.0014980278, a: 1}
+  m_IndirectSpecularColor: {r: 0.014272067, g: 0.0065440787, b: 0.0014980306, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1262,7 +1262,6 @@ GameObject:
   m_Component:
   - component: {fileID: 408075086}
   - component: {fileID: 408075085}
-  - component: {fileID: 408075084}
   m_Layer: 0
   m_Name: LobbyItemInventory
   m_TagString: Untagged
@@ -1270,20 +1269,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &408075084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408075083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38383c5ea907bb7478b08f35fa65a4b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 408075085}
-  loadGameDataOnStart: 1
 --- !u!114 &408075085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1296,7 +1281,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4725e034ffffc2b4c83d6fa9b65e582e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialItems: []
 --- !u!4 &408075086
 Transform:
   m_ObjectHideFlags: 0
@@ -1381,7 +1365,6 @@ MonoBehaviour:
   undoCountText: {fileID: 59716859260069613}
   bottomCountText: {fileID: 2443390849712239238}
   bombCountText: {fileID: 2752740243938131876}
-  shopManager: {fileID: 431192644}
   inventory: {fileID: 0}
 --- !u!114 &431192643
 MonoBehaviour:
@@ -19411,6 +19394,7 @@ GameObject:
   - component: {fileID: 5523728793967353824}
   - component: {fileID: 5983901410476040742}
   - component: {fileID: 6605041077595461353}
+  - component: {fileID: 8245856228580698063}
   m_Layer: 5
   m_Name: Pre_Shop
   m_TagString: Untagged
@@ -26932,6 +26916,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8245856228580698063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5609434638305317027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb50a8f43e8e130479035f49ea656c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterPresenter: {fileID: 431192641}
 --- !u!1 &8258924319568696909
 GameObject:
   m_ObjectHideFlags: 0

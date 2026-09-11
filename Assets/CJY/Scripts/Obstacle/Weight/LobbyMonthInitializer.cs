@@ -36,7 +36,7 @@ public class LobbyMonthInitializer : MonoBehaviour
         }
         else
         {
-            currentMonth = Datamanager.Instance.saveData.progress.currentStage;
+            currentMonth = GameDataManager.Instance.GetCurrentStage();
             currentMonth = Mathf.Clamp(currentMonth, 1, 12);
         }
 

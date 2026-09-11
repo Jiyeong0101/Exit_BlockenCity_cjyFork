@@ -12,6 +12,7 @@ public class MonthUI : MonoBehaviour
 
     public void Refresh()
     {
-        monthText.text = Datamanager.Instance.saveData.progress.currentStage.ToString("00");
+        monthText.text =
+            GameDataManager.Instance.GetCurrentStage().ToString("00");
     }
 }

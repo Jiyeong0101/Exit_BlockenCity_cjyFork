@@ -92,13 +92,14 @@ public class TetrisManager : MonoBehaviour
 
     private void ApplyStageSetting()
     {
-        if (Datamanager.Instance == null)
-        {
-            Debug.LogError("[TetrisManager] Datamanager.Instance가 없습니다.");
-            return;
-        }
+        // 세이브 데이터가 아직 로드되지 않았다면 먼저 로드
+        Datamanager.Instance.EnsureLoaded();
 
-        int currentStage = Datamanager.Instance.saveData.progress.currentStage;
+        // 로드된 데이터 범위 보정
+        GameDataManager.Instance.NormalizeLoadedData();
+
+        // 중앙 데이터 매니저를 통해 현재 스테이지 조회
+        int currentStage = GameDataManager.Instance.GetCurrentStage();
 
         Debug.Log($"[TetrisManager] 현재 Stage : {currentStage}");
 
@@ -266,7 +267,7 @@ public class TetrisManager : MonoBehaviour
 
     public BlockShapes GetRandomStageShape()
     {
-        int currentStage = Datamanager.Instance.saveData.progress.currentStage;
+        int currentStage = GameDataManager.Instance.GetCurrentStage();
 
         foreach (var setting in stageShapeSettings)
         {
