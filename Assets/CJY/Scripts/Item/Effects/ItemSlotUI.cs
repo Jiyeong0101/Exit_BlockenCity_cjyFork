@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class ItemSlotUI : MonoBehaviour
 {
@@ -265,6 +266,12 @@ public class ItemSlotUI : MonoBehaviour
                 $"Reason: {result.FailureReason} | " +
                 $"{result.Message}"
             );
+        }
+        // 마우스로 버튼을 클릭한 뒤
+        // Space 키가 이 버튼을 다시 누르는 것 방지
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
 }

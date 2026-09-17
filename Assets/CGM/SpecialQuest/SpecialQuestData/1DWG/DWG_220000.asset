@@ -21,7 +21,7 @@ MonoBehaviour:
   description: "\uC9D1 10\uCC44 \uCCA0\uAC70"
   questType: 0
   blockType: 3
-  targetCount: 10
+  targetCount: 3
   targetHeight: 0
   restrictedInput: 
   darknessLevel: 0
@@ -29,6 +29,6 @@ MonoBehaviour:
   timeRole: 2
   timeValue: 30
   friendlinessType: 0
-  friendlinessReward: 1
+  friendlinessReward: 150
   rewardColor: {r: 0.972549, g: 0.36078432, b: 0.59607846, a: 1}
   IsCompleted: 1
