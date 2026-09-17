@@ -7,207 +7,457 @@ using static Unity.Collections.AllocatorManager;
 public class EffectVisualPlayer : MonoBehaviour
 {
     [Header("==== 이펙트 프리팹 설정 ====")]
-    [Tooltip("강풍 이펙트 (없을 경우 Resources/Effects/StrongWindEffect에서 로드)")]
-    [SerializeField] private GameObject strongWindPrefab;
 
-    [Tooltip("황사 이펙트 (없을 경우 Resources/Effects/DustEffect에서 로드)")]
-    [SerializeField] private GameObject dustPrefab;
+    [SerializeField]
+    private GameObject strongWindPrefab;
 
-    [Tooltip("번개 이펙트 (없을 경우 Resources/Effects/LightningEffect에서 로드)")]
-    [SerializeField] private GameObject lightningPrefab;
+    [SerializeField]
+    private GameObject dustPrefab;
 
-    [Tooltip("비 이펙트 (없을 경우 Resources/Effects/RainEffect에서 로드)")]
-    [SerializeField] private GameObject rainPrefab;
+    [SerializeField]
+    private GameObject lightningPrefab;
 
-    [Tooltip("스모그 이펙트 (없을 경우 Resources/Effects/SmogEffect에서 로드)")]
-    [SerializeField] private GameObject smogPrefab;
+    [SerializeField]
+    private GameObject rainPrefab;
 
-    [Tooltip("잔설 이펙트 (없을 경우 Resources에서 로드)")]
-    [SerializeField] private GameObject snowfallPrefab;
+    [SerializeField]
+    private GameObject smogPrefab;
+
+    [SerializeField]
+    private GameObject snowfallPrefab;
+
+
+    [Header("==== 방해물 효과음 타입 ====")]
+
+    [Tooltip("1월 얼어붙은 블록 효과음 타입")]
+    [SerializeField]
+    private ObstacleType freezeSoundType;
+
+    [Tooltip("2월 강풍 효과음 타입")]
+    [SerializeField]
+    private ObstacleType strongWindSoundType;
+
+    [Tooltip("3월 잔설 효과음 타입")]
+    [SerializeField]
+    private ObstacleType snowfallSoundType;
+
+    [Tooltip("4~5월 황사 효과음 타입")]
+    [SerializeField]
+    private ObstacleType dustSoundType;
+
+    [Tooltip("6월 번개 효과음 타입")]
+    [SerializeField]
+    private ObstacleType lightningSoundType;
+
+    [Tooltip("7월 장마 효과음 타입")]
+    [SerializeField]
+    private ObstacleType rainSoundType;
+
+    [Tooltip("10월 건기 블록 파괴 효과음 타입")]
+    [SerializeField]
+    private ObstacleType drySeasonSoundType;
+
+    [Tooltip("11월 스모그 효과음 타입")]
+    [SerializeField]
+    private ObstacleType smogSoundType;
+
 
     [Header("==== UI 프리팹 ====")]
-    [Tooltip("과열 경고 UI (없을 경우 Resources/Effects/OverheatUI에서 로드)")]
-    [SerializeField] private GameObject overheatUIPrefab;
+
+    [SerializeField]
+    private GameObject overheatUIPrefab;
+
 
     [Header("==== 블록 비주얼 설정 ====")]
-    [SerializeField] private float IceEffect = 0.5f;
 
-    // 기본 리소스 경로 (백업용)
-    private const string StrongWindPath = "GraphicResourc/Prefabs/VFX/VFX_WindScr_Burst";
-    private const string DustPath = "GraphicResourc/Prefabs/VFX/VFX_DustScr_Burst";
-    private const string LightningPath = "GraphicResourc/Prefabs/VFX/VFX_ElectricScr_Burst";
-    private const string RainPath = "GraphicResourc/Prefabs/VFX/VFX_RainScr_Loop";
-    private const string SmogPath = "GraphicResourc/Prefabs/VFX/VFX_SmogScr_Loop";
-    private const string SnowfallPath = "GraphicResourc/Prefabs/VFX/VFX_FrozenScr_Loop";
+    [SerializeField]
+    private float IceEffect = 0.5f;
+
+
+    // =============================================
+    // Resource Paths
+    // =============================================
+
+    private const string StrongWindPath =
+        "GraphicResourc/Prefabs/VFX/VFX_WindScr_Burst";
+
+    private const string DustPath =
+        "GraphicResourc/Prefabs/VFX/VFX_DustScr_Burst";
+
+    private const string LightningPath =
+        "GraphicResourc/Prefabs/VFX/VFX_ElectricScr_Burst";
+
+    private const string RainPath =
+        "GraphicResourc/Prefabs/VFX/VFX_RainScr_Loop";
+
+    private const string SmogPath =
+        "GraphicResourc/Prefabs/VFX/VFX_SmogScr_Loop";
+
+    private const string SnowfallPath =
+        "GraphicResourc/Prefabs/VFX/VFX_FrozenScr_Loop";
+
 
     [Header("==== 건기 이펙트 설정 ====")]
-    [Tooltip("10월 건기: 블록 파괴 위치에 재생될 파티클 이펙트")]
-    [SerializeField] private GameObject drySeasonBlockBreakPrefab;
 
-    [Tooltip("10월 건기: 블록 파괴 시 화면 전체에 재생될 이펙트")]
-    [SerializeField] private GameObject drySeasonScreenPrefab;
+    [SerializeField]
+    private GameObject drySeasonBlockBreakPrefab;
 
-    // 1월 얼음 블록 이미지
-    public GameObject VisualFreezeBlock(TetriminoBlock block)
+    [SerializeField]
+    private GameObject drySeasonScreenPrefab;
+
+
+    // =============================================
+    // 1월 : 얼어붙은 블록
+    // 얼음 블록이 실제 적용될 때마다 효과음
+    // =============================================
+    public GameObject VisualFreezeBlock(
+        TetriminoBlock block)
     {
         if (block == null)
         {
-            Debug.LogWarning("VisualFreezeBlock 호출 시 block이 null!");
+            Debug.LogWarning(
+                "VisualFreezeBlock 호출 시 block이 null!"
+            );
+
             return null;
         }
 
-        // 모든 자식 VFX 찾기
-        var vfxList = block.GetComponentsInChildren<TetrisBlockVFX>();
+
+        var vfxList =
+            block.GetComponentsInChildren<TetrisBlockVFX>();
+
+
         if (vfxList.Length == 0)
         {
-            Debug.LogWarning($"{block.name}의 자식에 TetrisBlockVFX 없음!");
+            Debug.LogWarning(
+                $"{block.name}의 자식에 TetrisBlockVFX 없음!"
+            );
+
             return block.gameObject;
         }
 
-        // 각 자식 VFX에 적용 + 디버그
+
         foreach (var vfx in vfxList)
         {
             vfx.SetTextureSlider(IceEffect);
-            Debug.Log($"얼음 효과 적용: {vfx.gameObject.name}, TextureSlider = 0.5");
         }
+
+
+        // 얼음 비주얼이 실제 적용된 경우에만 효과음
+        ObstacleSoundManager.Instance?.
+            PlayObstacleSound(freezeSoundType);
+
 
         return block.gameObject;
     }
 
-    // 2월 강풍 효과 (단발 효과 → 반환 X)
+
+    // =============================================
+    // 2월 : 강풍
+    // 바람 VFX가 실행될 때마다 효과음
+    // =============================================
     public GameObject PlayStrongWindEffect()
     {
-        var prefab = strongWindPrefab ?? Resources.Load<GameObject>(StrongWindPath);
-        //var prefab = Resources.Load<GameObject>(StrongWindPath);
+        var prefab =
+            strongWindPrefab ??
+            Resources.Load<GameObject>(StrongWindPath);
 
-        // [추가] 강풍 효과음 1회 재생
-        ObstacleSoundManager.Instance?.PlayObstacleSound(ObstacleType.StrongWind);
 
-        if (prefab == null) return null;
-
-        return Instantiate(prefab);
-    }
-
-    // 3월 잔설 효과
-    public GameObject SnowfallEffect()
-    {
-        var prefab = snowfallPrefab ?? Resources.Load<GameObject>(SnowfallPath);
         if (prefab == null)
-        {
-            Debug.LogWarning("[SnowfallEffect] 잔설 프리팹을 찾을 수 없습니다.");
             return null;
-        }
 
-        return Instantiate(prefab);
-    }
 
-    // 4,5월 황사 효과 (반복 → IEnumerator 반환)
-    public GameObject DustStormEffect()
-    {
-        var prefab = dustPrefab ?? Resources.Load<GameObject>(DustPath);
-        //var prefab = Resources.Load<GameObject>(DustPath);
-        if (prefab == null) return null;
+        GameObject instance =
+            Instantiate(prefab);
 
-        return Instantiate(prefab);
-    }
 
-    // 6월 번개 이펙트 (단발 효과)
-    public GameObject PlayLightningEffect()
-    {
-        var prefab = lightningPrefab ?? Resources.Load<GameObject>(LightningPath);
-        //var prefab = Resources.Load<GameObject>(LightningPath);
-        if (prefab == null) return null;
+        ObstacleSoundManager.Instance?.
+            PlayObstacleSound(strongWindSoundType);
 
-        return Instantiate(prefab);
-    }
-
-    // 7월 비 내리는 효과
-    public GameObject PlayRainEffect()
-    {
-        var prefab = rainPrefab ?? Resources.Load<GameObject>(RainPath);
-        if (prefab == null) return null;
-
-        var instance = Instantiate(prefab);
-
-        //비 프리팹 안 Camera 찾기
-        var rainCamera = instance.GetComponentInChildren<Camera>(true);
-        if (rainCamera == null)
-        {
-            Debug.LogWarning("[RainEffect] 프리팹에 Camera가 없습니다.");
-            return instance;
-        }
-
-        //모든 UI Canvas를 이 Camera로 바인딩
-        UICameraBinder.BindAllCanvas(rainCamera);
 
         return instance;
     }
 
 
-    // 8월 폭염 효과
-    public GameObject PlayOverheatWarning(string message = "건축 기계 과열!")
+    // =============================================
+    // 3월 : 잔설
+    //
+    // ObstacleEffects에서 snowfallInstance == null일 때만
+    // 이 함수가 호출되므로 효과음도 최초 1회만 발생
+    // =============================================
+    public GameObject SnowfallEffect()
     {
-        // 1. 인스펙터에 UI 오브젝트가 연결되어 있는지 확인
-        if (overheatUIPrefab == null)
+        var prefab =
+            snowfallPrefab ??
+            Resources.Load<GameObject>(SnowfallPath);
+
+
+        if (prefab == null)
         {
-            Debug.LogWarning("[PlayOverheatWarning] overheatUIPrefab이 인스펙터에 연결되어 있지 않습니다!");
+            Debug.LogWarning(
+                "[SnowfallEffect] 잔설 프리팹을 찾을 수 없습니다."
+            );
+
             return null;
         }
 
-        // 2. 텍스트 문구 업데이트 (필요 시)
-        var text = overheatUIPrefab.GetComponentInChildren<TextMeshProUGUI>();
+
+        GameObject instance =
+            Instantiate(prefab);
+
+
+        ObstacleSoundManager.Instance?.
+            PlayObstacleSound(snowfallSoundType);
+
+
+        return instance;
+    }
+
+
+    // =============================================
+    // 4~5월 : 황사
+    // 황사 VFX가 나타날 때마다 효과음
+    // =============================================
+    public GameObject DustStormEffect()
+    {
+        var prefab =
+            dustPrefab ??
+            Resources.Load<GameObject>(DustPath);
+
+
+        if (prefab == null)
+            return null;
+
+
+        GameObject instance =
+            Instantiate(prefab);
+
+
+        ObstacleSoundManager.Instance?.
+            PlayObstacleSound(dustSoundType);
+
+
+        return instance;
+    }
+
+
+    // =============================================
+    // 6월 : 번개
+    // 번개 VFX가 실행될 때마다 효과음
+    // =============================================
+    public GameObject PlayLightningEffect()
+    {
+        var prefab =
+            lightningPrefab ??
+            Resources.Load<GameObject>(LightningPath);
+
+
+        if (prefab == null)
+            return null;
+
+
+        GameObject instance =
+            Instantiate(prefab);
+
+
+        ObstacleSoundManager.Instance?.
+            PlayObstacleSound(lightningSoundType);
+
+
+        return instance;
+    }
+
+
+    // =============================================
+    // 7월 : 장마
+    //
+    // Rain Effect가 존재하는 동안
+    // 비 효과음 계속 반복
+    // =============================================
+    public GameObject PlayRainEffect()
+    {
+        var prefab =
+            rainPrefab ??
+            Resources.Load<GameObject>(RainPath);
+
+
+        if (prefab == null)
+            return null;
+
+
+        GameObject instance =
+            Instantiate(prefab);
+
+
+        // 비 VFX 오브젝트에 Loop AudioSource 추가
+        //
+        // instance가 Destroy되면
+        // AudioSource도 같이 없어지므로
+        // 비 효과음도 자동 종료된다.
+        ObstacleSoundManager.Instance?.
+            PlayLoopSoundOnObject(
+                rainSoundType,
+                instance
+            );
+
+
+        // 비 프리팹 안 Camera 찾기
+        var rainCamera =
+            instance.GetComponentInChildren<Camera>(true);
+
+
+        if (rainCamera == null)
+        {
+            Debug.LogWarning(
+                "[RainEffect] 프리팹에 Camera가 없습니다."
+            );
+
+            return instance;
+        }
+
+
+        // 모든 UI Canvas를 Rain Camera에 바인딩
+        UICameraBinder.BindAllCanvas(
+            rainCamera
+        );
+
+
+        return instance;
+    }
+
+
+    // =============================================
+    // 8월 : 폭염
+    // 기존 로직 유지
+    // =============================================
+    public GameObject PlayOverheatWarning(
+        string message = "건축 기계 과열!")
+    {
+        if (overheatUIPrefab == null)
+        {
+            Debug.LogWarning(
+                "[PlayOverheatWarning] overheatUIPrefab이 연결되어 있지 않습니다!"
+            );
+
+            return null;
+        }
+
+
+        var text =
+            overheatUIPrefab
+                .GetComponentInChildren<TextMeshProUGUI>();
+
+
         if (text != null)
         {
             text.text = message;
         }
 
-        // 3. UI 최상단 정렬 & 활성화
-        overheatUIPrefab.transform.SetAsLastSibling(); // 다른 UI 뒤에 가려지는 것 방지
+
+        overheatUIPrefab.transform.SetAsLastSibling();
+
         overheatUIPrefab.SetActive(true);
+
 
         return overheatUIPrefab;
     }
 
-    // 10월 건기 블록 파괴 효과
-    public GameObject PlayBlockCrumbleEffect(Vector3 position)
+
+    // =============================================
+    // 10월 : 건기
+    //
+    // 실제 블록 파괴 VFX가 만들어질 때마다 효과음
+    // =============================================
+    public GameObject PlayBlockCrumbleEffect(
+        Vector3 position)
     {
         if (drySeasonBlockBreakPrefab == null)
         {
-            Debug.LogWarning("[PlayBlockCrumbleEffect] 건기 블록 파괴 프리팹이 연결되지 않았습니다.");
+            Debug.LogWarning(
+                "[PlayBlockCrumbleEffect] 건기 블록 파괴 프리팹이 연결되지 않았습니다."
+            );
+
             return null;
         }
 
-        return Instantiate(drySeasonBlockBreakPrefab, position, Quaternion.identity);
+
+        GameObject instance =
+            Instantiate(
+                drySeasonBlockBreakPrefab,
+                position,
+                Quaternion.identity
+            );
+
+
+        ObstacleSoundManager.Instance?.
+            PlayObstacleSound(drySeasonSoundType);
+
+
+        return instance;
     }
 
-    // 10월 건기 화면 이펙트 (화면 전체)
+
+    // =============================================
+    // 10월 : 건기 화면 전체 이펙트
+    //
+    // 여기에는 효과음을 넣지 않음.
+    // 블록 파괴 VFX에서 이미 재생하기 때문.
+    // =============================================
     public GameObject PlayDrySeasonScreenEffect()
     {
         if (drySeasonScreenPrefab == null)
         {
-            Debug.LogWarning("[PlayDrySeasonScreenEffect] 건기 화면 이펙트 프리팹이 연결되지 않았습니다.");
+            Debug.LogWarning(
+                "[PlayDrySeasonScreenEffect] 건기 화면 이펙트 프리팹이 연결되지 않았습니다."
+            );
+
             return null;
         }
 
-        var instance = Instantiate(drySeasonScreenPrefab);
 
-        // Canvas 기반 UI/화면 이펙트일 경우 메인 카메라 바인딩
-        var binder = instance.GetComponent<EffectCameraBinder>();
+        var instance =
+            Instantiate(drySeasonScreenPrefab);
+
+
+        var binder =
+            instance.GetComponent<EffectCameraBinder>();
+
+
         if (binder != null)
         {
             binder.BindToMainCamera(instance);
         }
 
+
         return instance;
     }
 
-    // 11월 스모그 효과
+
+    // =============================================
+    // 11월 : 스모그
+    //
+    // ObstacleEffects에서 smogInstance == null일 때만
+    // 호출되므로 최초 1회만 효과음
+    // =============================================
     public GameObject PlaySmogEffect()
     {
-        var prefab = smogPrefab ?? Resources.Load<GameObject>(SmogPath);
-        //var prefab = Resources.Load<GameObject>(SmogPath);
-        if (prefab == null) return null;
+        var prefab =
+            smogPrefab ??
+            Resources.Load<GameObject>(SmogPath);
 
-        return Instantiate(prefab);
+
+        if (prefab == null)
+            return null;
+
+
+        GameObject instance =
+            Instantiate(prefab);
+
+
+        ObstacleSoundManager.Instance?.
+            PlayObstacleSound(smogSoundType);
+
+
+        return instance;
     }
 }

@@ -265,20 +265,20 @@ public class SpecialQuestManager : MonoBehaviour
 
     private void ChangeFriendliness(FriendlinessType type, int amount)
     {
-        var data = Datamanager.Instance.saveData.friendlinessData;
+        var data = Datamanager.Instance.saveData.relationship;
 
         switch (type)
         {
             case FriendlinessType.DanWol:
-                data.DanWol = Mathf.Max(0, data.DanWol + amount);
+                data.danwol = Mathf.Max(0, data.danwol + amount);
                 break;
 
             case FriendlinessType.HongNyeonGwi:
-                data.HongNyeonGwi = Mathf.Max(0, data.HongNyeonGwi + amount);
+                data.hongryeon = Mathf.Max(0, data.hongryeon + amount);
                 break;
 
             case FriendlinessType.YaSeo:
-                data.YaSeo = Mathf.Max(0, data.YaSeo + amount);
+                data.yaseo = Mathf.Max(0, data.yaseo + amount);
                 break;
 
             case FriendlinessType.JeonSangYeon:
@@ -286,7 +286,7 @@ public class SpecialQuestManager : MonoBehaviour
                 break;
 
             case FriendlinessType.MaCheonGyo:
-                data.MaCheonGyo = Mathf.Max(0, data.MaCheonGyo + amount);
+                data.macheon = Mathf.Max(0, data.macheon + amount);
                 break;
         }
 

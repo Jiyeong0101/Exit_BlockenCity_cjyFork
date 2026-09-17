@@ -15,6 +15,12 @@ public class FriendlinessUI : MonoBehaviour
 
     private void Start()
     {
+        danWolSlider.minValue = 0;
+        hongNyeonGwiSlider.minValue = 0;
+        yaSeoSlider.minValue = 0;
+        jeonSangYeonSlider.minValue = 0;
+        maCheonGyoSlider.minValue = 0;
+
         // 슬라이더 최대값 설정
         danWolSlider.maxValue = maxFriendliness;
         hongNyeonGwiSlider.maxValue = maxFriendliness;
@@ -27,12 +33,12 @@ public class FriendlinessUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        FriendlinessData data = Datamanager.Instance.saveData.friendlinessData;
+        RelationshipData data = Datamanager.Instance.saveData.relationship;
 
-        danWolSlider.value = data.DanWol;
-        hongNyeonGwiSlider.value = data.HongNyeonGwi;
-        yaSeoSlider.value = data.YaSeo;
+        danWolSlider.value = data.danwol;
+        hongNyeonGwiSlider.value = data.hongryeon;
+        yaSeoSlider.value = data.yaseo;
         jeonSangYeonSlider.value = data.JeonSangYeon;
-        maCheonGyoSlider.value = data.MaCheonGyo;
+        maCheonGyoSlider.value = data.macheon;
     }
 }
