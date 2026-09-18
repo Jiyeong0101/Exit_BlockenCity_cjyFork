@@ -7,28 +7,25 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Scr_05
-  m_Shader: {fileID: -6465566751694194690, guid: 4acefa0581821614883cb9877764d4d7, type: 3}
+  m_Name: Mat_Ripple_01
+  m_Shader: {fileID: -6465566751694194690, guid: 5b5e78d4dba6f6a49821f1c1f160211e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ISNOISED
-  - _SURFACE_TYPE_TRANSPARENT
+  - _ISRIPPLESINGLE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - DepthOnly
+  stringTagMap: {}
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 8400000, guid: 2775fc4e62df521498855ba507635b1c, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -45,34 +42,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
-    - _AlphaToMask: 0
-    - _Blend: 0
-    - _CastShadows: 1
-    - _Cull: 0
-    - _Direction: -0.5
-    - _DstBlend: 10
-    - _FadeInTime: 0.2
-    - _FadeOutTime: 1
-    - _FadeRadialPower: 3
-    - _FadeRadialScale: 2.6
     - _ISLOOPING: 0
-    - _ISNOISED: 1
-    - _Opacity: 0.8
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _SrcBlend: 5
-    - _StartTime: 14.207237
-    - _Surface: 1
-    - _Width: 20
-    - _ZTest: 4
-    - _ZWrite: 0
-    - _ZWriteControl: 0
+    - _ISRIPPLESINGLE: 1
+    - _RepeatSpeed: 0.2
+    - _RingCount: 1
+    - _Size: 0.08
+    - _WaveStartPosition: 0.1
+    - _WaveStrength: -0.06
     m_Colors:
-    - _Color: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
-    - _FadePivot: {r: 1, g: 1, b: 0, a: 0}
+    - _RepeatedRingCenter: {r: 0, g: 0, b: 0, a: 0}
+    - _RingCenter: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _RingPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &8199186872088692900
+--- !u!114 &8899405741985914638
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
