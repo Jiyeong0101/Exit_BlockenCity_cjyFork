@@ -1565,7 +1565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockDownSFX: {fileID: 8300000, guid: 6498cd6705a7d37408d50f8e47c6ef21, type: 3}
-  blockLockSFX: {fileID: 8300000, guid: ad7b639a01830fd4cac30ce5d1184b2e, type: 3}
+  blockLockSFX: {fileID: 8300000, guid: ea5a4ce0904896948aea7a6e9c77ffcc, type: 3}
   lineClearSFX: {fileID: 8300000, guid: ce000ab06a36e3f41a09c094e76e070e, type: 3}
   sfxMixerGroup: {fileID: -4253095368035106385, guid: 027c873ff74c72841988a3fed3436e34, type: 2}
   downVolume: 1
@@ -4767,15 +4767,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae67cc530b333554fa5d075ec2f015b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeChance: 0.5
+  freezeChance: 0.1
   inputDelayTime: 0.8
   windDuration: 3
   windInterval: 0.3
   windWaitIntervalRange: {x: 1, y: 3}
   dustSpawnIntervalRange: {x: 2, y: 5}
-  lightningIntervalRange: {x: 2, y: 5}
+  lightningIntervalRange: {x: 3, y: 5}
   lightningStopTime: 1
-  rainDropSpeedMultiplier: 2
+  rainDropSpeedMultiplier: 1
   BreakBlockChance: 0.5
 --- !u!114 &2142764463
 MonoBehaviour:
@@ -4817,12 +4817,13 @@ MonoBehaviour:
   dustSoundType: 3
   lightningSoundType: 4
   rainSoundType: 6
+  overheatSoundType: 7
   drySeasonSoundType: 8
   smogSoundType: 9
   overheatUIPrefab: {fileID: 2108521624}
   IceEffect: 0.5
-  drySeasonBlockBreakPrefab: {fileID: 0}
-  drySeasonScreenPrefab: {fileID: 0}
+  drySeasonBlockBreakPrefab: {fileID: 2413884647712648143, guid: a85bb9c69c623c04c862e09ced645be4, type: 3}
+  drySeasonScreenPrefab: {fileID: 2966933459605977948, guid: bceb7cdcdc4c1e145a8a90a525010ac2, type: 3}
 --- !u!114 &2142764465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4842,7 +4843,7 @@ MonoBehaviour:
   tetrisspawner: {fileID: 1666622169}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 9
+    type: 8
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &2142764466
@@ -4874,7 +4875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundData: {fileID: 11400000, guid: 32f0e68c52613c142846b983b9823745, type: 2}
   sfxMixerGroup: {fileID: -4253095368035106385, guid: 027c873ff74c72841988a3fed3436e34, type: 2}
-  volume: 1
+  volume: 0.5
 --- !u!82 &2142764468
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4888,7 +4889,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 1.8
   Loop: 0
   Mute: 0
   Spatialize: 0
