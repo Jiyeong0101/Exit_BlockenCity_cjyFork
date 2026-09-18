@@ -100,8 +100,8 @@ GameObject:
   - component: {fileID: 8430049624705485472}
   - component: {fileID: 7743045695666250545}
   - component: {fileID: 3585777062468602095}
-  - component: {fileID: 4111278455345944963}
   - component: {fileID: 6277588625844087716}
+  - component: {fileID: -2203950570217972008}
   m_Layer: 5
   m_Name: VFX_WarningScr_Burst
   m_TagString: Untagged
@@ -192,18 +192,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4111278455345944963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2966933459605977948}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6277588625844087716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,8 +199,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2966933459605977948}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6f98a1de90644f4e839eaa08d3967a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2203950570217972008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2966933459605977948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultDuration: 1
