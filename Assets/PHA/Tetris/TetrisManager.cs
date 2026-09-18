@@ -101,7 +101,7 @@ public class TetrisManager : MonoBehaviour
         // 중앙 데이터 매니저를 통해 현재 스테이지 조회
         int currentStage = GameDataManager.Instance.GetCurrentStage();
 
-        Debug.Log($"[TetrisManager] 현재 Stage : {currentStage}");
+        //Debug.Log($"[TetrisManager] 현재 Stage : {currentStage}");
 
         StageSetting stageSetting = stageSettings.Find(x => x.stage == currentStage);
 
@@ -128,9 +128,9 @@ public class TetrisManager : MonoBehaviour
         tetrisTowerSize = preset.towerSize;
 
 
-        Debug.Log($"[TetrisManager] " + $"Stage {currentStage} → " + $"Preset {preset.presetID}");
+        //Debug.Log($"[TetrisManager] " + $"Stage {currentStage} → " + $"Preset {preset.presetID}");
 
-        Debug.Log($"[TetrisManager] " + $"Tower Size : {preset.towerSize}");
+        //Debug.Log($"[TetrisManager] " + $"Tower Size : {preset.towerSize}");
 
         if (towerLayout != null)
         {
@@ -139,11 +139,9 @@ public class TetrisManager : MonoBehaviour
         }
 
 
-        Debug.Log($"[TetrisManager] " + $"Layout Position : " + $"{preset.layoutPosition}");
-
-        Debug.Log($"[TetrisManager] " + $"Layout Scale : " + $"{preset.layoutScale}");
-
-        Debug.Log($"[TetrisManager] " + $"Stage {currentStage} " + $"Preset {preset.presetID} 적용 완료");
+        //Debug.Log($"[TetrisManager] " + $"Layout Position : " + $"{preset.layoutPosition}");
+        //Debug.Log($"[TetrisManager] " + $"Layout Scale : " + $"{preset.layoutScale}");
+        //Debug.Log($"[TetrisManager] " + $"Stage {currentStage} " + $"Preset {preset.presetID} 적용 완료");
     }
 
     public void SetPause(bool pause)

@@ -53,6 +53,12 @@ public class EffectVisualPlayer : MonoBehaviour
     [SerializeField]
     private ObstacleType rainSoundType;
 
+    [Tooltip("8월 폭염 효과음 타입")]
+    [SerializeField]
+    private ObstacleType overheatSoundType;
+
+    private bool overheatSoundPlayed = false;
+
     [Tooltip("10월 건기 블록 파괴 효과음 타입")]
     [SerializeField]
     private ObstacleType drySeasonSoundType;
@@ -331,7 +337,7 @@ public class EffectVisualPlayer : MonoBehaviour
     // 기존 로직 유지
     // =============================================
     public GameObject PlayOverheatWarning(
-        string message = "건축 기계 과열!")
+    string message = "건축 기계 과열!")
     {
         if (overheatUIPrefab == null)
         {
@@ -342,22 +348,27 @@ public class EffectVisualPlayer : MonoBehaviour
             return null;
         }
 
-
         var text =
-            overheatUIPrefab
-                .GetComponentInChildren<TextMeshProUGUI>();
-
+            overheatUIPrefab.GetComponentInChildren<TextMeshProUGUI>();
 
         if (text != null)
         {
             text.text = message;
         }
 
+        // =============================================
+        // 폭염 효과음 최초 1회만 재생
+        // =============================================
+        if (!overheatSoundPlayed)
+        {
+            ObstacleSoundManager.Instance?.
+                PlayObstacleSound(overheatSoundType);
+
+            overheatSoundPlayed = true;
+        }
 
         overheatUIPrefab.transform.SetAsLastSibling();
-
         overheatUIPrefab.SetActive(true);
-
 
         return overheatUIPrefab;
     }

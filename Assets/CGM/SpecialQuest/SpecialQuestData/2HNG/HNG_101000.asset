@@ -18,17 +18,17 @@ MonoBehaviour:
   sliderColor: {r: 0.18039216, g: 0.050980393, b: 0.050980393, a: 1}
   branchID: 101001
   questName: "\uB2E8\uC6D4\uAD6D\uACFC \uD611\uC0C1 \uACB0\uB82C"
-  description: "\uC9D1 10\uCC44 \uD30C\uAD34"
+  description: "\uC9D1 5\uCC44 \uD30C\uAD34"
   questType: 0
   blockType: 3
-  targetCount: 10
+  targetCount: 5
   targetHeight: 0
   restrictedInput: 
   darknessLevel: 0
   timeType: 2
   timeRole: 2
-  timeValue: 70
+  timeValue: 60
   friendlinessType: 1
-  friendlinessReward: 1
+  friendlinessReward: 10
   rewardColor: {r: 1, g: 0.4392157, b: 0.4392157, a: 1}
   IsCompleted: 1

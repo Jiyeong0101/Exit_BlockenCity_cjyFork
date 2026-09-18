@@ -17,8 +17,7 @@ MonoBehaviour:
   SummaryColor: {r: 0.50980395, g: 0.22352941, b: 0.30980393, a: 1}
   sliderColor: {r: 0.34117648, g: 0, b: 0.18431373, a: 1}
   branchID: 660001
-  questName: "\uC9C8\uC11C \uC720\uC9C0 \uC870\uCE58 \uBC0F \uBBFC\uAC04\uC5D0 \uCE58\uC548\uAD70
-    \uD30C\uACAC"
+  questName: "\uC9C8\uC11C \uC720\uC9C0 \uC870\uCE58 \uBC0F \uCE58\uC548\uAD70 \uD30C\uACAC"
   description: "\uB192\uC774 5 \uC720\uC9C0"
   questType: 3
   blockType: 12
@@ -28,8 +27,8 @@ MonoBehaviour:
   darknessLevel: 0
   timeType: 1
   timeRole: 1
-  timeValue: 7
+  timeValue: 15
   friendlinessType: 0
-  friendlinessReward: 1
+  friendlinessReward: 10
   rewardColor: {r: 0.972549, g: 0.36078432, b: 0.59607846, a: 1}
   IsCompleted: 1
