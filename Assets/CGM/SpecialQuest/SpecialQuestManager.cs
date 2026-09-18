@@ -94,7 +94,7 @@ public class SpecialQuestManager : MonoBehaviour
 
         Debug.Log($"[SpecialQuest] 실패: {instance.data.questName}");
 
-        int penalty = Mathf.Max(1, instance.data.friendlinessReward / 2);
+        float penalty = Mathf.Max(1, instance.data.friendlinessReward / 4);
         ChangeFriendliness(instance.data.friendlinessType,-penalty);
 
         Destroy(instance.ui?.gameObject);
@@ -115,9 +115,7 @@ public class SpecialQuestManager : MonoBehaviour
     {
         if (instance.isFinished) return;
 
-        Debug.Log(
-            $"[SpecialQuest] 시간 종료 | 퀘스트:{instance.data.questName} | Role:{instance.data.timeRole}"
-        );
+        //Debug.Log($"[SpecialQuest] 시간 종료 | 퀘스트:{instance.data.questName} | Role:{instance.data.timeRole}");
 
         switch (instance.data.timeRole)
         {
@@ -251,19 +249,16 @@ public class SpecialQuestManager : MonoBehaviour
         }
     }
 
-    public void OnQuestDeclined(SpecialQuestData quest)
+    public void OnQuestDeclined(SpecialQuestData quest) //거절 패널티
     {
-        int penalty = Mathf.Max(1, quest.friendlinessReward / 2);
+        float penalty = Mathf.Max(1, quest.friendlinessReward / 4);
 
-        ChangeFriendliness(
-            quest.friendlinessType,
-            -penalty
-        );
+        ChangeFriendliness(quest.friendlinessType, penalty);
 
         Debug.Log($"[SpecialQuest] 거절 : {quest.questName}");
     }
 
-    private void ChangeFriendliness(FriendlinessType type, int amount)
+    private void ChangeFriendliness(FriendlinessType type, float amount)
     {
         var data = Datamanager.Instance.saveData.relationship;
 

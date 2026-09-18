@@ -1271,6 +1271,14 @@ MonoBehaviour:
   sliderFillImage: {fileID: 0}
   backgroundImage: {fileID: 7387269475474237735}
   defaultBackground: {fileID: 0}
+  backgroundImage1: {fileID: 0}
+  defaultBackground1: {fileID: 0}
+  color: {fileID: 0}
+  colorImage: {fileID: 0}
+  summaryPanel: {fileID: 0}
+  summaryName: {fileID: 0}
+  summarySlider: {fileID: 0}
+  detailPanel: {fileID: 0}
 --- !u!114 &8390355406289107692
 MonoBehaviour:
   m_ObjectHideFlags: 0

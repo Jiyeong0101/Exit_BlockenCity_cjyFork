@@ -54,8 +54,8 @@ public class SpecialQuestSpawner : MonoBehaviour
 
             SetNextSpawnRatio();
 
-            Debug.Log($"첫 번째 스폰 : {firstSpawnRatio}");
-            Debug.Log($"두 번째 스폰 : {secondSpawnRatio}");
+            //Debug.Log($"첫 번째 스폰 : {firstSpawnRatio}");
+            //Debug.Log($"두 번째 스폰 : {secondSpawnRatio}");
         }
 
         // 사이클 종료
@@ -126,9 +126,6 @@ public class SpecialQuestSpawner : MonoBehaviour
     List<int> FindBestBranchIDs(int targetID)
     {
         List<int> allBranch = DialogManager.Instance.GetSpawnableBranchIDs();
-
-        Debug.Log($"현재 스테이지: {targetID / 100000}");
-        Debug.Log($"전체 스폰 가능 Branch 수: {allBranch.Count}");
 
         List<(int id, float score)> candidates = new();
 
