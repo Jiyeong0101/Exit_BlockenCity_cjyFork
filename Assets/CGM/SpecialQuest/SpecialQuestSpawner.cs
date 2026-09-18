@@ -93,16 +93,22 @@ public class SpecialQuestSpawner : MonoBehaviour
     void SpawnSpecialQuest(int rank)
     {
         int month = Datamanager.Instance.saveData.progress.currentStage;
+        Debug.Log($"현재 스테이지: {month}");
 
-        int a = Datamanager.Instance.saveData.friendlinessData.DanWol;
-        int b = Datamanager.Instance.saveData.friendlinessData.HongNyeonGwi;
-        int c = Datamanager.Instance.saveData.friendlinessData.YaSeo;
-        int d = Datamanager.Instance.saveData.friendlinessData.JeonSangYeon;
-        int e = Datamanager.Instance.saveData.friendlinessData.MaCheonGyo;
+        float a = Datamanager.Instance.saveData.relationship.danwol;
+        float b = Datamanager.Instance.saveData.relationship.hongryeon;
+        float c = Datamanager.Instance.saveData.relationship.yaseo;
+        float d = Datamanager.Instance.saveData.relationship.JeonSangYeon;
+        float e = Datamanager.Instance.saveData.relationship.macheon;
 
-        int generatedID = month * 100000 + a * 10000 + b * 1000 + c * 100 + d * 10 + e;
+        int intA = Mathf.Clamp(Mathf.RoundToInt(a), 0, 9);
+        int intB = Mathf.Clamp(Mathf.RoundToInt(b), 0, 9);
+        int intC = Mathf.Clamp(Mathf.RoundToInt(c), 0, 9);
+        int intD = Mathf.Clamp(Mathf.RoundToInt(d), 0, 9);
+        int intE = Mathf.Clamp(Mathf.RoundToInt(e), 0, 9);
 
-        //Debug.Log($"생성된 QuestID → {generatedID}");
+        int generatedID = month * 100000 + intA * 10000 + intB * 1000 + intC * 100 + intD * 10 + intE;
+        Debug.Log($"생성된 QuestID → {generatedID}");
 
         List<int> bestIDs = FindBestBranchIDs(generatedID);
 
@@ -120,6 +126,10 @@ public class SpecialQuestSpawner : MonoBehaviour
     List<int> FindBestBranchIDs(int targetID)
     {
         List<int> allBranch = DialogManager.Instance.GetSpawnableBranchIDs();
+
+        Debug.Log($"현재 스테이지: {targetID / 100000}");
+        Debug.Log($"전체 스폰 가능 Branch 수: {allBranch.Count}");
+
         List<(int id, float score)> candidates = new();
 
         int tMonth = targetID / 100000;
@@ -149,7 +159,7 @@ public class SpecialQuestSpawner : MonoBehaviour
 
             candidates.Add((id, score));
         }
-
+        Debug.Log($"현재 스테이지와 일치하는 후보 수: {candidates.Count}");
         candidates.Sort((x, y) =>
         {
             int compare = x.score.CompareTo(y.score);
