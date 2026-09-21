@@ -97,8 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e4fecdc3455c14d9672e714d9fd35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BlockType: 1
   blockType: 1
   visualRoot: {fileID: 0}
+  cachedRenderers: []
 --- !u!114 &3171444532252419965
 MonoBehaviour:
   m_ObjectHideFlags: 0

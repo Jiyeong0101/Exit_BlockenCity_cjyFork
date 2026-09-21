@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3563329281394386235}
   - component: {fileID: 3230195121755300574}
+  - component: {fileID: 1050944683293874747}
   m_Layer: 0
   m_Name: RippleRenderObj
   m_TagString: Untagged
@@ -47,6 +48,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10826937f0f2af4fbb870df21881aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1050944683293874747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5316722289727040143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultDuration: 2
 --- !u!1 &8018552585091783228
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +90,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.21260752, y: -0.76817775, z: 0.51328, w: 0.31818962}
   m_LocalPosition: {x: -3, y: 6, z: -3}
-  m_LocalScale: {x: 2.15, y: 1, z: 1.25}
+  m_LocalScale: {x: 2.15, y: 1, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3563329281394386235}
@@ -297,6 +311,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_RippleScr_Burst
       objectReference: {fileID: 0}
+    - target: {fileID: 4012315256049713770, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920559740292356538, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7030134280144489997, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7822185891149285606, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -376,6 +402,10 @@ PrefabInstance:
     - target: {fileID: 7822185891149285606, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8621397842112559540, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

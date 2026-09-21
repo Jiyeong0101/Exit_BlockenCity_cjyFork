@@ -168,6 +168,15 @@ public class UndoLastBlockEffect : ItemEffect
 
         BlockType blockType = target.blockType;
 
+        // ---------------------------------------------
+        // Undo Whistle SFX
+        // ---------------------------------------------
+
+        if (ItemSFXPlayer.Instance != null)
+        {
+            ItemSFXPlayer.Instance
+                .PlayWhistleSFX();
+        }
 
         foreach (TetriminoBlockChild child in children)
         {
@@ -189,9 +198,25 @@ public class UndoLastBlockEffect : ItemEffect
             );
         }
 
+        // Undo VFX 위치
+        Vector3 undoEffectPosition =
+            GetPieceCenter(
+                target,
+                children
+            );
 
-        // Piece 전체 비활성화 후 제거.
-        // DeletBlock()을 일부러 호출하지 않는다.
+
+        // Undo VFX 1회
+        if (BlockVFXManager.Instance != null)
+        {
+            BlockVFXManager.Instance
+                .PlayUndo(
+                    undoEffectPosition
+                );
+        }
+
+
+        // Piece 전체 비활성화 후 제거
         target.gameObject.SetActive(false);
 
         Destroy(target.gameObject);
@@ -251,5 +276,37 @@ public class UndoLastBlockEffect : ItemEffect
                     "되돌리기 아이템을 사용할 수 없습니다."
                 );
         }
+    }
+
+    private Vector3 GetPieceCenter(
+    TetriminoBlock target,
+    TetriminoBlockChild[] children)
+    {
+        Vector3 positionSum =
+            Vector3.zero;
+
+        int count = 0;
+
+
+        foreach (TetriminoBlockChild child in children)
+        {
+            if (child == null)
+                continue;
+
+
+            positionSum +=
+                child.transform.position;
+
+            count++;
+        }
+
+
+        if (count == 0)
+        {
+            return target.transform.position;
+        }
+
+
+        return positionSum / count;
     }
 }
