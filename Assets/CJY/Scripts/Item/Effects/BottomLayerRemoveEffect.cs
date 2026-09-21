@@ -112,8 +112,19 @@ public class BottomLayerRemoveEffect : ItemEffect
         // Y = 0 삭제 후 모든 상단 블록이 한 칸 내려간다.
         // ------------------------------------------------
 
-        tower.DeleteLine(0);
+        //tower.DeleteLine(0);
 
+        bool started =
+            tower.TryDeleteLineWithEffect(0);
+
+
+        if (!started)
+        {
+            return ItemUseResult.Fail(
+                ItemUseFailureReason.InvalidState,
+                "현재 층 삭제를 실행할 수 없습니다."
+            );
+        }
 
         return ItemUseResult.Succeed(
             "맨 밑 층을 제거했습니다."

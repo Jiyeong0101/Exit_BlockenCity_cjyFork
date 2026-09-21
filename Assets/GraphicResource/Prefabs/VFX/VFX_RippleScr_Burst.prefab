@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 4657033512120351236}
   - component: {fileID: 3532438813695740128}
   - component: {fileID: 7030134280144489997}
-  m_Layer: 6
+  - component: {fileID: 1827547261503985241}
+  m_Layer: 5
   m_Name: VFX_RippleScr_Burst
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,6 +117,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1d30a5bb9072484b9b427bc689d08e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultDuration: 2
+--- !u!114 &1827547261503985241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012315256049713770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f98a1de90644f4e839eaa08d3967a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4920559740292356538
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +141,7 @@ GameObject:
   - component: {fileID: 6197639010050161011}
   - component: {fileID: 6258627147308397651}
   - component: {fileID: 6761974858294598054}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Particle_Ripple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5016,7 +5030,7 @@ GameObject:
   - component: {fileID: 7595289036829084194}
   - component: {fileID: 9186875141536902645}
   - component: {fileID: 649894697753965584}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: IMG_ScrVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

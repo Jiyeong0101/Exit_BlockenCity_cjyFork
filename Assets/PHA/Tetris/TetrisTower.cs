@@ -335,4 +335,62 @@ public class TetrisTower : MonoBehaviour
 
         DeleteLine(y);
     }
+
+    public bool TryDeleteLineWithEffect(
+    int y)
+    {
+        // 유효하지 않은 층
+        if (y < 0 ||
+            y >= towerSize.y)
+        {
+            return false;
+        }
+
+
+        // 이미 Line Clear 연출 중
+        if (isClearingLine)
+        {
+            return false;
+        }
+
+
+        StartCoroutine(
+            DeleteSingleLineWithEffectRoutine(y)
+        );
+
+
+        return true;
+    }
+
+    private IEnumerator DeleteSingleLineWithEffectRoutine(
+    int y)
+    {
+        isClearingLine = true;
+
+
+        // 연출 중에는 Tetris 동작 정지
+        if (TetrisManager.Instance != null)
+        {
+            TetrisManager.Instance
+                .SetPause(true);
+        }
+
+
+        // 기존 Line Clear 코드 그대로 재사용
+        yield return StartCoroutine(
+            DeleteLineRoutine(y)
+        );
+
+
+        isClearingLine = false;
+
+
+        // 다시 Tetris 진행
+        if (TetrisManager.Instance != null &&
+            !TetrisManager.Instance.isGameEnded)
+        {
+            TetrisManager.Instance
+                .SetPause(false);
+        }
+    }
 }

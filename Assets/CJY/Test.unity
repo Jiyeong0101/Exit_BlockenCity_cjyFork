@@ -1568,7 +1568,7 @@ MonoBehaviour:
   blockLockSFX: {fileID: 8300000, guid: ea5a4ce0904896948aea7a6e9c77ffcc, type: 3}
   lineClearSFX: {fileID: 8300000, guid: ce000ab06a36e3f41a09c094e76e070e, type: 3}
   sfxMixerGroup: {fileID: -4253095368035106385, guid: 027c873ff74c72841988a3fed3436e34, type: 2}
-  downVolume: 1
+  downVolume: 0.8
   lockVolume: 0.3
   lineClearVolume: 1
 --- !u!1 &711582515
@@ -1889,6 +1889,8 @@ GameObject:
   - component: {fileID: 804133013}
   - component: {fileID: 804133012}
   - component: {fileID: 804133011}
+  - component: {fileID: 804133021}
+  - component: {fileID: 804133020}
   m_Layer: 0
   m_Name: ItemManager
   m_TagString: Untagged
@@ -2013,6 +2015,119 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &804133020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804133010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 005ff5724f63e3441988f1d9682a9236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombSFX: {fileID: 8300000, guid: c7aef497494060643b6b0d47d35c36ce, type: 3}
+  whistleSFX: {fileID: 8300000, guid: bab394d883380a440aa885e547bf683f, type: 3}
+  sfxMixerGroup: {fileID: -4253095368035106385, guid: 027c873ff74c72841988a3fed3436e34, type: 2}
+  bombVolume: 0.5
+  whistleVolume: 1
+--- !u!82 &804133021
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804133010}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &959546087
 GameObject:
   m_ObjectHideFlags: 0
@@ -3507,6 +3622,7 @@ GameObject:
   - component: {fileID: 1666622169}
   - component: {fileID: 1666622170}
   - component: {fileID: 1666622172}
+  - component: {fileID: 1666622176}
   m_Layer: 0
   m_Name: TetrisManager
   m_TagString: Untagged
@@ -3835,6 +3951,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1666622176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666622168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d29e6dd9dc04c4abada89b9710342a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineClearVFXPrefab: {fileID: 3992317461800931502, guid: 4fac8f0bf391eda45b8e11e83eab7faa, type: 3}
+  bombDestroyVFXPrefab: {fileID: 6875551872451659796, guid: d27ee6e3455ecb54a839b0abc9347ef3, type: 3}
+  undoVFXPrefab: {fileID: 4012315256049713770, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
 --- !u!1001 &1710239458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4843,7 +4974,7 @@ MonoBehaviour:
   tetrisspawner: {fileID: 1666622169}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 8
+    type: 0
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &2142764466
