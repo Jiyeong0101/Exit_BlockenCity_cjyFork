@@ -68,10 +68,13 @@ public class EffectVisualPlayer : MonoBehaviour
     private ObstacleType smogSoundType;
 
 
-    [Header("==== UI ÇÁ¸®ÆÕ ====")]
+    [Header("==== Æø¿° UI ÇÁ¸®ÆÕ ====")]
 
     [SerializeField]
     private GameObject overheatUIPrefab;
+
+    [SerializeField]
+    private GameObject overheatEffectPrefab;
 
 
     [Header("==== ºí·Ï ºñÁÖ¾ó ¼³Á¤ ====")]
@@ -363,6 +366,11 @@ public class EffectVisualPlayer : MonoBehaviour
         {
             ObstacleSoundManager.Instance?.
                 PlayObstacleSound(overheatSoundType);
+
+            if (overheatEffectPrefab != null)
+            {
+                Instantiate(overheatEffectPrefab);
+            }
 
             overheatSoundPlayed = true;
         }
