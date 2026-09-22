@@ -15,19 +15,28 @@ MonoBehaviour:
   soundList:
   - type: 1
     clip: {fileID: 8300000, guid: fde56681613b90b488006e8547fe94b5, type: 3}
+    volume: 1
   - type: 2
     clip: {fileID: 8300000, guid: f37bf63375df9d2418018532e2c44547, type: 3}
+    volume: 1
   - type: 3
     clip: {fileID: 8300000, guid: 03160fde483a0cb4785a5ac846428cd1, type: 3}
+    volume: 1
   - type: 4
-    clip: {fileID: 8300000, guid: 52fb9cde9a9b03d4bb0cbda5e4140f92, type: 3}
+    clip: {fileID: 8300000, guid: 1598de7c787aed44897e88d99f34b02b, type: 3}
+    volume: 1
   - type: 5
     clip: {fileID: 8300000, guid: 03160fde483a0cb4785a5ac846428cd1, type: 3}
+    volume: 1
   - type: 6
     clip: {fileID: 8300000, guid: c8ad53aacf63139429e91fbbd34dc37b, type: 3}
+    volume: 1
   - type: 7
-    clip: {fileID: 8300000, guid: 0402ccc5f23960e4fbd7e932c6fb95fb, type: 3}
+    clip: {fileID: 8300000, guid: 5b0dd73f5c42f1847a0c571327bb43b4, type: 3}
+    volume: 0.5
   - type: 8
     clip: {fileID: 8300000, guid: ce000ab06a36e3f41a09c094e76e070e, type: 3}
+    volume: 1
   - type: 9
     clip: {fileID: 8300000, guid: 03160fde483a0cb4785a5ac846428cd1, type: 3}
+    volume: 1
