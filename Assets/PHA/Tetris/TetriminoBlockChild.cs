@@ -10,7 +10,6 @@ public class TetriminoBlockChild : MonoBehaviour
 
     private bool isDestroyed = false;
 
-    [SerializeField]
     private BlockType blockType;    //블럭 종류
 
     [SerializeField] private Transform visualRoot; // 메시가 달린 오브젝트(프리팹 내부)
@@ -180,7 +179,7 @@ public class TetriminoBlockChild : MonoBehaviour
         // 현재 블록 위치에서 폭발 VFX 생성
         if (BlockVFXManager.Instance != null)
         {
-            BlockVFXManager.Instance.PlayExplode(
+            BlockVFXManager.Instance.PlayLineClear(
                 transform.position
             );
         }

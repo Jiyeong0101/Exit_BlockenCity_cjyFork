@@ -90,6 +90,15 @@ public class BombBlockBehaviour : SpecialBlockLockHandler
             $"[Bomb] 폭발 중심: {center}"
         );
 
+        // ---------------------------------------------
+        // Bomb SFX
+        // ---------------------------------------------
+
+        if (ItemSFXPlayer.Instance != null)
+        {
+            ItemSFXPlayer.Instance
+                .PlayBombSFX();
+        }
 
         // ---------------------------------------------
         // 3 x 3 x 3 범위 생성
@@ -202,7 +211,6 @@ public class BombBlockBehaviour : SpecialBlockLockHandler
 
         int destroyedCount = 0;
 
-
         foreach (TetriminoBlockChild target in targets)
         {
             if (target == null ||
@@ -212,7 +220,22 @@ public class BombBlockBehaviour : SpecialBlockLockHandler
             }
 
 
+            // =============================
+            // Bomb Destroy VFX
+            // =============================
+
+            if (BlockVFXManager.Instance != null)
+            {
+                BlockVFXManager.Instance
+                    .PlayBombDestroy(
+                        target.transform.position
+                    );
+            }
+
+
+            // 실제 블록 삭제
             target.DeletBlock();
+
 
             destroyedCount++;
         }

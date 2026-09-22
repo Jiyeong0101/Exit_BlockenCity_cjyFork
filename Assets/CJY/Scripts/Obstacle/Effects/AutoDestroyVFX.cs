@@ -21,12 +21,24 @@ public class AutoDestroyVFX : MonoBehaviour
 
     private void Update()
     {
+        bool hasAliveParticle = false;
+
         for (int i = 0; i < particleSystems.Length; i++)
         {
+            // 이미 삭제된 ParticleSystem은 건너뜀
+            if (particleSystems[i] == null)
+                continue;
+
             if (particleSystems[i].IsAlive(true))
-                return;
+            {
+                hasAliveParticle = true;
+                break;
+            }
         }
 
-        Destroy(gameObject);
+        if (!hasAliveParticle)
+        {
+            Destroy(gameObject);
+        }
     }
 }
