@@ -12,7 +12,6 @@ public class BlockVFXManager : MonoBehaviour
 
     [Header("Block VFX")]
 
-    // 기존 explodeVFXPrefab Inspector 연결 유지
     [FormerlySerializedAs("explodeVFXPrefab")]
     [SerializeField]
     private GameObject lineClearVFXPrefab;
@@ -26,6 +25,10 @@ public class BlockVFXManager : MonoBehaviour
     private GameObject undoVFXPrefab;
 
 
+    [SerializeField]
+    private GameObject lockVFXPrefab;
+
+
     private void Awake()
     {
         if (Instance != null &&
@@ -35,8 +38,21 @@ public class BlockVFXManager : MonoBehaviour
             return;
         }
 
-
         Instance = this;
+    }
+
+
+    private void OnEnable()
+    {
+        TetriminoBlock.OnAnyBlockLocked +=
+            HandleBlockLocked;
+    }
+
+
+    private void OnDisable()
+    {
+        TetriminoBlock.OnAnyBlockLocked -=
+            HandleBlockLocked;
     }
 
 
@@ -82,6 +98,47 @@ public class BlockVFXManager : MonoBehaviour
             worldPosition,
             "Undo"
         );
+    }
+
+
+    // =============================================
+    // Block Lock
+    // =============================================
+
+    public void PlayBlockLock(
+        Vector3 worldPosition)
+    {
+        PlayVFX(
+            lockVFXPrefab,
+            worldPosition,
+            "BlockLock"
+        );
+    }
+
+
+    private void HandleBlockLocked(
+        TetriminoBlock block)
+    {
+        if (block == null)
+            return;
+
+
+        TetriminoBlockChild[] children =
+            block.GetComponentsInChildren
+            <TetriminoBlockChild>();
+
+
+        foreach (TetriminoBlockChild child
+                 in children)
+        {
+            if (child == null)
+                continue;
+
+
+            PlayBlockLock(
+                child.transform.position
+            );
+        }
     }
 
 
