@@ -191,8 +191,14 @@ public class TetrisSFXPlayer : MonoBehaviour
             pendingDownBlock = null;
         }
 
-
         PlayLockSFX();
+
+        // =============================================
+        // 블록 고정 Camera Shake
+        // =============================================
+
+        CameraShakeManager.Instance?.
+            Play(CameraShakeType.Light);
     }
 
     // =============================================
@@ -202,6 +208,13 @@ public class TetrisSFXPlayer : MonoBehaviour
     private void HandleLineClearStarted(int y)
     {
         PlayLineClearSFX();
+
+        // =========================================
+        // Camera Shake
+        // VFX가 시작되는 타이밍에 같이 실행
+        // =========================================
+        CameraShakeManager.Instance?.
+            Play(CameraShakeType.LineClear);
     }
 
     private void PlayLineClearSFX()
