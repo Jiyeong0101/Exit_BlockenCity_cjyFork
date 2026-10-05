@@ -92,15 +92,16 @@ public class TetrisManager : MonoBehaviour
 
     private void ApplyStageSetting()
     {
-        if (Datamanager.Instance == null)
-        {
-            Debug.LogError("[TetrisManager] Datamanager.Instance가 없습니다.");
-            return;
-        }
+        // 세이브 데이터가 아직 로드되지 않았다면 먼저 로드
+        Datamanager.Instance.EnsureLoaded();
 
-        int currentStage = Datamanager.Instance.saveData.progress.currentStage;
+        // 로드된 데이터 범위 보정
+        GameDataManager.Instance.NormalizeLoadedData();
 
-        Debug.Log($"[TetrisManager] 현재 Stage : {currentStage}");
+        // 중앙 데이터 매니저를 통해 현재 스테이지 조회
+        int currentStage = GameDataManager.Instance.GetCurrentStage();
+
+        //Debug.Log($"[TetrisManager] 현재 Stage : {currentStage}");
 
         StageSetting stageSetting = stageSettings.Find(x => x.stage == currentStage);
 
@@ -127,9 +128,9 @@ public class TetrisManager : MonoBehaviour
         tetrisTowerSize = preset.towerSize;
 
 
-        Debug.Log($"[TetrisManager] " + $"Stage {currentStage} → " + $"Preset {preset.presetID}");
+        //Debug.Log($"[TetrisManager] " + $"Stage {currentStage} → " + $"Preset {preset.presetID}");
 
-        Debug.Log($"[TetrisManager] " + $"Tower Size : {preset.towerSize}");
+        //Debug.Log($"[TetrisManager] " + $"Tower Size : {preset.towerSize}");
 
         if (towerLayout != null)
         {
@@ -138,11 +139,9 @@ public class TetrisManager : MonoBehaviour
         }
 
 
-        Debug.Log($"[TetrisManager] " + $"Layout Position : " + $"{preset.layoutPosition}");
-
-        Debug.Log($"[TetrisManager] " + $"Layout Scale : " + $"{preset.layoutScale}");
-
-        Debug.Log($"[TetrisManager] " + $"Stage {currentStage} " + $"Preset {preset.presetID} 적용 완료");
+        //Debug.Log($"[TetrisManager] " + $"Layout Position : " + $"{preset.layoutPosition}");
+        //Debug.Log($"[TetrisManager] " + $"Layout Scale : " + $"{preset.layoutScale}");
+        //Debug.Log($"[TetrisManager] " + $"Stage {currentStage} " + $"Preset {preset.presetID} 적용 완료");
     }
 
     public void SetPause(bool pause)
@@ -183,14 +182,21 @@ public class TetrisManager : MonoBehaviour
         typeBlockCount[(int)type]++;
     }
 
-    public void DecreaseTypeBlockCount(BlockType type)
+    public void DecreaseTypeBlockCount(
+    BlockType type,
+    bool countAsDestroyed = true)
     {
+        // 실제 타워에 존재하는 타입별 블록 수 감소
         typeBlockCount[(int)type]--;
 
 
-        if (QuestManager.Instance != null)
+        // 실제 "파괴"로 취급되는 경우에만
+        // 파괴 퀘스트 진행
+        if (countAsDestroyed &&
+            QuestManager.Instance != null)
         {
-            QuestManager.Instance.UpdateQuestProgress(type);
+            QuestManager.Instance
+                .UpdateQuestProgress(type);
         }
     }
 
@@ -215,12 +221,13 @@ public class TetrisManager : MonoBehaviour
         controller.SetCurrentBlock(spawner.GetTetriminoBlock());
     }
 
-    public void CheckTower()
+    public bool CheckTower()
     {
         if (isGameEnded || isPaused)
-            return;
+            return false;
 
-        tower.CheckAndDeleteFullLines();
+
+        return tower.CheckAndDeleteFullLines();
     }
 
     public void GameOver()
@@ -258,7 +265,7 @@ public class TetrisManager : MonoBehaviour
 
     public BlockShapes GetRandomStageShape()
     {
-        int currentStage = Datamanager.Instance.saveData.progress.currentStage;
+        int currentStage = GameDataManager.Instance.GetCurrentStage();
 
         foreach (var setting in stageShapeSettings)
         {
@@ -301,7 +308,6 @@ public class TetrisManager : MonoBehaviour
         // 설정이 없을 경우 기본 7종
         BlockShapes[] defaultShapes =
         {
-        BlockShapes.I,
         BlockShapes.O,
         BlockShapes.T,
         BlockShapes.L,

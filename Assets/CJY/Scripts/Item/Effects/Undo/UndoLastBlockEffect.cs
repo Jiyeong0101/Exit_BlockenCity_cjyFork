@@ -168,6 +168,15 @@ public class UndoLastBlockEffect : ItemEffect
 
         BlockType blockType = target.blockType;
 
+        // ---------------------------------------------
+        // Undo Whistle SFX
+        // ---------------------------------------------
+
+        if (ItemSFXPlayer.Instance != null)
+        {
+            ItemSFXPlayer.Instance
+                .PlayWhistleSFX();
+        }
 
         foreach (TetriminoBlockChild child in children)
         {
@@ -181,14 +190,33 @@ public class UndoLastBlockEffect : ItemEffect
             // Tower Grid에서 제거
             tower.RemoveBlockFromTower(position);
 
+            // 설치 당시 증가했던 타입별 블록 수는 원상복구하지만,
+            // Undo는 "블록 파괴"가 아니므로 퀘스트에는 반영하지 않는다.
+            TetrisManager.Instance.DecreaseTypeBlockCount(
+                blockType,
+                false
+            );
+        }
 
-            // 설치 당시 증가했던 타입별 블록 수 원상복구
-            TetrisManager.Instance.DecreaseTypeBlockCount(blockType);
+        // Undo VFX 위치
+        Vector3 undoEffectPosition =
+            GetPieceCenter(
+                target,
+                children
+            );
+
+
+        // Undo VFX 1회
+        if (BlockVFXManager.Instance != null)
+        {
+            BlockVFXManager.Instance
+                .PlayUndo(
+                    undoEffectPosition
+                );
         }
 
 
-        // Piece 전체 비활성화 후 제거.
-        // DeletBlock()을 일부러 호출하지 않는다.
+        // Piece 전체 비활성화 후 제거
         target.gameObject.SetActive(false);
 
         Destroy(target.gameObject);
@@ -248,5 +276,37 @@ public class UndoLastBlockEffect : ItemEffect
                     "되돌리기 아이템을 사용할 수 없습니다."
                 );
         }
+    }
+
+    private Vector3 GetPieceCenter(
+    TetriminoBlock target,
+    TetriminoBlockChild[] children)
+    {
+        Vector3 positionSum =
+            Vector3.zero;
+
+        int count = 0;
+
+
+        foreach (TetriminoBlockChild child in children)
+        {
+            if (child == null)
+                continue;
+
+
+            positionSum +=
+                child.transform.position;
+
+            count++;
+        }
+
+
+        if (count == 0)
+        {
+            return target.transform.position;
+        }
+
+
+        return positionSum / count;
     }
 }

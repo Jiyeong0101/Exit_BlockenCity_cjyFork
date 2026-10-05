@@ -19,7 +19,7 @@ public class SpecialQuestManager : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < activeTimers.Count; i++)
+        for (int i = activeTimers.Count - 1; i >= 0; i--)
         {
             activeTimers[i].Update(Time.deltaTime);
         }
@@ -94,7 +94,7 @@ public class SpecialQuestManager : MonoBehaviour
 
         Debug.Log($"[SpecialQuest] 실패: {instance.data.questName}");
 
-        int penalty = Mathf.Max(1, instance.data.friendlinessReward / 2);
+        float penalty = Mathf.Max(1, instance.data.friendlinessReward / 4);
         ChangeFriendliness(instance.data.friendlinessType,-penalty);
 
         Destroy(instance.ui?.gameObject);
@@ -115,9 +115,7 @@ public class SpecialQuestManager : MonoBehaviour
     {
         if (instance.isFinished) return;
 
-        Debug.Log(
-            $"[SpecialQuest] 시간 종료 | 퀘스트:{instance.data.questName} | Role:{instance.data.timeRole}"
-        );
+        //Debug.Log($"[SpecialQuest] 시간 종료 | 퀘스트:{instance.data.questName} | Role:{instance.data.timeRole}");
 
         switch (instance.data.timeRole)
         {
@@ -141,8 +139,10 @@ public class SpecialQuestManager : MonoBehaviour
 
     public void OnBlockDestroyed(BlockType destroyedType)
     {
-        foreach (var instance in activeQuests)
+        for (int i = activeQuests.Count - 1; i >= 0; i--)
         {
+            var instance = activeQuests[i];
+
             if (instance.isFinished) continue;
             if (instance.data.questType != SpecialQuestType.BlockBreak) continue;
             if (destroyedType != instance.data.blockType) continue;
@@ -207,8 +207,10 @@ public class SpecialQuestManager : MonoBehaviour
 
     public void OnBlockPlaced(Vector3Int pos, BlockType type)
     {
-        foreach (var instance in activeQuests)
+        for (int i = activeQuests.Count - 1; i >= 0; i--)
         {
+            var instance = activeQuests[i];
+
             if (instance.isFinished)
                 continue;
 
@@ -223,6 +225,7 @@ public class SpecialQuestManager : MonoBehaviour
                 if (instance.breakCount >= instance.data.targetCount)
                 {
                     CompleteQuest(instance);
+                    continue;
                 }
             }
 
@@ -239,39 +242,38 @@ public class SpecialQuestManager : MonoBehaviour
                 );
 
                 if (installed)
+                {
                     CompleteQuest(instance);
+                }
             }
         }
     }
 
-    public void OnQuestDeclined(SpecialQuestData quest)
+    public void OnQuestDeclined(SpecialQuestData quest) //거절 패널티
     {
-        int penalty = Mathf.Max(1, quest.friendlinessReward / 2);
+        float penalty = Mathf.Max(1, quest.friendlinessReward / 4);
 
-        ChangeFriendliness(
-            quest.friendlinessType,
-            -penalty
-        );
+        ChangeFriendliness(quest.friendlinessType, penalty);
 
         Debug.Log($"[SpecialQuest] 거절 : {quest.questName}");
     }
 
-    private void ChangeFriendliness(FriendlinessType type, int amount)
+    private void ChangeFriendliness(FriendlinessType type, float amount)
     {
-        var data = Datamanager.Instance.saveData.friendlinessData;
+        var data = Datamanager.Instance.saveData.relationship;
 
         switch (type)
         {
             case FriendlinessType.DanWol:
-                data.DanWol = Mathf.Max(0, data.DanWol + amount);
+                data.danwol = Mathf.Max(0, data.danwol + amount);
                 break;
 
             case FriendlinessType.HongNyeonGwi:
-                data.HongNyeonGwi = Mathf.Max(0, data.HongNyeonGwi + amount);
+                data.hongryeon = Mathf.Max(0, data.hongryeon + amount);
                 break;
 
             case FriendlinessType.YaSeo:
-                data.YaSeo = Mathf.Max(0, data.YaSeo + amount);
+                data.yaseo = Mathf.Max(0, data.yaseo + amount);
                 break;
 
             case FriendlinessType.JeonSangYeon:
@@ -279,7 +281,7 @@ public class SpecialQuestManager : MonoBehaviour
                 break;
 
             case FriendlinessType.MaCheonGyo:
-                data.MaCheonGyo = Mathf.Max(0, data.MaCheonGyo + amount);
+                data.macheon = Mathf.Max(0, data.macheon + amount);
                 break;
         }
 

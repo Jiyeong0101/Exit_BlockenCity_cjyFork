@@ -29,6 +29,6 @@ MonoBehaviour:
   timeRole: 2
   timeValue: 25
   friendlinessType: 1
-  friendlinessReward: 1
+  friendlinessReward: 10
   rewardColor: {r: 1, g: 0.4392157, b: 0.4392157, a: 1}
   IsCompleted: 1

@@ -99,7 +99,7 @@ public class QuestManager : MonoBehaviour
         newQuest.IsCompleted = false;
 
         // 목표 개수를 5~20 랜덤
-        newQuest.targetCount = Random.Range(5, 21);
+        newQuest.targetCount = Random.Range(3, 9);
     }
 
     public void CompleteQuest(int questID)
@@ -122,9 +122,7 @@ public class QuestManager : MonoBehaviour
             }
 
             StageManager.Instance.AddMoney(quest.Reward);
-            Debug.Log($"추가 골드 : {quest.Reward}");
-            //Debug.Log($"현제 골드 : {DataManager.Instance.data.Gold}");
-            // 새 퀘스트 생성 (방금 클리어한 퀘스트 제외)
+
             StartCoroutine(AddNewQuestNextFrame(questID));
         }
     }

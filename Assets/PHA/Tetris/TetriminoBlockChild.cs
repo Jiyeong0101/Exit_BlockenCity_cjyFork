@@ -10,7 +10,6 @@ public class TetriminoBlockChild : MonoBehaviour
 
     private bool isDestroyed = false;
 
-    [SerializeField]
     private BlockType blockType;    //블럭 종류
 
     [SerializeField] private Transform visualRoot; // 메시가 달린 오브젝트(프리팹 내부)
@@ -18,12 +17,23 @@ public class TetriminoBlockChild : MonoBehaviour
 
     public bool PendingDestroy { get; private set; }
 
+    [SerializeField]
+    //private string isChangingPropertyName = "IsChanging";
+
+    private Renderer[] cachedRenderers;
+
+    private bool isLineClearEffectPlaying = false;
+
     void Awake()
     {
         blockType = BlockType.None;
 
         if (visualRoot == null) visualRoot = transform; // 없으면 자기 자신
         initialWorldRotation = visualRoot.rotation;     // 스폰 시 월드 회전 저장
+
+        // Line Clear Effect
+        cachedRenderers =
+            GetComponentsInChildren<Renderer>(true);
     }
 
     void LateUpdate()
@@ -66,34 +76,113 @@ public class TetriminoBlockChild : MonoBehaviour
 
     public void DeletBlock() // 살짝 수정
     {
-        if (isDestroyed) return;   // 중복 호출 방지
+        if (isDestroyed) // 중복 호출 방지
+            return;
         isDestroyed = true;
         // 우호도나 스테이더스 영향
 
-        if (SpecialQuestManager.Instance != null)
-        {
-            SpecialQuestManager.Instance.OnBlockDestroyed(blockType);
-        }
 
-        if (TetrisManager.Instance != null)
-        {
-            TetrisManager.Instance.DecreaseTypeBlockCount(blockType);
+        ProcessDestroyData();
 
-            var tower = TetrisManager.Instance.tower;
-            if (tower != null)
-            {
-                tower.RemoveBlockFromTower(GridPosition);
-            }
-        }
 
         PendingDestroy = true;
+
         gameObject.SetActive(false);
+
         Destroy(gameObject);
     }
 
     public void ShiftDownOneCell()
     {
         gridPosition += Vector3Int.down;
+    }
+
+    private void SetIsChanging(bool value)
+    {
+        if (cachedRenderers == null)
+            return;
+
+
+        foreach (Renderer rend in cachedRenderers)
+        {
+            if (rend == null)
+                continue;
+
+
+            // 중요:
+            // sharedMaterial이 아니라 material을 사용한다.
+            // 이 Renderer만 사용하는 Material Instance가 생성된다.
+            Material[] materials = rend.materials;
+
+
+            foreach (Material mat in materials)
+            {
+                if (mat == null)
+                    continue;
+
+
+                if (value)
+                {
+                    mat.EnableKeyword("_ISCHANGING");
+                }
+                else
+                {
+                    mat.DisableKeyword("_ISCHANGING");
+                }
+            }
+        }
+    }
+
+    private void ProcessDestroyData()
+    {
+        if (SpecialQuestManager.Instance != null)
+        {
+            SpecialQuestManager.Instance
+                .OnBlockDestroyed(blockType);
+        }
+
+
+        if (TetrisManager.Instance != null)
+        {
+            TetrisManager.Instance
+                .DecreaseTypeBlockCount(blockType);
+
+
+            var tower =
+                TetrisManager.Instance.tower;
+
+            if (tower != null)
+            {
+                tower.RemoveBlockFromTower(
+                    GridPosition
+                );
+            }
+        }
+    }
+
+    public void PlayLineClearEffect()
+    {
+        if (isDestroyed)
+            return;
+
+        if (isLineClearEffectPlaying)
+            return;
+
+
+        isLineClearEffectPlaying = true;
+
+
+        // Shader 변화
+        SetIsChanging(true);
+
+
+        // 현재 블록 위치에서 폭발 VFX 생성
+        if (BlockVFXManager.Instance != null)
+        {
+            BlockVFXManager.Instance.PlayLineClear(
+                transform.position
+            );
+        }
     }
 }
 

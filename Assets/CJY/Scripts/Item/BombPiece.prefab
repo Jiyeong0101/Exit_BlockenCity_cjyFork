@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b4052683bac6143b591cde6a51a18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockType: 0
+  blockType: 12
   navigator: {fileID: 0}
   navigatorGhostMaterial: {fileID: -876546973899608171, guid: 56c4f543d60a55741853990095fc2fe2, type: 3}
   localPosition: {x: 0, y: 0, z: 0}
@@ -53,7 +53,7 @@ MonoBehaviour:
   shapeType: 0
   tetriminoBlock: {fileID: 0}
   fallInterval: 0.5
-  specialCellPrefab: {fileID: 5775974468619018421, guid: 72fb619808da4214e9057f28cdde8cf8, type: 3}
+  specialCellPrefab: {fileID: 5775974468619018421, guid: 1f2382ecc4718f447b59f12ff34e1f3d, type: 3}
 --- !u!114 &7375109328642654712
 MonoBehaviour:
   m_ObjectHideFlags: 0

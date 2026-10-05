@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Outline_04
-  m_Shader: {fileID: -6465566751694194690, guid: 33e81a9e3af60b44681e6216e8655215, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 56c4f543d60a55741853990095fc2fe2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -41,12 +41,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EdgeOpacity: 1
+    - _EdgeScale: 0.9
+    - _FlickerSpeed: 0.6
     - _Opacity: 1.2
     - _OulineScale: 0.01
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
     - _Color: {r: 1, g: 0.75051, b: 0.514151, a: 1}
+    - _InnerColor: {r: 1.498039, g: 0.6430263, b: 1.299129, a: 1}
+    - _InnerOpacity: {r: 0, g: 0.06, b: 0, a: 0}
+    - _OutlineColor: {r: 1.498039, g: 1.498039, b: 1.498039, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &3638470277615666989
 MonoBehaviour:
