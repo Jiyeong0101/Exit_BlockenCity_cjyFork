@@ -26,6 +26,9 @@ public static class StoryCsvExporter
     private const string EffectsFile =
         "StoryEffects.csv";
 
+    private const string CharactersFile =
+        "Characters.csv";
+
 
     // =========================================================
     // 전체 StoryData Export
@@ -98,6 +101,8 @@ public static class StoryCsvExporter
         ExportChoices(stories);
         ExportConditions(stories);
         ExportEffects(stories);
+
+        ExportCharacters();
 
         AssetDatabase.Refresh();
 
@@ -651,6 +656,140 @@ public static class StoryCsvExporter
         WriteCsv(
             fileName,
             rows
+        );
+    }
+
+
+    // =========================================================
+    // Characters.csv
+    // =========================================================
+
+    private static void ExportCharacters(
+        string fileName = CharactersFile)
+    {
+        string[] guids =
+            AssetDatabase.FindAssets(
+                "t:CharacterData"
+            );
+
+        List<CharacterData> characters =
+            new List<CharacterData>();
+
+        foreach (string guid in guids)
+        {
+            string path =
+                AssetDatabase.GUIDToAssetPath(
+                    guid
+                );
+
+            CharacterData character =
+                AssetDatabase.LoadAssetAtPath<CharacterData>(
+                    path
+                );
+
+            if (character != null)
+            {
+                characters.Add(character);
+            }
+        }
+
+        // CharacterId 기준 정렬
+        characters.Sort(
+            (a, b) =>
+                string.Compare(
+                    a.CharacterId,
+                    b.CharacterId,
+                    StringComparison.Ordinal
+                )
+        );
+
+        List<string[]> rows =
+            new List<string[]>();
+
+        rows.Add(
+            new[]
+            {
+            "CharacterId",
+            "CharacterName",
+            "CharacterNameEng",
+            "PortraitId",
+            "PortraitLabel",
+            "SpriteName"
+            }
+        );
+
+        foreach (CharacterData character
+                 in characters)
+        {
+            if (character == null)
+            {
+                continue;
+            }
+
+            // -------------------------------------------------
+            // 기본 초상화
+            // -------------------------------------------------
+
+            rows.Add(
+                new[]
+                {
+                character.CharacterId,
+                character.CharacterName,
+                character.CharacterNameEng,
+
+                string.Empty,
+
+                "Default",
+
+                character.Portrait != null
+                    ? character.Portrait.name
+                    : string.Empty
+                }
+            );
+
+            // -------------------------------------------------
+            // 스토리용 표정 초상화
+            // -------------------------------------------------
+
+            if (character.StoryPortraits == null)
+            {
+                continue;
+            }
+
+            foreach (CharacterPortraitData portrait
+                     in character.StoryPortraits)
+            {
+                if (portrait == null)
+                {
+                    continue;
+                }
+
+                rows.Add(
+                    new[]
+                    {
+                    character.CharacterId,
+                    character.CharacterName,
+                    character.CharacterNameEng,
+
+                    portrait.PortraitId,
+                    portrait.DisplayName,
+
+                    portrait.PortraitSprite != null
+                        ? portrait.PortraitSprite.name
+                        : string.Empty
+                    }
+                );
+            }
+        }
+
+        WriteCsv(
+            fileName,
+            rows
+        );
+
+        Debug.Log(
+            $"[StoryCsvExporter] Character Export 완료: " +
+            $"{characters.Count}명"
         );
     }
 

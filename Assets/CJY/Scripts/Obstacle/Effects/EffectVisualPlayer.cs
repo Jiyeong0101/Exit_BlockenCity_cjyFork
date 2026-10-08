@@ -272,6 +272,9 @@ public class EffectVisualPlayer : MonoBehaviour
         ObstacleSoundManager.Instance?.
             PlayObstacleSound(lightningSoundType);
 
+        // 카메라 쉐이킹
+        CameraShakeManager.Instance?.
+            Play(CameraShakeType.Explosion);
 
         return instance;
     }
@@ -410,6 +413,11 @@ public class EffectVisualPlayer : MonoBehaviour
 
         ObstacleSoundManager.Instance?.
             PlayObstacleSound(drySeasonSoundType);
+
+
+        // 카메라 쉐이킹
+        CameraShakeManager.Instance?.
+            Play(CameraShakeType.Explosion);
 
 
         return instance;
