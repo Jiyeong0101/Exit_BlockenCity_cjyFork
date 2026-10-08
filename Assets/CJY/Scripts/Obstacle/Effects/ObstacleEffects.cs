@@ -464,7 +464,13 @@ public class ObstacleEffects : MonoBehaviour
         );
 
         child.SetGridPosition(newGrid);
-        tower.AddBlockToTower(newGrid, child.BlockType); // 여기 퀘스트받아오는거때문에 수정했는데 문제생기면 수정
+
+        // 건기에 의한 블록 재배치는 설치 퀘스트에서 제외
+        tower.AddBlockToTower(
+            newGrid,
+            child.BlockType,
+            false
+        );
     }
 
 
