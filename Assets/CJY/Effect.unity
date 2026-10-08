@@ -971,7 +971,7 @@ MonoBehaviour:
     rotationStrength: {x: 0.5, y: 0.2, z: 0.8}
   - type: 2
     intensity: 0.8
-    duration: 0.4
+    duration: 0.8
     frequency: 19
     positionStrength: {x: 0.06, y: 0.08, z: 0.02}
     rotationStrength: {x: 0.8, y: 0.5, z: 0.7}
@@ -984,9 +984,9 @@ MonoBehaviour:
   - type: 4
     intensity: 1
     duration: 0.6
-    frequency: 14
-    positionStrength: {x: 0.07, y: 0.1, z: 0.025}
-    rotationStrength: {x: 1, y: 0.7, z: 0.9}
+    frequency: 10
+    positionStrength: {x: 0.07, y: 0.06, z: 0.04}
+    rotationStrength: {x: 0.5, y: 0.7, z: 0.6}
   enableDebugKeys: 1
 --- !u!1001 &420707055
 PrefabInstance:
@@ -5067,7 +5067,7 @@ MonoBehaviour:
   tetrisspawner: {fileID: 1666622169}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 0
+    type: 4
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &2142764466
