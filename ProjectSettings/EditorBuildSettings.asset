@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/CJY/Title.unity
     guid: af29bfa71a4c0ce438b27dc1602114af
-  - enabled: 1
+  - enabled: 0
     path: Assets/CJY/NickName.unity
     guid: b74badde02a739c47b1d7490d586e7d3
-  - enabled: 1
+  - enabled: 0
     path: Assets/CJY/Lobby.unity
     guid: b1aadc3fad488cb41bdeeaf692236f63
   - enabled: 0
@@ -23,13 +23,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/PHA/StoryTest.unity
     guid: c0ac4d548dd8b8f4c95a2472f479e12c
-  - enabled: 1
+  - enabled: 0
     path: Assets/CGM/InGame.unity
     guid: 36ab13e5e446fd948b37db90d9e8b4b5
   - enabled: 0
     path: Assets/CJY/Item.unity
     guid: f9b9b53f3e19b374788b16668905745e
-  - enabled: 1
+  - enabled: 0
     path: Assets/CJY/Effect.unity
     guid: 6f120d5abef47e44c8901a6bb7dade2e
   m_configObjects: {}
