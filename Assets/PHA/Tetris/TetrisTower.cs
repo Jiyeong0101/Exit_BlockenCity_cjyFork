@@ -54,19 +54,38 @@ public class TetrisTower : MonoBehaviour
     }
 
     // 특정 위치를 채운 상태로 표시
-    public void AddBlockToTower(Vector3Int blockPos, BlockType type) //GM수정
+    //public void AddBlockToTower(Vector3Int blockPos, BlockType type) //GM수정
+    //{
+    //    if (!IsInsideTower(blockPos)) return;
+
+    //    if (IsInsideTower(blockPos))
+    //    {
+    //        towerGrid[blockPos.x, blockPos.y, blockPos.z] = 1;
+    //    }
+
+    //    // 블럭 설치 이벤트
+    //    SpecialQuestManager.Instance?.OnBlockPlaced(blockPos, type);
+
+    //    // 높이 변경 이벤트
+    //    SpecialQuestManager.Instance?.OnHeightChanged(GetCurrentHeight());
+    //}
+
+    public void AddBlockToTower(
+    Vector3Int blockPos,
+    BlockType type,
+    bool countAsPlaced = true)
     {
         if (!IsInsideTower(blockPos)) return;
 
-        if (IsInsideTower(blockPos))
+        towerGrid[blockPos.x, blockPos.y, blockPos.z] = 1;
+
+        // 정상적으로 새 블록을 설치했을 때만 카운트
+        if (countAsPlaced)
         {
-            towerGrid[blockPos.x, blockPos.y, blockPos.z] = 1;
+            SpecialQuestManager.Instance?.OnBlockPlaced(blockPos, type);
         }
 
-        // 블럭 설치 이벤트
-        SpecialQuestManager.Instance?.OnBlockPlaced(blockPos, type);
-
-        // 높이 변경 이벤트
+        // 높이 변경 이벤트는 기존대로 유지
         SpecialQuestManager.Instance?.OnHeightChanged(GetCurrentHeight());
     }
 
