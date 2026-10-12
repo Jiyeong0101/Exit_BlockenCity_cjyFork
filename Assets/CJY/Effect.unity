@@ -1631,7 +1631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineClearVFXPrefab: {fileID: 3992317461800931502, guid: 4fac8f0bf391eda45b8e11e83eab7faa, type: 3}
   bombDestroyVFXPrefab: {fileID: 6875551872451659796, guid: d27ee6e3455ecb54a839b0abc9347ef3, type: 3}
-  undoVFXPrefab: {fileID: 4012315256049713770, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
+  undoVFXPrefab: {fileID: 5574309328785248047, guid: b3f786a9a0f30d947ad0123004fa8565, type: 3}
   lockVFXPrefab: {fileID: 3992317461800931502, guid: 4fac8f0bf391eda45b8e11e83eab7faa, type: 3}
 --- !u!1 &711582515
 GameObject:
@@ -5067,7 +5067,7 @@ MonoBehaviour:
   tetrisspawner: {fileID: 1666622169}
   useInspectorObstacle: 1
   selectedObstacleEntry:
-    type: 4
+    type: 8
     weight: 100
   obstacleSystemEnabled: 1
 --- !u!4 &2142764466
