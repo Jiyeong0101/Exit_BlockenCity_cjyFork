@@ -6,6 +6,6 @@ using System;
 [Serializable]
 public class PlayerData
 {
-    public string playerName = "한서안";
+    public string playerName = "한 서안";
     public int totalMoney = 0;
 }

@@ -25,16 +25,11 @@ public class NicknameUI : MonoBehaviour
         string inputName =
             nicknameInput.text.Trim();
 
-
-        // 빈 값 검사
+        // 공백이면 기본 닉네임 사용
         if (string.IsNullOrEmpty(inputName))
         {
-            ShowWarning(
-                "닉네임을 입력해주세요.");
-
-            return;
+            inputName = "한서안";
         }
-
 
         // 글자 수 검사
         if (inputName.Length < MIN_LENGTH ||
@@ -46,8 +41,7 @@ public class NicknameUI : MonoBehaviour
             return;
         }
 
-
-        // 검사를 통과한 경우 애니메이션 실행
+        // 검사 통과 시 애니메이션 실행
         if (nameAnimator != null)
         {
             nameAnimator.Play("Confirm");
@@ -61,28 +55,20 @@ public class NicknameUI : MonoBehaviour
         string inputName =
             nicknameInput.text.Trim();
 
-
+        // 공백이면 기본 닉네임 사용
         if (string.IsNullOrEmpty(inputName))
         {
-            return;
+            inputName = "한서안";
         }
 
-
-        // =========================================
-        // 중앙 데이터 매니저를 통해 이름 변경
-        // =========================================
-
+        // 닉네임 저장
         GameDataManager.Instance.SetPlayerName(
             inputName);
 
-
-        // 변경이 끝난 뒤 저장
         GameDataManager.Instance.SaveGameData();
 
-
-        // 로비 씬으로 이동
-        SceneManager.LoadScene(
-            lobbySceneName);
+        // 로비 씬 이동
+        SceneManager.LoadScene(lobbySceneName);
     }
 
 

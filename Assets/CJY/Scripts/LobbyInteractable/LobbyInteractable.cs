@@ -35,23 +35,23 @@ public class LobbyInteractable : MonoBehaviour, IInteractable
     public void OnHoverEnter()
     {
         // 1. 아웃라인 하이라이트 켜기
-        //if (highlightEffect != null)
-        //    highlightEffect.EnableHighlight();
+        if (highlightEffect != null)
+            highlightEffect.EnableHighlight();
 
         // 2. 화살표 UI 켜기
-        if (arrowUI != null)
-            arrowUI.SetActive(true);
+        //if (arrowUI != null)
+        //    arrowUI.SetActive(true);
     }
 
     public void OnHoverExit()
     {
         // 1. 아웃라인 하이라이트 끄기
-        //if (highlightEffect != null)
-        //    highlightEffect.DisableHighlight();
+        if (highlightEffect != null)
+            highlightEffect.DisableHighlight();
 
         // 2. 화살표 UI 끄기
-        if (arrowUI != null)
-            arrowUI.SetActive(false);
+        //if (arrowUI != null)
+        //    arrowUI.SetActive(false);
     }
 
     public void OnClick()
