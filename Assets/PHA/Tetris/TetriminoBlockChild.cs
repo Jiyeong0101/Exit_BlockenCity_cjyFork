@@ -74,16 +74,16 @@ public class TetriminoBlockChild : MonoBehaviour
         //타입에 따른 스테이더스 영향
     }
 
-    public void DeletBlock() // 살짝 수정
+    public void DeletBlock(bool countAsDestroyed = true)
     {
         if (isDestroyed) // 중복 호출 방지
             return;
+
         isDestroyed = true;
+
         // 우호도나 스테이더스 영향
 
-
-        ProcessDestroyData();
-
+        ProcessDestroyData(countAsDestroyed);
 
         PendingDestroy = true;
 
@@ -133,20 +133,25 @@ public class TetriminoBlockChild : MonoBehaviour
         }
     }
 
-    private void ProcessDestroyData()
+    private void ProcessDestroyData(bool countAsDestroyed)
     {
-        if (SpecialQuestManager.Instance != null)
+        // 특수 퀘스트: 블록 파괴 카운트
+        if (countAsDestroyed &&
+            SpecialQuestManager.Instance != null)
         {
             SpecialQuestManager.Instance
                 .OnBlockDestroyed(blockType);
         }
 
-
         if (TetrisManager.Instance != null)
         {
+            // 실제 블록 수 감소
+            // countAsDestroyed가 false이면 일반 퀘스트 제외
             TetrisManager.Instance
-                .DecreaseTypeBlockCount(blockType);
-
+                .DecreaseTypeBlockCount(
+                    blockType,
+                    countAsDestroyed
+                );
 
             var tower =
                 TetrisManager.Instance.tower;

@@ -719,7 +719,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlockType: 0
-  blockType: 2
   visualRoot: {fileID: 0}
   cachedRenderers: []
 --- !u!23 &2040463398
@@ -2652,7 +2651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4679576049030277865, guid: ab65eb4067180da47a00f2803073ea38, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7268322887181226179, guid: ab65eb4067180da47a00f2803073ea38, type: 3}
       propertyPath: m_Pivot.x
