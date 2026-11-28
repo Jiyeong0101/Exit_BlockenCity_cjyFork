@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657892, g: 0.4964128, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -492,7 +492,7 @@ MonoBehaviour:
   drySeasonSoundType: 8
   smogSoundType: 9
   overheatUIPrefab: {fileID: 1874151193}
-  overheatEffectPrefab: {fileID: 3653554711104946894, guid: d12a4933b11d0344480d5aab3d3f4c87, type: 3}
+  overheatEffectPrefab: {fileID: 2966933459605977948, guid: bceb7cdcdc4c1e145a8a90a525010ac2, type: 3}
   IceEffect: 0.5
   drySeasonBlockBreakPrefab: {fileID: 2413884647712648143, guid: a85bb9c69c623c04c862e09ced645be4, type: 3}
   drySeasonScreenPrefab: {fileID: 2966933459605977948, guid: bceb7cdcdc4c1e145a8a90a525010ac2, type: 3}

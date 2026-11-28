@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopManager: {fileID: 431192644}
   characterPresenter: {fileID: 431192641}
-  undoItem: {fileID: 11400000, guid: 809b81598c67c224e9a4a9311a87e019, type: 2}
+  undoItem: {fileID: 11400000, guid: b48557a054ad78940acb2453a7ff8ab2, type: 2}
   bottomLayerClearItem: {fileID: 11400000, guid: cdfe646f80bfbed4dbefacbed949b487, type: 2}
   bombItem: {fileID: 11400000, guid: 809b81598c67c224e9a4a9311a87e019, type: 2}
 --- !u!114 &431192644
